@@ -23,10 +23,10 @@ db.serialize(() => {
     address_city TEXT,
     address_state TEXT,
     address_zip TEXT,
-    account_creation_date TEXT
+    phone TEXT
     )`,
         () => {
-            custData.forEach(({ firstName, lastName, addressStreet, addressCity, addressState, addressZip, accountCreationDate }) => {
+            custData.forEach(({ firstName, lastName, addressStreet, addressCity, addressState, addressZip, phone }) => {
                 db.run(`INSERT INTO customer VALUES (
                     ${null},
                     "${firstName}",
@@ -35,7 +35,7 @@ db.serialize(() => {
                     "${addressCity}",
                     "${addressState}",
                     "${addressZip}",
-                    "${accountCreationDate}"
+                    "${phone}"
                     )`);
             });
         }

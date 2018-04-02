@@ -96,38 +96,6 @@ db.serialize(() => {
                     )`);
             });
         });
-    // db.run(`DROP TABLE IF EXISTS order`);
-    // db.run(
-    //     `CREATE TABLE IF NOT EXISTS order (
-    //         order_id INTEGER PRIMARY KEY,
-    //         customer_id INTEGER,
-    //         payment_type INTEGER,
-    //         order_creation_date TEXT, 
-    //         FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
-    //         FOREIGN KEY (payment_type) REFERENCES payment_type(payment_id)
-    //     )`,
-    //     () => {
-    //         for (let i = 1; i <= 15; i++) {
-    //             db.run(`INSERT INTO order VALUES (
-    //                     ${null},
-    //                     ${i},
-    //                     null,
-    //                     "2016-09-10"
-    //                 )`);
-    //         }
-    //         db.all(`SELECT payment_id, customer_id FROM payment_type`,
-    //             (err, paymentType) => {
-    //                 if (err) return reject(err);
-    //                 paymentType.forEach(payment => {
-    //                     db.run(`INSERT INTO order VALUES(
-    //                             ${null},
-    //                             ${payment.customer_id},
-    //                             ${payment.payment_id}
-    //                     )`);
-    //                 });
-    //             });
-    //     }
-    // );
     db.run(`DROP TABLE IF EXISTS orders`);
     db.run(
         `CREATE TABLE IF NOT EXISTS orders (

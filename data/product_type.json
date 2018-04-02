@@ -1,0 +1,48 @@
+{
+    "productTypes": [
+        {
+            "product_type": "tools",
+            "product_id": 1
+        },
+        {
+            "product_type": "electronics",
+            "product_id": 2
+        },
+        {
+            "product_type": "automotive",
+            "product_id": 3
+        },
+        {
+            "product_type": "jewelery",
+            "product_id": 4
+        },
+        {
+            "product_type": "games",
+            "product_id": 5
+        },
+        {
+            "product_type": "garden",
+            "product_id": 6
+        },
+        {
+            "product_type": "books",
+            "product_id": 7
+        },
+        {
+            "product_type": "industrial",
+            "product_id": 8
+        },
+        {
+            "product_type": "sports",
+            "product_id": 9
+        },
+        {
+            "product_type": "beauty",
+            "product_id": 10
+        },
+        {
+            "product_type": "health",
+            "product_id": 11
+        }
+    ]
+}

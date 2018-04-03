@@ -9,8 +9,6 @@ const paymentTypeData = JSON.parse(readFileSync("./data/payment_type.json"));
 const productTypeData = JSON.parse(readFileSync("./data/product_type.json"));
 const productData = JSON.parse(readFileSync("./data/product.json"));
 
-// const date = dateGen('2017-03-20', '2018-03-20');
-
 
 db.serialize(() => {
     db.run(`DROP TABLE IF EXISTS customer`);
@@ -35,7 +33,7 @@ db.serialize(() => {
                     "${addressCity}",
                     "${addressState}",
                     "${addressZip}",
-                    "${phone}"
+                    "${faker.phone.phoneNumberFormat()}"
                     )`);
             });
         }
@@ -81,10 +79,11 @@ db.serialize(() => {
             price INTEGER,
             description TEXT,
             customer_id INTEGER,
-            listing_date TEXT
+            listing_date TEXT,
+            quantity INTEGER
         )`,
         () => {
-            productData.forEach(({ productName, productType, price, description, customerId, dateCreated }) => {
+            productData.forEach(({ productName, productType, price, description, customerId, dateCreated, quantity }) => {
                 db.run(`INSERT INTO product VALUES(
                         ${null},
                         "${productName}",
@@ -92,7 +91,8 @@ db.serialize(() => {
                         ${price},
                         "${description}",
                         ${customerId},
-                        "${dateCreated}"
+                        "${dateGen('2017-03-20', '2018-03-20')}",
+                        ${faker.random.number({ min: 1, max: 120 })}
                     )`);
             });
         });
@@ -132,6 +132,7 @@ db.serialize(() => {
     db.run(`DROP TABLE IF EXISTS order_product`);
     db.run(`CREATE TABLE IF NOT EXISTS order_product (
         line_id INTEGER,
+        quantity INTERGER,
         order_id INTEGER,
         product_id INTEGER
     )`,
@@ -139,6 +140,7 @@ db.serialize(() => {
             for (let i = 1; i <= 140; i++) {
                 db.run(`INSERT INTO order_product VALUES (
                         ${i},
+                        1,
                         ${faker.random.number({ min: 1, max: 45 })},
                         ${faker.random.number({ min: 1, max: 120 })}
                 )`);

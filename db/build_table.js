@@ -9,7 +9,7 @@ const createPaymentTypesTable = require("./payment_type_table");
 const createOrdersTable = require("./order_table");
 const createProductTypesTable = require("./product_type_table");
 const createProductsTable = require("./product_table");
-const createProductOrdersTable = require("./product_table");
+const createProductOrdersTable = require("./order_product_table");
 
 
 const createTables = () => {

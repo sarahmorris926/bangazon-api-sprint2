@@ -18,7 +18,7 @@ module.exports.postOne = ({ first_name,last_name,street,city,state,zip,phone}) =
       `INSERT INTO customer VALUES(${null}, "${first_name}", "${last_name}", "${street}", "${city}", "${state}", "${zip}", "${phone}")`,
       function (err, cust) {
         if (err) return reject(err);
-        resolve(this.lastid);
+        resolve({customer_id: this.lastid});
       }
     );
   });

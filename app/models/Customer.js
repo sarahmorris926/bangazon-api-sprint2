@@ -12,21 +12,13 @@ const path = require("path");
 //   console.log(customer)
 // });
 
-module.exports.postOne = ({
-  first_name,
-  last_name,
-  street,
-  city,
-  state,
-  zip,
-  phone
-}) => {
+module.exports.postOne = ({ first_name,last_name,street,city,state,zip,phone}) => {
   return new Promise((resolve, reject) => {
     db.run(
       `INSERT INTO customer VALUES(${null}, "${first_name}", "${last_name}", "${street}", "${city}", "${state}", "${zip}", "${phone}")`,
-      (err, cust) => {
+      function (err, cust) {
         if (err) return reject(err);
-        resolve(cust);
+        resolve(this.lastid);
       }
     );
   });

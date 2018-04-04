@@ -13,19 +13,20 @@ const { createTables } = require("../db/build_table");
 //   });
 // });
 
-describe("add customer", () => {
-  beforeEach(done => {
-    createTables().then(() => {
-      done();
-    });
-  });
+describe("Post One", () => {
   it("should be a function", () => {
     isFunction(postOne);
   });
 
+    beforeEach(done => {
+      createTables().then(() => {
+        setTimeout(done, 1000);
+      });
+    });
+
   it("should return an object", () => {
     let expected = {};
-    return postOne().then(data => {
+    postOne(expected).then(data => {
       deepEqual(data, expected);
     });
   });
@@ -40,7 +41,7 @@ describe("add customer", () => {
       zip: "56565",
       phone: "333-444-5555"
     };
-    return postOne(expected).then(data => {
+    postOne(expected).then(data => {
       console.log("Custdata", data);
       deepEqual(data, expected);
     });

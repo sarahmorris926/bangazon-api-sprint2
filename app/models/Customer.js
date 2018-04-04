@@ -1,10 +1,10 @@
-'use strict';
+"use strict";
 // const { Database } = require('sqlite3').verbose();
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('./bangazon.sqlite');
+const sqlite3 = require("sqlite3").verbose();
+const db = new sqlite3.Database("./bangazon.sqlite");
 
-const { setActiveCustomer, getActiveCustomer } = require('../activeCustomer');
-const path = require('path');
+const { setActiveCustomer, getActiveCustomer } = require("../activeCustomer");
+const path = require("path");
 
 // const db = new Database(path.join(__dirname, '..', 'db', 'bangazon.sqlite'));
 
@@ -13,7 +13,10 @@ const path = require('path');
 // });
 
 module.exports.postOne = () => {
-  
+  return new Promise((resolve, reject) => {
+    resolve({});
+    //  db.run(`INSERT`)
+  });
 };
 
 module.exports.getAll = () => {

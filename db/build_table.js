@@ -1,18 +1,19 @@
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('bangazon.sqlite');
-const { readFileSync } = require('fs');
-const {dateGen} = require('../data/dateGenerator');
-const faker = require('faker');
+const sqlite3 = require("sqlite3").verbose();
+const db = new sqlite3.Database("bangazon.sqlite");
+const { readFileSync } = require("fs");
+const { dateGen } = require("../data/dateGenerator");
+const faker = require("faker");
 
 const custData = JSON.parse(readFileSync("./data/customer.json"));
 const paymentTypeData = JSON.parse(readFileSync("./data/payment_type.json"));
 const productTypeData = JSON.parse(readFileSync("./data/product_type.json"));
 const productData = JSON.parse(readFileSync("./data/product.json"));
 
-
-db.serialize(() => {
-    db.run(`DROP TABLE IF EXISTS customer`);
-    db.run(
+module.exports.createTables = () => {
+  return new Promise((resolve, reject) => {
+    db.serialize(() => {
+      db.run(`DROP TABLE IF EXISTS customer`);
+      db.run(
         `CREATE TABLE IF NOT EXISTS customer (
     customer_id INTEGER PRIMARY KEY,
     first_name TEXT,
@@ -24,8 +25,17 @@ db.serialize(() => {
     phone TEXT
     )`,
         () => {
-            custData.forEach(({ firstName, lastName, addressStreet, addressCity, addressState, addressZip, phone }) => {
-                db.run(`INSERT INTO customer VALUES (
+          custData.forEach(
+            ({
+              firstName,
+              lastName,
+              addressStreet,
+              addressCity,
+              addressState,
+              addressZip,
+              phone
+            }) => {
+              db.run(`INSERT INTO customer VALUES (
                     ${null},
                     "${firstName}",
                     "${lastName}",
@@ -35,25 +45,29 @@ db.serialize(() => {
                     "${addressZip}",
                     "${faker.phone.phoneNumberFormat()}"
                     )`);
-            });
+            }
+          );
         }
-    );
-    db.run(`DROP TABLE IF EXISTS product_type`);
-    db.run(
+      );
+      db.run(`DROP TABLE IF EXISTS product_type`);
+      db.run(
         `CREATE TABLE IF NOT EXISTS product_type (
             product_type_id INTEGER PRIMARY KEY,
             product_type_name TEXT
         )`,
         () => {
-            productTypeData.productTypes.forEach(({ product_type, product_id }) => {
-                db.run(`INSERT INTO product_type VALUES(
-                        ${product_id},
+          productTypeData.productTypes.forEach(
+            ({ product_type }) => {
+              db.run(`INSERT INTO product_type VALUES(
+                        ${null},
                         "${product_type}"
                     )`);
-            });
-        });
-    db.run(`DROP TABLE IF EXISTS payment_type`)
-    db.run(
+            }
+          );
+        }
+      );
+      db.run(`DROP TABLE IF EXISTS payment_type`);
+      db.run(
         `CREATE TABLE IF NOT EXISTS payment_type (
             payment_id INTEGER PRIMARY KEY,
             customer_id INTEGER,
@@ -61,17 +75,20 @@ db.serialize(() => {
             account_number INTEGER
         )`,
         () => {
-            paymentTypeData.forEach(({ customerId, paymentOption, accountNumber }) => {
-                db.run(`INSERT INTO payment_type VALUES(
+          paymentTypeData.forEach(
+            ({ customerId, paymentOption, accountNumber }) => {
+              db.run(`INSERT INTO payment_type VALUES(
                         ${null},
                         ${customerId},
                         "${paymentOption}",
                         ${accountNumber}
                     )`);
-            });
-        });
-    db.run(`DROP TABLE IF EXISTS product`)
-    db.run(
+            }
+          );
+        }
+      );
+      db.run(`DROP TABLE IF EXISTS product`);
+      db.run(
         `CREATE TABLE IF NOT EXISTS product (
             product_id INTEGER PRIMARY KEY,
             product_name TEXT,
@@ -83,21 +100,32 @@ db.serialize(() => {
             quantity INTEGER
         )`,
         () => {
-            productData.forEach(({ productName, productType, price, description, customerId, dateCreated, quantity }) => {
-                db.run(`INSERT INTO product VALUES(
+          productData.forEach(
+            ({
+              productName,
+              productType,
+              price,
+              description,
+              customerId,
+              dateCreated,
+              quantity
+            }) => {
+              db.run(`INSERT INTO product VALUES(
                         ${null},
                         "${productName}",
                         ${productType},
                         ${price},
                         "${description}",
                         ${customerId},
-                        "${dateGen('2017-03-20', '2018-03-20')}",
+                        "${dateGen("2017-03-20", "2018-03-20")}",
                         ${faker.random.number({ min: 1, max: 120 })}
                     )`);
-            });
-        });
-    db.run(`DROP TABLE IF EXISTS orders`);
-    db.run(
+            }
+          );
+        }
+      );
+      db.run(`DROP TABLE IF EXISTS orders`);
+      db.run(
         `CREATE TABLE IF NOT EXISTS orders (
             order_id INTEGER PRIMARY KEY,
             customer_id INTEGER,
@@ -107,43 +135,50 @@ db.serialize(() => {
             FOREIGN KEY (payment_type) REFERENCES payment_type(payment_id) 
         )`,
         () => {
-            for (let i = 1; i <= 15; i++) {
-                db.run(`INSERT INTO orders VALUES (
+          for (let i = 1; i <= 15; i++) {
+            db.run(`INSERT INTO orders VALUES (
                         ${null},
                         ${i},
                         null,
-                        "${dateGen('2017-03-20', '2018-03-20')}"
+                        "${dateGen("2017-03-20", "2018-03-20")}"
                     )`);
-            }
-            db.all(`SELECT payment_id, customer_id FROM payment_type`,
-                (err, paymentTypes) => {
-                    if (err) return reject(err);
-                    paymentTypes.forEach(payment => {
-                        db.run(`INSERT INTO orders VALUES(
+          }
+          db.all(
+            `SELECT payment_id, customer_id FROM payment_type`,
+            (err, paymentTypes) => {
+              if (err) return reject(err);
+              paymentTypes.forEach(payment => {
+                db.run(`INSERT INTO orders VALUES(
                                 ${null},
                                 ${payment.customer_id},
                                 ${payment.payment_id},
-                                "${dateGen('2017-03-20', '2018-03-20')}"
+                                "${dateGen("2017-03-20", "2018-03-20")}"
                         )`);
-                    });
-                });
+              });
+            }
+          );
         }
-    );
-    db.run(`DROP TABLE IF EXISTS order_product`);
-    db.run(`CREATE TABLE IF NOT EXISTS order_product (
+      );
+      db.run(`DROP TABLE IF EXISTS order_product`);
+      db.run(
+        `CREATE TABLE IF NOT EXISTS order_product (
         line_id INTEGER,
         quantity INTERGER,
         order_id INTEGER,
         product_id INTEGER
     )`,
         () => {
-            for (let i = 1; i <= 140; i++) {
-                db.run(`INSERT INTO order_product VALUES (
+          for (let i = 1; i <= 140; i++) {
+            db.run(`INSERT INTO order_product VALUES (
                         ${i},
                         1,
                         ${faker.random.number({ min: 1, max: 45 })},
-                        ${faker.random.number({ min: 1, max: 120 })}
+                        ${faker.random.number({ min: 1, max: 11 })}
                 )`);
-            }
-        });
-});
+          }
+        }
+      );
+    });
+    resolve();
+  });
+};

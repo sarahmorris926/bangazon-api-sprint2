@@ -62,7 +62,6 @@ module.exports.promptNewCustomer = () => {
 module.exports.getAllCustomers = (req, res) => {
   getAll().then(cust => {
     return new Promise((resolve, reject) => {
-      console.log(cust);
     });
   });
 };

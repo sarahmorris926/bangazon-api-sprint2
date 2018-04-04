@@ -26,6 +26,21 @@ describe("add customer", () => {
   it("should return an object", () => {
     let expected = {};
     return postOne().then(data => {
+      deepEqual(data, expected);
+    });
+  });
+
+  it("should return an object of customer data", () => {
+    let expected = {
+      first_name: "Jang",
+      last_name: "Dao",
+      street: "5 Lovers Lane",
+      city: "Romancazania",
+      state: "Denmark",
+      zip: "56565",
+      phone: "333-444-5555"
+    };
+    return postOne(expected).then(data => {
       console.log("Custdata", data);
       deepEqual(data, expected);
     });

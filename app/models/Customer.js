@@ -12,10 +12,23 @@ const path = require("path");
 //   console.log(customer)
 // });
 
-module.exports.postOne = () => {
+module.exports.postOne = ({
+  first_name,
+  last_name,
+  street,
+  city,
+  state,
+  zip,
+  phone
+}) => {
   return new Promise((resolve, reject) => {
-    resolve({});
-    //  db.run(`INSERT`)
+    db.run(
+      `INSERT INTO customer VALUES(${null}, "${first_name}", "${last_name}", "${street}", "${city}", "${state}", "${zip}", "${phone}")`,
+      (err, cust) => {
+        if (err) return reject(err);
+        resolve(cust);
+      }
+    );
   });
 };
 

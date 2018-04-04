@@ -12,6 +12,10 @@ const path = require('path');
 //   console.log(customer)
 // });
 
+module.exports.postOne = () => {
+  
+};
+
 module.exports.getAll = () => {
   return new Promise((resolve, reject) => {
     db.all(`SELECT * FROM customer`, (err, cust) => {

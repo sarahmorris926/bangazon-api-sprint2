@@ -1,15 +1,12 @@
-const { postOneCustomer } = require("../app/controllers/customerCtrl");
-const { postOne } = require("../app/models/Customer.js");
-const { assert: { equal, deepEqual, isFunction, isObject } } = require("chai");
+
+
+const { postOneCustomer, promptNewCustomer } = require("../app/controllers/customerCtrl");
+const { postOne, getOne } = require("../app/models/Customer.js");
+const { assert: { equal, deepEqual, isFunction, isObject, isArray } } = require("chai");
 const createCustomerTable = require("../db/customer_table.js");
 
-
-
-
-describe("bangazonSprint2", () => {
-
-});
-
+// customer Model
+// post One Function
 describe("add customer", () => {
   it("should be a function", () => {
     isFunction(postOne);
@@ -43,4 +40,43 @@ describe("add customer", () => {
       equal(52, data.customer_id);
     });
   });
+});
+
+//Get One Custome
+describe("Get one Customer", () => {
+  let expected = {
+    first_name: "Jang",
+    last_name: "Dao",
+    street: "5 Lovers Lane",
+    city: "Romancazania",
+    state: "Denmark",
+    zip: "56565",
+    phone: "333-444-5555"
+  };
+  describe("get one function", () => {
+    it("should return an object", () => {
+      getOne(50)
+      .then(data => {
+        isObject(data);
+      })
+    });
+  });
+    it("should return the correct Customer Information", () => {
+      getOne(50)
+      .then(data => {
+        deepEqual(50, data.customer_id);
+      })
+    })
+});
+
+
+// Customer Ctrl
+// post One
+
+
+describe("Add Customer Prompt", () => {
+  it("should be a function", () => {
+    isFunction(promptNewCustomer);
+  });
+
 });

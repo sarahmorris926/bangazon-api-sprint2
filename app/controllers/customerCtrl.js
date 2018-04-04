@@ -1,15 +1,21 @@
 "use strict";
 
 const prompt = require("prompt");
-const { getAll } = require("../models/Customer.js");
+const { getAll, postOne } = require("../models/Customer.js");
 
 module.exports.promptNewCustomer = () => {
   return new Promise((resolve, reject) => {
     prompt.get(
       [
         {
-          name: "name",
-          description: "Enter customer name (First Last)",
+          name: "first_name",
+          description: "Enter customer name (First Name)",
+          type: "string",
+          required: true
+        },
+        {
+          name: "last_name",
+          description: "Enter customer name (Last Name)",
           type: "string",
           required: true
         },
@@ -46,6 +52,7 @@ module.exports.promptNewCustomer = () => {
       ],
       function(err, results) {
         if (err) return reject(err);
+        postOne(results);
         resolve(results);
       }
     );

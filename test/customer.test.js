@@ -1,14 +1,13 @@
 const { postOneCustomer } = require("../app/controllers/customerCtrl");
 const { postOne } = require("../app/models/Customer.js");
-const { assert: { equal, deepEqual, isFunction } } = require("chai");
-const { createTables } = require("../db/build_table");
+const { assert: { equal, deepEqual, isFunction, isObject } } = require("chai");
+const createCustomerTable = require("../db/customer_table.js");
+
+
+
 
 describe("bangazonSprint2", () => {
-  before(done => {
-    createTables().then(() => {
-      done();
-    });
-  });
+
 });
 
 describe("add customer", () => {
@@ -16,10 +15,16 @@ describe("add customer", () => {
     isFunction(postOne);
   });
 
+  before(done => {
+    createCustomerTable().then(() => {
+      done();
+    });
+  });
+
   it("should return an object", () => {
     let expected = {};
-    return postOne().then(data => {
-      deepEqual(data, expected);
+    return postOne(expected).then(data => {
+      isObject(data, expected);
     });
   });
 
@@ -35,7 +40,7 @@ describe("add customer", () => {
     };
     return postOne(expected).then(data => {
       console.log("Custdata", data);
-      equal(53, data.customer_id);
+      equal(52, data.customer_id);
     });
   });
 });

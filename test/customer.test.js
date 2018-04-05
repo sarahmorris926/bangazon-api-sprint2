@@ -25,7 +25,7 @@ describe("add customer", () => {
   });
 
   it("should return a new customer id for the new customer added to data", () => {
-    let expected = {
+    let newCustomer = {
       first_name: "Jang",
       last_name: "Dao",
       street: "5 Lovers Lane",
@@ -34,8 +34,21 @@ describe("add customer", () => {
       zip: "56565",
       phone: "333-444-5555"
     };
-    return postOne(expected).then(data => {
+    return postOne(newCustomer).then(data => {
       equal(52, data.customer_id);
+      return getOne(data.customer_id).then(customer => {
+        let expected = {
+          customer_id: 52,
+          first_name: "Jang",
+          last_name: "Dao",
+          address_street: "5 Lovers Lane",
+          address_city: "Romancazania",
+          address_state: "Denmark",
+          address_zip: "56565",
+          phone: "333-444-5555"
+        }
+        deepEqual(customer, expected);
+      })
     });
   });
 });
@@ -62,10 +75,8 @@ describe("Get one Customer", () => {
 // Customer Ctrl
 // post One
 
-
 describe("Add Customer Prompt", () => {
   it("should be a function", () => {
     isFunction(promptNewCustomer);
   });
-
 });

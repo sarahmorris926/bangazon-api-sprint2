@@ -5,8 +5,8 @@ const { postOne, getOne } = require("../app/models/Customer.js");
 const { assert: { equal, deepEqual, isFunction, isObject, isArray } } = require("chai");
 const createCustomerTable = require("../db/customer_table.js");
 
-// customer Model
-// post One Function
+// MODEL
+// Post One
 describe("add customer", () => {
   it("should be a function", () => {
     isFunction(postOne);
@@ -40,7 +40,7 @@ describe("add customer", () => {
   });
 });
 
-//Get One Custome
+// Get One
 describe("Get one Customer", () => {
   describe("get one function", () => {
     it("should return an object", () => {
@@ -58,11 +58,8 @@ describe("Get one Customer", () => {
     })
 });
 
-
-// Customer Ctrl
-// post One
-
-
+// CONTROLLER
+// Post One
 describe("Add Customer Prompt", () => {
   it("should be a function", () => {
     isFunction(promptNewCustomer);

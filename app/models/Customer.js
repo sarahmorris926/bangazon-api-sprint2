@@ -4,6 +4,7 @@ const sqlite3 = require("sqlite3").verbose();
 const db = new sqlite3.Database("./bangazon.sqlite");
 
 const { setActiveCustomer, getActiveCustomer } = require("../activeCustomer");
+const { displayWelcome } = require('../ui');
 const path = require("path");
 
 const {red, magenta, blue} = require("chalk");
@@ -50,39 +51,43 @@ module.exports.listAllCustomers = (customerData) => {
   )
   customerData.forEach(cust => {
     console.log(`
-      ${cust.customer_id} ${cust.first_name}  ${cust.last_name} 
+      ${cust.customer_id}. ${cust.first_name}  ${cust.last_name} 
     `);
   });
   prompt.get([{
     name: 'choice',
     description: 'Please make a selection'
-  }],);
+  }], function(err, results) {
+    if (err) return reject(err);
+    setActiveCustomer(results)
+    // displayWelcome();
+  });
   });
 }
 
 
 
 
-module.exports.displayWelcome = () => {
-  let headerDivider = `${magenta('*********************************************************')}`
-  return new Promise( (resolve, reject) => {
-    console.log(`
-  ${headerDivider}
-  ${magenta('**  Welcome to Bangazon! Command Line Ordering System  **')}
-  ${headerDivider}
-  ${magenta('1.')} Create a customer account
-  ${magenta('2.')} Choose active customer
-  ${magenta('3.')} Create a payment option
-  ${magenta('4.')} Add product to shopping cart
-  ${magenta('5.')} Complete an order
-  ${magenta('6.')} See product popularity
-  ${magenta('7.')} Leave Bangazon!`);
-    prompt.get([{
-      name: 'choice',
-      description: 'Please make a selection'
-    }], mainMenuHandler );
-  });
-};
+// module.exports.displayWelcome = () => {
+//   let headerDivider = `${magenta('*********************************************************')}`
+//   return new Promise( (resolve, reject) => {
+//     console.log(`
+//   ${headerDivider}
+//   ${magenta('**  Welcome to Bangazon! Command Line Ordering System  **')}
+//   ${headerDivider}
+//   ${magenta('1.')} Create a customer account
+//   ${magenta('2.')} Choose active customer
+//   ${magenta('3.')} Create a payment option
+//   ${magenta('4.')} Add product to shopping cart
+//   ${magenta('5.')} Complete an order
+//   ${magenta('6.')} See product popularity
+//   ${magenta('7.')} Leave Bangazon!`);
+//     prompt.get([{
+//       name: 'choice',
+//       description: 'Please make a selection'
+//     }], mainMenuHandler );
+//   });
+// };
 
 module.exports.getOne = (id) => {
   return new Promise( (resolve, reject) => {

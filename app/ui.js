@@ -8,8 +8,10 @@ const path = require('path');
 const { Database } = require('sqlite3').verbose();
 prompt.message = colors.blue("Bangazon Corp");
 
+
 // app modules
 const { promptNewCustomer, getAllCustomers } = require('./controllers/customerCtrl');
+const { getAll, listAllCustomers } = require('./models/Customer');
 
 const db = new Database(path.join(__dirname, '..', 'db', 'bangazon.sqlite'));
 
@@ -25,9 +27,10 @@ let mainMenuHandler = (err, userInput) => {
       //save customer to db
     });
   } else if (userInput.choice == '2') {
-    getAllCustomers()
-    // .then( (custData) => {
-    // })
+    getAll()
+    .then( (custData) => {
+      listAllCustomers(custData);
+    })
   }
 };
 

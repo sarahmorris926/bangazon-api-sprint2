@@ -6,6 +6,11 @@ const db = new sqlite3.Database("./bangazon.sqlite");
 const { setActiveCustomer, getActiveCustomer } = require("../activeCustomer");
 const path = require("path");
 
+const {red, magenta, blue} = require("chalk");
+const prompt = require('prompt');
+const colors = require("colors/safe");
+prompt.message = colors.blue("Bangazon Corp");
+
 // const db = new Database(path.join(__dirname, '..', 'db', 'bangazon.sqlite'));
 
 // db.get(`SELECT * FROM customers`, (customer) => {
@@ -32,6 +37,50 @@ module.exports.getAll = () => {
       if (err) return reject(err);
       resolve(cust);
     });
+  });
+};
+
+module.exports.listAllCustomers = (customerData) => {
+  let headerDivider = `${magenta('*********************************************************')}`
+  return new Promise( (resolve, reject) => {
+    console.log(`
+    ${headerDivider}
+    ${magenta('** Choose your Active Customer **')}
+    ${headerDivider}`
+  )
+  customerData.forEach(cust => {
+    console.log(`
+      ${cust.customer_id} ${cust.first_name}  ${cust.last_name} 
+    `);
+  });
+  prompt.get([{
+    name: 'choice',
+    description: 'Please make a selection'
+  }],);
+  });
+}
+
+
+
+
+module.exports.displayWelcome = () => {
+  let headerDivider = `${magenta('*********************************************************')}`
+  return new Promise( (resolve, reject) => {
+    console.log(`
+  ${headerDivider}
+  ${magenta('**  Welcome to Bangazon! Command Line Ordering System  **')}
+  ${headerDivider}
+  ${magenta('1.')} Create a customer account
+  ${magenta('2.')} Choose active customer
+  ${magenta('3.')} Create a payment option
+  ${magenta('4.')} Add product to shopping cart
+  ${magenta('5.')} Complete an order
+  ${magenta('6.')} See product popularity
+  ${magenta('7.')} Leave Bangazon!`);
+    prompt.get([{
+      name: 'choice',
+      description: 'Please make a selection'
+    }], mainMenuHandler );
   });
 };
 

@@ -90,7 +90,6 @@ describe("Get all customers", () => {
 
 // Customer Ctrl
 // post One
-
 describe("Add Customer Prompt", () => {
   it("should be a function", () => {
     isFunction(promptNewCustomer);

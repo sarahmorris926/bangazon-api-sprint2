@@ -56,38 +56,18 @@ module.exports.listAllCustomers = (customerData) => {
   });
   prompt.get([{
     name: 'choice',
-    description: 'Please make a selection'
+    description: 'Please make a selection',
+    type: 'integer',
+    minimum: 1,
+    maximum: customerData.length,
+    message: "You did not enter a valid customer ID. Please try again!"
   }], function(err, results) {
     if (err) return reject(err);
     setActiveCustomer(results)
-    // displayWelcome();
   });
   });
 }
 
-
-
-
-// module.exports.displayWelcome = () => {
-//   let headerDivider = `${magenta('*********************************************************')}`
-//   return new Promise( (resolve, reject) => {
-//     console.log(`
-//   ${headerDivider}
-//   ${magenta('**  Welcome to Bangazon! Command Line Ordering System  **')}
-//   ${headerDivider}
-//   ${magenta('1.')} Create a customer account
-//   ${magenta('2.')} Choose active customer
-//   ${magenta('3.')} Create a payment option
-//   ${magenta('4.')} Add product to shopping cart
-//   ${magenta('5.')} Complete an order
-//   ${magenta('6.')} See product popularity
-//   ${magenta('7.')} Leave Bangazon!`);
-//     prompt.get([{
-//       name: 'choice',
-//       description: 'Please make a selection'
-//     }], mainMenuHandler );
-//   });
-// };
 
 module.exports.getOne = (id) => {
   return new Promise( (resolve, reject) => {

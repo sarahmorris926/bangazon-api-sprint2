@@ -1,8 +1,11 @@
-
-
-const { postOneCustomer, promptNewCustomer } = require("../app/controllers/customerCtrl");
+const {
+  postOneCustomer,
+  promptNewCustomer
+} = require("../app/controllers/customerCtrl");
 const { postOne, getOne } = require("../app/models/Customer.js");
-const { assert: { equal, deepEqual, isFunction, isObject, isArray } } = require("chai");
+const {
+  assert: { equal, deepEqual, isFunction, isObject, isArray }
+} = require("chai");
 const createCustomerTable = require("../db/customer_table.js");
 
 // MODEL
@@ -11,7 +14,7 @@ describe("add customer", () => {
   it("should be a function", () => {
     isFunction(postOne);
   });
-  before(done => {
+  after(done => {
     createCustomerTable().then(() => {
       done();
     });
@@ -44,18 +47,16 @@ describe("add customer", () => {
 describe("Get one Customer", () => {
   describe("get one function", () => {
     it("should return an object", () => {
-      getOne(50)
-      .then(data => {
+      getOne(50).then(data => {
         isObject(data);
-      })
+      });
     });
   });
-    it("should return the correct Customer Information", () => {
-      getOne(50)
-      .then(data => {
-        deepEqual(50, data.customer_id);
-      })
-    })
+  it("should return the correct Customer Information", () => {
+    getOne(50).then(data => {
+      deepEqual(50, data.customer_id);
+    });
+  });
 });
 
 // CONTROLLER
@@ -64,5 +65,4 @@ describe("Add Customer Prompt", () => {
   it("should be a function", () => {
     isFunction(promptNewCustomer);
   });
-
 });

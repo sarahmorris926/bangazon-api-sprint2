@@ -4,15 +4,15 @@ const createProductTable = require('../db/product_table.js');
 
 // MODEL
 // Post One
-describe("POST One Customer", () => {
+describe("POST One Product", () => {
+    after(done => {
+      createProductTable().then(() => {
+          done();
+      });
+    });
     describe("add a product", () => {
       it("should be a function", () => {
         isFunction(postOne);
-      });
-      before(done => {
-        createProductTable().then(() => {
-            done();
-        });
       });
       it("should return an object", () => {
           let expected = {};
@@ -20,6 +20,20 @@ describe("POST One Customer", () => {
               isObject(data, expected);
           }); 
       });
+      it("should return a new product id for the newly added product", () => {
+          let expected = {
+            product_name: "Hershey's Chocolate",
+            product_type: 1,
+            price: "10",
+            description: "Delicious chocolate from the gods",
+            customer_id: 1,
+            listing_date: "2018-01-01",
+            quantity: 100
+          }
+          return postOne(expected).then(data => {
+              equal(152, data.product_id);
+          })
+      })
 
     });
 });

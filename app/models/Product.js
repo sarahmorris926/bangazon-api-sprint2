@@ -2,9 +2,12 @@
 const sqlite3 = require("sqlite3").verbose();
 const db = new sqlite3.Database("./bangazon.sqlite");
 
-module.exports.postOne = () => {
+module.exports.postOne = ({product_name, product_type, price, description, customer_id, listing_date, quantity}) => {
     return new Promise((resolve, reject) => {
-        resolve({});
+        db.run(`INSERT INTO product VALUES(${null}, "${product_name}", "${product_type}", "${price}", "${description}", "${customer_id}", "${listing_date}", "${quantity}")`, function(err, prod) {
+            if (err) return reject(err);
+            resolve({product_id: this.lastID});
+        });
     });
 };
 

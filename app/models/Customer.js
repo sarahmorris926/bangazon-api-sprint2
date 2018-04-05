@@ -4,7 +4,13 @@ const sqlite3 = require("sqlite3").verbose();
 const db = new sqlite3.Database("./bangazon.sqlite");
 
 const { setActiveCustomer, getActiveCustomer } = require("../activeCustomer");
+const { displayWelcome } = require('../ui');
 const path = require("path");
+
+const {red, magenta, blue} = require("chalk");
+const prompt = require('prompt');
+const colors = require("colors/safe");
+prompt.message = colors.blue("Bangazon Corp");
 
 // const db = new Database(path.join(__dirname, '..', 'db', 'bangazon.sqlite'));
 
@@ -34,6 +40,34 @@ module.exports.getAll = () => {
     });
   });
 };
+
+module.exports.listAllCustomers = (customerData) => {
+  let headerDivider = `${magenta('*********************************************************')}`
+  return new Promise( (resolve, reject) => {
+    console.log(`
+    ${headerDivider}
+    ${magenta('** Choose your Active Customer **')}
+    ${headerDivider}`
+  )
+  customerData.forEach(cust => {
+    console.log(`
+      ${cust.customer_id}. ${cust.first_name}  ${cust.last_name} 
+    `);
+  });
+  prompt.get([{
+    name: 'choice',
+    description: 'Please make a selection',
+    type: 'integer',
+    minimum: 1,
+    maximum: customerData.length,
+    message: "You did not enter a valid customer ID. Please try again!"
+  }], function(err, results) {
+    if (err) return reject(err);
+    setActiveCustomer(results)
+  });
+  });
+}
+
 
 module.exports.getOne = (id) => {
   return new Promise( (resolve, reject) => {

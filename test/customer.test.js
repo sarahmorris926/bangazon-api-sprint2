@@ -1,15 +1,12 @@
-const {
-  postOneCustomer,
-  promptNewCustomer
-} = require("../app/controllers/customerCtrl");
-const { postOne, getOne } = require("../app/models/Customer.js");
-const {
-  assert: { equal, deepEqual, isFunction, isObject, isArray }
-} = require("chai");
+
+
+const { postOneCustomer, promptNewCustomer } = require("../app/controllers/customerCtrl");
+const { postOne, getOne, getAll } = require("../app/models/Customer.js");
+const { assert: { equal, deepEqual, isFunction, isObject, isArray } } = require("chai");
 const createCustomerTable = require("../db/customer_table.js");
 
 // MODEL
-// Post One
+// POST One
 describe("add customer", () => {
   it("should be a function", () => {
     isFunction(postOne);
@@ -28,7 +25,7 @@ describe("add customer", () => {
   });
 
   it("should return a new customer id for the new customer added to data", () => {
-    let expected = {
+    let newCustomer = {
       first_name: "Jang",
       last_name: "Dao",
       street: "5 Lovers Lane",
@@ -37,13 +34,26 @@ describe("add customer", () => {
       zip: "56565",
       phone: "333-444-5555"
     };
-    return postOne(expected).then(data => {
+    return postOne(newCustomer).then(data => {
       equal(52, data.customer_id);
+      return getOne(data.customer_id).then(customer => {
+        let expected = {
+          customer_id: 52,
+          first_name: "Jang",
+          last_name: "Dao",
+          address_street: "5 Lovers Lane",
+          address_city: "Romancazania",
+          address_state: "Denmark",
+          address_zip: "56565",
+          phone: "333-444-5555"
+        }
+        deepEqual(customer, expected);
+      })
     });
   });
 });
 
-// Get One
+// GET One
 describe("Get one Customer", () => {
   describe("get one function", () => {
     it("should return an object", () => {
@@ -59,8 +69,25 @@ describe("Get one Customer", () => {
   });
 });
 
+// GET All Customers
+describe("Get all customers", () => {
+  describe('get all function', () => {
+    it("should be an array", () => {
+      getAll().then(data => {
+        isArray(data);
+    });
+    });
+    it("should be an array of objects", () => {
+      getAll().then(data => {
+        isObject(data[1]);
+      });
+    });
+  });
+});
+
+
 // CONTROLLER
-// Post One
+// POST One
 describe("Add Customer Prompt", () => {
   it("should be a function", () => {
     isFunction(promptNewCustomer);

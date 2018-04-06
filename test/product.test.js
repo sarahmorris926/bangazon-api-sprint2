@@ -1,5 +1,5 @@
 const { assert: { isFunction, isObject, deepEqual, equal, isArray, lengthOf } } = require("chai");
-const { postOne, getOne, getAll } = require("../app/models/Product.js");
+const { postOneProduct, getOneProduct, getAllProducts } = require("../app/models/Product.js");
 const createProductTable = require('../db/product_table.js');
 
 // MODEL
@@ -24,10 +24,10 @@ describe("POST One Product", () => {
             quantity: 100
           }
       it("should be a function", () => {
-        isFunction(postOne);
+        isFunction(postOneProduct);
       });
       it("should return an object", () => {
-          postOne(expected).then(data => {
+          postOneProduct(expected).then(data => {
               isObject(data);
           })
           .catch((err) => {
@@ -35,7 +35,7 @@ describe("POST One Product", () => {
           })
       });
       it("should return a new product id for the newly added product", () => {
-          postOne(expected).then(data => {
+          postOneProduct(expected).then(data => {
               equal(152, data.product_id);
           })
           .catch((err) => {
@@ -50,12 +50,12 @@ describe("POST One Product", () => {
 describe("GET One Product", () => {
     describe("get a product", () => {
         it("should return an object", () => {
-            getOne(1).then(data => {
+            getOneProduct(1).then(data => {
                 isObject(data);
             });
         });
         it("should return the correct Product object", () => {
-            return getOne(1).then(data => {
+            return getOneProduct(1).then(data => {
                 let expected = {
                     product_id: 1,
                     product_name: "Fantastic Cotton Fish",
@@ -76,17 +76,17 @@ describe("GET One Product", () => {
 describe("GET All Products", () => {
     describe("get all products", () => {
         it("should be an array", () => {
-            getAll().then(data => {
+            getAllProducts().then(data => {
                 isArray(data);
             });
         });
         it("should be an array of objects", () => {
-            getAll().then(data => {
+            getAllProducts().then(data => {
                 isObject(data[1]);
             });
         });
         it("should return the length of array of total products", () => {
-            getAll().then(data => {
+            getAllProducts().then(data => {
                 lengthOf(data, 152);
             });
         });

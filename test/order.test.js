@@ -17,5 +17,11 @@ describe("get orders", () => {
                 isArray(data);
             });
         });
+
+        it("should return an object in array[0]", () => {
+            getAllOrders().then(data => {
+                isObject(data[0]);
+            });
+        });
     });
 });

@@ -11,7 +11,6 @@ describe("get order products", () => {
         });
 
         it("should return an array", () => {
-            console.log("hello");
             getAllOrderProducts().then(data => {
                 isArray(data);
             });

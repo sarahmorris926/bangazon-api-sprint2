@@ -34,6 +34,17 @@ describe("GET One Order", () => {
             isObject(order);
         });
     });
+    it("should return an object with expected information", () => {
+        let expected = {
+            order_id: 1,
+            customer_id: 1,
+            payment_type: null,
+            order_creation_date: '2017-04-26'
+        }
+        getOneOrder(1).then(order => {
+            deepEqual(order, expected);
+        });
+    });
 });
 
 

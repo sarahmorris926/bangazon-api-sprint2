@@ -42,12 +42,13 @@ module.exports.getOrder = (activeCustId) => {
     });
 };
 
-//cb add call to select the products from the active order using the orderId from the active customer
-module.exports.getProdIds = (orderId)=>{
-    return new Promise((resolve,reject) => {
-        db.all(`SELECT product_id from order_product where order_id = ${orderId}`,(err,prodIds)=>{
+//cb add call to sum the products from order_products using the orderId from the active customer
+
+module.exports.getSumOfProducts = (orderId) =>{
+    return new Promise ((resolve,reject) => {
+        db.all(`SELECT sum (price) from order_product where order_id = ${orderId}`,(err,sum) =>{
             if (err) return reject(err);
-            resolve(prodIds)
+            resolve(sum)
         })
     })
 }

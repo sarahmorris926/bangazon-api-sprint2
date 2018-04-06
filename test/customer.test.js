@@ -6,7 +6,7 @@ const createCustomerTable = require("../db/customer_table.js");
 
 // MODEL
 // POST One
-describe("add customer", () => {
+describe.skip("add customer", () => {
   it("should be a function", () => {
     isFunction(postOne);
   });
@@ -53,7 +53,7 @@ describe("add customer", () => {
 });
 
 // GET One
-describe("Get one Customer", () => {
+describe.skip("Get one Customer", () => {
   describe("get one function", () => {
     it("should return an object", () => {
       getOne(50).then(data => {
@@ -69,7 +69,7 @@ describe("Get one Customer", () => {
 });
 
 // GET All Customers
-describe("Get all customers", () => {
+describe.skip("Get all customers", () => {
   describe('get all function', () => {
     it("should be an array", () => {
       getAll().then(data => {
@@ -87,7 +87,7 @@ describe("Get all customers", () => {
 
 // CONTROLLER
 // POST One
-describe("Add Customer Prompt", () => {
+describe.skip("Add Customer Prompt", () => {
   it("should be a function", () => {
     isFunction(promptNewCustomer);
   });

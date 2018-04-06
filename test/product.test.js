@@ -1,4 +1,4 @@
-const { assert: { isFunction, isObject, deepEqual, equal, isArray } } = require("chai");
+const { assert: { isFunction, isObject, deepEqual, equal, isArray, lengthOf } } = require("chai");
 const { postOne, getOne, getAll } = require("../app/models/Product.js");
 const createProductTable = require('../db/product_table.js');
 
@@ -83,6 +83,11 @@ describe("GET All Products", () => {
         it("should be an array of objects", () => {
             getAll().then(data => {
                 isObject(data[1]);
+            });
+        });
+        it("should return the length of array of total products", () => {
+            getAll().then(data => {
+                lengthOf(data, 152);
             });
         });
     });

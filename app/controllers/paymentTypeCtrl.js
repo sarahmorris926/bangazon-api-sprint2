@@ -5,7 +5,7 @@ const { postOnePaymentType } = require("../models/paymentType.js");
 const { setActiveCustomer, getActiveCustomer } = require("../activeCustomer");
 const ui = require('../ui')
 
-// TODO: must make sure an active customer was selected - ternary
+// TODO: must make sure an active customer was selected - ternary - DONE
 // TODO: no duplicate account numbers - get all payment types, and do if statement for the payment type doesn't equal other account numbers
 // TODO: make sure a valid payment type (have list of options?)
 // TODO: make sure account number is only 16 digits

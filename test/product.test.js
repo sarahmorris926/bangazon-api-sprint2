@@ -1,5 +1,5 @@
-const { assert: { isFunction, isObject, deepEqual, equal } } = require("chai");
-const { postOne, getOne } = require("../app/models/Product.js");
+const { assert: { isFunction, isObject, deepEqual, equal, isArray } } = require("chai");
+const { postOne, getOne, getAll } = require("../app/models/Product.js");
 const createProductTable = require('../db/product_table.js');
 
 // MODEL
@@ -8,20 +8,13 @@ describe("POST One Product", () => {
     after(done => {
       createProductTable().then(() => {
           done();
-      });
+      })
+      .catch((err) => {
+        console.log('error error error', err);
+      })
     });
     describe("add a product", () => {
-      it("should be a function", () => {
-        isFunction(postOne);
-      });
-      it("should return an object", () => {
-          let expected = {};
-          return postOne(expected).then(data => {
-              isObject(data, expected);
-          }); 
-      });
-      it("should return a new product id for the newly added product", () => {
-          let expected = {
+        let expected = {
             product_name: "Hershey's Chocolate",
             product_type: 1,
             price: "10",
@@ -30,8 +23,23 @@ describe("POST One Product", () => {
             listing_date: "2018-01-01",
             quantity: 100
           }
-          return postOne(expected).then(data => {
+      it("should be a function", () => {
+        isFunction(postOne);
+      });
+      it("should return an object", () => {
+          postOne(expected).then(data => {
+              isObject(data);
+          })
+          .catch((err) => {
+            console.log('error 1', err);
+          })
+      });
+      it("should return a new product id for the newly added product", () => {
+          postOne(expected).then(data => {
               equal(152, data.product_id);
+          })
+          .catch((err) => {
+            console.log('error 2', err);
           })
       })
 
@@ -39,7 +47,7 @@ describe("POST One Product", () => {
 });
 
 // GET One
-describe("GET One Customer", () => {
+describe("GET One Product", () => {
     describe("get a product", () => {
         it("should return an object", () => {
             getOne(1).then(data => {
@@ -56,9 +64,25 @@ describe("GET One Customer", () => {
                     description: "I'll generate the optical IB bus, that should firewall the XML panel!",
                     customer_id: 19,
                     listing_date: "2017-04-02",
-                    quantity: 54
+                    quantity: 46
                 };
                 equal(1, data.product_id);
+            });
+        });
+    });
+});
+
+// GET All
+describe("GET All Products", () => {
+    describe("get all products", () => {
+        it("should be an array", () => {
+            getAll().then(data => {
+                isArray(data);
+            });
+        });
+        it("should be an array of objects", () => {
+            getAll().then(data => {
+                isObject(data[1]);
             });
         });
     });

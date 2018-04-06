@@ -10,7 +10,7 @@ describe("add customer", () => {
   it("should be a function", () => {
     isFunction(postOne);
   });
-  after(done => {
+  before(done => {
     createCustomerTable().then(() => {
       done();
     });
@@ -19,7 +19,7 @@ describe("add customer", () => {
   it("should return an object", () => {
     let expected = {};
     return postOne(expected).then(data => {
-      isObject(data, expected);
+      isObject(data);
     });
   });
 

@@ -20,3 +20,12 @@ module.exports.getOne = (id) => {
                 });
     });
 };
+
+module.exports.getAll = () => {
+    return new Promise((resolve, reject) => {
+        db.all(`SELECT * FROM product`, (err, prods) => {
+            if (err) return reject(err);
+            resolve(prods);
+        });
+    });
+};

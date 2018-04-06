@@ -13,7 +13,7 @@ const {
   promptNewCustomer,
   getAllCustomers
 } = require("./controllers/customerCtrl");
-const { promptNewPaymentType } = require('./controllers/customerCtrl');
+const { promptNewPaymentType } = require('./controllers/paymentTypeCtrl');
 const { getAll, listAllCustomers } = require("./models/Customer");
 const { getActiveCustomer } = require("./activeCustomer");
 

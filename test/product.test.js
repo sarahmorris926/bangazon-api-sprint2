@@ -115,12 +115,22 @@ describe("GET All Customers Products", () => {
 });
 
 
-
 // DELETE ONE PRODUCT
 describe("REMOVE One Product", () => {
     describe("delete one product", () => {
         it("should be a function", () => {
             isFunction(deleteOneProduct);
+        });
+    });
+});
+
+// GET ALL FROM ORDER_PRODUCT TABLE
+describe("GET ALL products in orders", () => {
+    describe("get all products linked to any order", () => {
+        it('should be an array', () => {
+            getAllOrderProducts(2).then(data => {
+                isArray(data);
+            });
         });
     });
 });

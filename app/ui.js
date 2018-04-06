@@ -11,8 +11,9 @@ prompt.message = colors.blue("Bangazon Corp");
 
 // app modules
 const { promptNewCustomer, getAllCustomers } = require('./controllers/customerCtrl');
+const { listAllCustomerProducts } = require('./controllers/productCtrl');
 const { getAll, listAllCustomers } = require('./models/Customer');
-const { getAllProducts, listAllCustomerProducts, getCustomerProducts } = require('./models/Product');
+const { getAllProducts, getCustomerProducts } = require('./models/Product');
 const { getActiveCustomer } = require('./activeCustomer');
 
 const db = new Database(path.join(__dirname, '..', 'db', 'bangazon.sqlite'));

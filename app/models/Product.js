@@ -4,6 +4,8 @@ const db = new sqlite3.Database("./bangazon.sqlite");
 const {red, magenta, blue} = require("chalk");
 const prompt = require('prompt');
 const colors = require("colors/safe");
+const listCustPro = require('../controllers/productCtrl'); 
+const { getActiveCustomer} = require('../activeCustomer');
 
 module.exports.postOneProduct = ({product_name, product_type, price, description, customer_id, listing_date, quantity}) => {
     return new Promise((resolve, reject) => {
@@ -42,36 +44,35 @@ module.exports.getCustomerProducts = (id) => {
     });
 }
 
-module.exports.deleteOneProduct = (id) => {
-    return new Promise( function(resolve, reject) {
-        db.run(`DELETE * FROM product WHERE product_id = ${id}`);
-        resolve({id: this.lastID});
+let getAllOrderProducts = (id) => {
+    return new Promise( (resolve, reject) => {
+        db.all(`SELECT * FROM order_product WHERE product_id = ${id}`, (err, products) => {
+            if (err) return reject(err);
+            resolve(products);
+        });
     });
 }
 
-module.exports.listAllCustomerProducts = (productData) => {
-    let headerDivider = `${magenta('*********************************************************')}`
-    return new Promise( (resolve, reject) => {
-      console.log(`
-      ${headerDivider}
-      ${magenta('** Choose the Product you want to Delete **')}
-      ${headerDivider}`
-    )
-    productData.forEach(product => {
-      console.log(`
-        ${product.product_id}. ${product.product_name}
-      `);
+module.exports.deleteOneProduct = (id) => {
+    getAllOrderProducts(id)
+    .then(products => {
+        console.log("this is passed into IF", products);
+        if(products.length < 1) {
+            return new Promise( function(resolve, reject) {
+                db.run(`DELETE * FROM product WHERE product_id = ${id}`, (err, product) => {
+                    if (err) return reject(err);
+                    resolve({id: this.lastID});
+                });
+            });
+        } else {
+            console.log("The product you selected is either attached to an existing order and can't be deleted, or does not exist. Please try again!");
+            module.exports.getCustomerProducts(getActiveCustomer().id.choice)
+            .then( (productData) => {
+                listCustPro.listAllCustomerProducts(productData);
+            });
+        }
     });
-    prompt.get([{
-      name: 'choice',
-      description: 'Please make a selection',
-      type: 'integer',
-      minimum: 1,
-      maximum: productData.length,
-      message: "The product you selected is either attached to an existing order and can't be deleted, or does not exist. Please try again!"
-    }], function(err, results) {
-      if (err) return reject(err);
-      setActiveCustomer(results)
-    });
-    });
-  }
+}
+
+
+

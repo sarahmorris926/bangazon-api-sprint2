@@ -1,6 +1,9 @@
 'use strict';
 const sqlite3 = require("sqlite3").verbose();
 const db = new sqlite3.Database("./bangazon.sqlite");
+const {red, magenta, blue} = require("chalk");
+const prompt = require('prompt');
+const colors = require("colors/safe");
 
 module.exports.postOneProduct = ({product_name, product_type, price, description, customer_id, listing_date, quantity}) => {
     return new Promise((resolve, reject) => {
@@ -46,7 +49,7 @@ module.exports.deleteOneProduct = (id) => {
     });
 }
 
-module.exports.listAllProducts = (productData) => {
+module.exports.listAllCustomerProducts = (productData) => {
     let headerDivider = `${magenta('*********************************************************')}`
     return new Promise( (resolve, reject) => {
       console.log(`

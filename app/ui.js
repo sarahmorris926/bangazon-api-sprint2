@@ -12,7 +12,7 @@ prompt.message = colors.blue("Bangazon Corp");
 // app modules
 const { promptNewCustomer, getAllCustomers } = require('./controllers/customerCtrl');
 const { getAll, listAllCustomers } = require('./models/Customer');
-const { getAllProducts, listAllProducts } = require('./models/Product');
+const { getAllProducts, listAllCustomerProducts, getCustomerProducts } = require('./models/Product');
 const { getActiveCustomer } = require('./activeCustomer');
 
 const db = new Database(path.join(__dirname, '..', 'db', 'bangazon.sqlite'));
@@ -34,9 +34,10 @@ let mainMenuHandler = (err, userInput) => {
       listAllCustomers(custData);
     })
   } else if (userInput.choice == '7') {
-    getAllProducts()
+    console.log("what is getActiveCustomer", getActiveCustomer().id.choice);
+    getCustomerProducts(getActiveCustomer().id.choice)
     .then( (productData) => {
-      listAllProducts
+      listAllCustomerProducts(productData);
     })
   }
 };
@@ -56,7 +57,8 @@ module.exports.displayWelcome = () => {
   ${magenta('4.')} Add product to shopping cart
   ${magenta('5.')} Complete an order
   ${magenta('6.')} See product popularity
-  ${magenta('7.')} Leave Bangazon!`); 
+  ${magenta('7.')} Remove customer product
+  ${magenta('8.')} Leave Bangazon!`); 
     prompt.get([{
       name: 'choice',
       description: 'Please make a selection'

@@ -108,7 +108,6 @@ describe("GET All Customers Products", () => {
         });
         it("should contain products with the correct customer id", () => {
             getCustomerProducts(2).then(data => {
-                console.log("customer's data", data);
                 equal(2, data[1].customer_id);
             });
         });
@@ -117,7 +116,7 @@ describe("GET All Customers Products", () => {
 
 
 
-// REMOVE PRODUCT
+// DELETE ONE PRODUCT
 describe("REMOVE One Product", () => {
     describe("delete one product", () => {
         it("should be a function", () => {

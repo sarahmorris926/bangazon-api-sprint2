@@ -1,5 +1,4 @@
 
-
 const { postOneCustomer, promptNewCustomer } = require("../app/controllers/customerCtrl");
 const { postOne, getOne, getAll } = require("../app/models/Customer.js");
 const { assert: { equal, deepEqual, isFunction, isObject, isArray } } = require("chai");

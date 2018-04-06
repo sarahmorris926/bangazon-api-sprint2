@@ -11,3 +11,19 @@ module.exports.getAllOrders = () => {
         });
     });
 };
+
+module.exports.getOneOrder = (id) => {
+    return new Promise((resolve, reject) => {
+        db.get(`SELECT * FROM orders
+                WHERE orders.order_id = ${id}`, (err, order) => {
+                    if (err) return reject (err);
+                    resolve(order);
+                })
+    });
+};
+
+module.exports.postOneOrder = () => {
+    return new Promise((resolve, reject) => {
+
+    })
+}

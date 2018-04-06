@@ -1,7 +1,7 @@
 "use strict";
 
 const prompt = require("prompt");
-// const { postOne } = require("../models/paymentType.js");
+const { postOnePaymentType } = require("../models/paymentType.js");
 
 // TODO: must make sure an active customer was selected - ternary
 // TODO: no duplicate account numbers - get all payment types, and do if statement for the payment type doesn't equal other account numbers
@@ -22,15 +22,15 @@ module.exports.promptNewPaymentType = () => {
           description: "Enter account number",
           type: "string",
           // pattern: /^[a-z]{0,3}$/, 
-          minLength: 1,
-          maxLength: 3,
-          message: "Please enter a 16 digit account number",
+          // minLength: 1,
+          // maxLength: 3,
+          // message: "Please enter a 16 digit account number",
           required: true
         }
       ],
       function(err, results) {
         if (err) return reject(err);
-        // postOne(results);
+        postOnePaymentType(results);
         resolve(results);
       }
     );

@@ -20,7 +20,8 @@ module.exports = () => {
         line_id INTEGER,
         quantity INTERGER,
         order_id INTEGER,
-        product_id INTEGER
+        product_id INTEGER,
+        price INTEGER
     )`,
                 () => {
                     for (let i = 1; i <= 140; i++) {
@@ -28,7 +29,8 @@ module.exports = () => {
                         ${i},
                         1,
                         ${faker.random.number({ min: 1, max: 45 })},
-                        ${faker.random.number({ min: 1, max: 11 })}
+                        ${faker.random.number({ min: 1, max: 11 })},
+                        10
                 )`);
                     }
                 }

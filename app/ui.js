@@ -15,6 +15,9 @@ const { promptNewCustomer, getAllCustomers } = require('./controllers/customerCt
 const { getAll, listAllCustomers } = require('./models/Customer');
 const { getActiveCustomer } = require('./activeCustomer');
 
+//cb require getAllProducts
+const {getOneProduct} = require('./models/Product');
+
 const db = new Database(path.join(__dirname, '..', 'db', 'bangazon.sqlite'));
 
 prompt.start();
@@ -33,6 +36,8 @@ let mainMenuHandler = (err, userInput) => {
     .then( (custData) => {
       listAllCustomers(custData);
     })
+  } else if (userInput.choice == '5'){
+    
   }
 };
 

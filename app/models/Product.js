@@ -30,6 +30,15 @@ module.exports.getAllProducts = () => {
     });
 };
 
+module.exports.getCustomerProducts = (id) => {
+    return new Promise( (resolve, reject) => {
+        db.all(`SELECT * FROM product WHERE customer_id = ${id}`, (err, customerProducts) => {
+            if (err) return reject(err);
+            resolve(customerProducts);
+        });
+    });
+}
+
 module.exports.deleteOneProduct = (id) => {
     return new Promise( function(resolve, reject) {
         db.run(`DELETE * FROM product WHERE product_id = ${id}`);

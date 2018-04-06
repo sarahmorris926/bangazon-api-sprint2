@@ -13,7 +13,7 @@ const {
   promptNewCustomer,
   getAllCustomers
 } = require("./controllers/customerCtrl");
-const { promptNewPaymentType } = require('./controllers/paymentTypeCtrl');
+const { promptNewPaymentType } = require("./controllers/paymentTypeCtrl");
 const { getAll, listAllCustomers } = require("./models/Customer");
 const { getActiveCustomer } = require("./activeCustomer");
 
@@ -34,10 +34,13 @@ let mainMenuHandler = (err, userInput) => {
       listAllCustomers(custData);
     });
   } else if (userInput.choice == "3") {
-    promptNewPaymentType().then(payTypeData => {
-      console.log("payTypeData", payTypeData);
-      module.exports.displayWelcome();
-    });
+    getActiveCustomer().id != undefined
+      ? promptNewPaymentType().then(payTypeData => {
+          console.log("payTypeData", payTypeData);
+          module.exports.displayWelcome();
+        })
+      : console.log("Please select active user, you dingus!");
+        module.exports.displayWelcome();
   }
 };
 

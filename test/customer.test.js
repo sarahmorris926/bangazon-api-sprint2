@@ -1,7 +1,12 @@
-
 const { promptNewCustomer } = require("../app/controllers/customerCtrl");
-const { postOneCustomer, getOneCustomer, getAllCustomers } = require("../app/models/Customer.js");
-const { assert: { equal, deepEqual, isFunction, isObject, isArray } } = require("chai");
+const {
+  postOneCustomer,
+  getOneCustomer,
+  getAllCustomers
+} = require("../app/models/Customer.js");
+const {
+  assert: { equal, deepEqual, isFunction, isObject, isArray }
+} = require("chai");
 const createCustomerTable = require("../db/customer_table.js");
 
 // MODEL
@@ -11,16 +16,21 @@ describe("add customer", () => {
     isFunction(postOneCustomer);
   });
   before(done => {
-    createCustomerTable().then(() => {
-      done();
-    });
+    createCustomerTable()
+      .then(() => {
+        done();
+      })
   });
 
   it("should return an object", () => {
     let expected = {};
-    return postOneCustomer(expected).then(data => {
-      isObject(data);
-    });
+    return postOneCustomer(expected)
+      .then(data => {
+        isObject(data);
+      })
+      .catch(err => {
+        console.log("error in customer test 2", err);
+      });
   });
 
   it("should return a new customer id for the new customer added to data", () => {
@@ -35,19 +45,23 @@ describe("add customer", () => {
     };
     return postOneCustomer(newCustomer).then(data => {
       equal(52, data.customer_id);
-      return getOneCustomer(data.customer_id).then(customer => {
-        let expected = {
-          customer_id: 52,
-          first_name: "Jang",
-          last_name: "Dao",
-          address_street: "5 Lovers Lane",
-          address_city: "Romancazania",
-          address_state: "Denmark",
-          address_zip: "56565",
-          phone: "333-444-5555"
-        }
-        deepEqual(customer, expected);
-      })
+      return getOneCustomer(data.customer_id)
+        .then(customer => {
+          let expected = {
+            customer_id: 52,
+            first_name: "Jang",
+            last_name: "Dao",
+            address_street: "5 Lovers Lane",
+            address_city: "Romancazania",
+            address_state: "Denmark",
+            address_zip: "56565",
+            phone: "333-444-5555"
+          };
+          deepEqual(customer, expected);
+        })
+        .catch(err => {
+          console.log("error in customer test 3", err);
+        });
     });
   });
 });
@@ -56,34 +70,41 @@ describe("add customer", () => {
 describe("Get one Customer", () => {
   describe("get one function", () => {
     it("should return an object", () => {
-      getOneCustomer(50).then(data => {
-        isObject(data);
-      });
+      return getOneCustomer(50)
+        .then(data => {
+          isObject(data);
+        })
+        .catch(err => {
+          console.log("error in customer test 4", err);
+        });
     });
   });
   it("should return the correct Customer Information", () => {
-    getOneCustomer(50).then(data => {
-      deepEqual(50, data.customer_id);
-    });
+    return getOneCustomer(50)
+      .then(data => {
+        deepEqual(50, data.customer_id);
+      })
+      .catch(err => {
+        console.log("error in customer test 5", err);
+      });
   });
 });
 
 // GET All Customers
 describe("Get all customers", () => {
-  describe('get all function', () => {
+  describe("get all function", () => {
     it("should be an array", () => {
-      getAllCustomers().then(data => {
+      return getAllCustomers().then(data => {
         isArray(data);
-    });
+      });
     });
     it("should be an array of objects", () => {
-      getAllCustomers().then(data => {
+      return getAllCustomers().then(data => {
         isObject(data[1]);
       });
     });
   });
 });
-
 
 // CONTROLLER
 // POST One

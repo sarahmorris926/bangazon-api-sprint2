@@ -1,7 +1,10 @@
+
+
 'use strict';
 
 const prompt = require('prompt');
 const { postOneProduct } = require('../models/Product.js');
+const { getActiveCustomer } = require('../activeCustomer.js');
 
 module.exports.promptNewProduct = () => {
     return new Promise((resolve, reject) => {
@@ -34,6 +37,7 @@ module.exports.promptNewProduct = () => {
             ],
             function(err, results) {
                 if (err) return reject(err);
+                results.customer_id = getActiveCustomer().id.choice;
                 postOneProduct(results);
                 resolve(results);
             }

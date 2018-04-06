@@ -36,6 +36,7 @@ let mainMenuHandler = (err, userInput) => {
   } else if (userInput.choice == "3") {
     promptNewPaymentType().then(payTypeData => {
       console.log("payTypeData", payTypeData);
+      module.exports.displayWelcome();
     });
   }
 };

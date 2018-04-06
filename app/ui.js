@@ -1,4 +1,3 @@
-
 'use strict';
 
 // 3rd party libs
@@ -13,6 +12,7 @@ prompt.message = colors.blue("Bangazon Corp");
 // app modules
 const { promptNewCustomer, getAllCustomers } = require('./controllers/customerCtrl');
 const { getAll, listAllCustomers } = require('./models/Customer');
+const { getAllProducts, listAllProducts } = require('./models/Product');
 const { getActiveCustomer } = require('./activeCustomer');
 
 const db = new Database(path.join(__dirname, '..', 'db', 'bangazon.sqlite'));
@@ -32,6 +32,11 @@ let mainMenuHandler = (err, userInput) => {
     getAll()
     .then( (custData) => {
       listAllCustomers(custData);
+    })
+  } else if (userInput.choice == '7') {
+    getAllProducts()
+    .then( (productData) => {
+      listAllProducts
     })
   }
 };

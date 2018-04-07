@@ -2,7 +2,7 @@
 const sqlite3 = require("sqlite3").verbose();
 const db = new sqlite3.Database("./bangazon.sqlite");
 
-customerId = getActiveCustomer().id.choice;
+
 
 module.exports.postOneProduct = ({product_name, product_type, price, description, customer_id, listing_date, quantity}) => {
     return new Promise((resolve, reject) => {
@@ -37,7 +37,7 @@ module.exports.getAllProducts = () => {
 
 module.exports.getOrder = (customerId) => {
     return new Promise((resolve, reject) => {
-        db.all(`SELECT * FROM orders where customer_id = ${customerId} and payment_type is NULL`, (err, orderId) => {
+        db.all(`SELECT order_id FROM orders where customer_id = ${customerId} and payment_type is NULL`, (err, orderId) => {
             if (err) return reject(err);
             resolve(orderId);
         });

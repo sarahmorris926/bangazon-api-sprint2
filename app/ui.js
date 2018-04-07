@@ -1,4 +1,5 @@
 
+
 'use strict';
 
 // 3rd party libs
@@ -8,7 +9,7 @@ const colors = require("colors/safe");
 const path = require('path');
 const { Database } = require('sqlite3').verbose();
 prompt.message = colors.blue("Bangazon Corp");
-
+const {completeAPayment} = require("./controllers/productCtrl")
 
 // app modules
 const { promptNewCustomer, getAllCustomers } = require('./controllers/customerCtrl');
@@ -37,7 +38,7 @@ let mainMenuHandler = (err, userInput) => {
       listAllCustomers(custData);
     })
   } else if (userInput.choice == '5'){
-    
+    completeAPayment(getActiveCustomer().id.choice);
   }
 };
 

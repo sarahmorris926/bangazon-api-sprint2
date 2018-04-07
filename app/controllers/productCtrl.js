@@ -1,10 +1,20 @@
 
-const { setActiveCustomer, getActiveCustomer } = require("../activeCustomer");
-
-const {getSumOfProducts} = require("../models/Product.js")
-
+const {getSumOfProducts, getOrder} = require("../models/Product.js")
+const prompt = require('prompt');
+const colors = require("colors/safe");
+const {red, magenta, blue} = require("chalk");
 
 module.exports.completeAPayment = (customerId) => {
+  getOrder(customerId).then((orderId)=>{
+    console.log(orderId[0].order_id, "order Id");
+    getSumOfProducts(orderId[0].order_id).then((sum) =>{
+      console.log("sum",sum);
+      })
+    })
+    .catch((err) => {
+      console.log("err", err)
+  });
+
 
   let headerDivider = `${magenta('*********************************************************')}`
   return new Promise( (resolve, reject) => {

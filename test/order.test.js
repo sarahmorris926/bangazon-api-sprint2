@@ -9,7 +9,7 @@ const createOrderTable = require("../db/order_table.js");
 // Order Model
 // GET Orders
 describe("GET All Orders", () => {
-    before(done => {
+    after(done => {
         createOrderTable().then(() => {
             done();
         });
@@ -42,13 +42,10 @@ describe("GET One Order", () => {
     });
     it("should return an object with expected information", () => {
         let expected = {
-            order_id: 1,
-            customer_id: 1,
-            payment_type: null,
-            order_creation_date: '2017-04-26'
+            order_id: 1
         }
         getOneOrder(1).then(order => {
-            equal(order, expected);
+            equal(order.order_id, expected.order_id);
 
         })
             .catch((err) => {
@@ -66,25 +63,20 @@ describe("Post One order", () => {
     it("should return an object equal to the order posted", () => {
         let newOrder = {
             customer_id: 21,
-            payment_type: 'null',
+            payment_type: null,
             order_creation_date: "2018-03-15"
         }
         return postOneOrder(newOrder).then(postedOrder => {
+            console.log(newOrder)
             let expected = {
                 order_id: 46,
                 customer_id: 21,
-                payment_type: 'null',
+                payment_type: null,
                 order_creation_date: "2018-03-15"
             };
-            console.log(postedOrder);
-            isObject(postedOrder);
-        })
-          .catch((err) => {
-            console.log('error 1', err);
-        //    return getOneOrder(46).then(order => {
-        //        console.log(order);
-        //        deepEqual(order, expected);
-        //    });
+            return getOneOrder(46).then(order => {
+                deepEqual(order, expected);
+            })
         });
     });
 });

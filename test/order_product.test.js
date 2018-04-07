@@ -5,11 +5,6 @@ const createOrderProductTable = require("../db/order_product_table");
 // Order_Product Model
 // get All Order Products
 describe("get order products", () => {
-    after(done => {
-        createOrderProductTable().then(() => {
-            done();
-        });
-    });
     describe("get all order products", () => {
         it("should be a function", () => {
             isFunction(getAllOrderProducts);
@@ -46,19 +41,38 @@ describe("get order products", () => {
 
 //POST New Order Product
 describe("post one order proudct", () => {
+    // after(done => {
+    //     createOrderProductTable().then(() => {
+    //         done();
+    //     });
+    // });
+    let newOP = {
+        quantity: 10,
+        order_id: 5,
+        product_id: 6,
+        price: 5
+    }
     it("should be a function", () => {
         isFunction(postOneOrderProduct);
     })
     it("should return the Line ID of the object posted", () => {
-        let newOP = {
-            quantity: 10,
+        postOneOrderProduct(newOP).then(op => {
+            equal(141, op.line_id);
+        })
+    })
+    it("should return the object posted when called by the Line ID", () =>{
+        let expected = {
+            line_id: 142,
             order_id: 5,
             product_id: 6,
-            price: 5.00
+            price: 5
         }
-        postOneOrderProduct(newOP).then(op => {
-            console.log(op);
-            equal(141, op.line_id);
+        return postOneOrderProduct(newOP).then(op => {
+            console.log(op.line_id);
+           return getOneOrderProduct(142).then(postedObj => {
+                console.log(postedObj);
+                deepEqual(postedObj, expected);
+            })
         })
     })
 })

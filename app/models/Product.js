@@ -5,7 +5,7 @@ const { getActiveCustomer } = require('../activeCustomer');
 
 module.exports.postOneProduct = ({product_name, price, customer_id, description, quantity}) => {
     return new Promise((resolve, reject) => {
-            db.run(`INSERT INTO product VALUES(${null}, "${product_name}", "1", "${price}", "${description}", "${customer_id}", CURRENT_DATE, "${quantity}")`, function(err, prod) {
+            db.run(`INSERT INTO product VALUES(${null}, "${product_name}", "1", ${price}, "${description}", "${customer_id}", CURRENT_DATE, ${quantity})`, function(err, prod) {
                 if (err) return reject(err);
                 resolve({product_id: this.lastID});
             });

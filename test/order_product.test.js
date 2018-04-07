@@ -1,6 +1,6 @@
 
 const { assert: { equal, deepEqual, isFunction, isObject, isArray } } = require("chai");
-const { getAllOrderProducts, postOneOrderProduct } = require("../app/models/Order_Product")
+const { getAllOrderProducts, postOneOrderProduct, getOneOrderProduct } = require("../app/models/Order_Product")
 
 // Order_Product Model
 // get All Order Products
@@ -22,6 +22,11 @@ describe("get order products", () => {
             })
         })
     });
+    describe("get one order product", () => {
+        it("should be a function", () => {
+            isFunction(getOneOrderProduct)
+        })
+    })
 });
 
 //POST New Order Product

@@ -13,9 +13,15 @@ module.exports.getAllOrderProducts = () => {
     });
 }
 
-module.exports.getOneOrderProduct = () => {
-    
-}
+module.exports.getOneOrderProduct = (id) => {
+    return new Promise((resolve, reject) => {
+        db.get(`SELECT * FROM order_product
+                WHERE line_id = ${id}`, (err, ordP) => {
+                    if (err) return reject(err);
+                    resolve(ordP);
+        });
+    });
+};
 
 module.exports.postOneOrderProduct = () => {
 

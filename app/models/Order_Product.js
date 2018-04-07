@@ -13,3 +13,7 @@ module.exports.getAllOrderProducts = () => {
     });
 }
 
+module.exports.postOneOrderProduct = () => {
+    
+}
+

@@ -53,15 +53,21 @@ let getAllOrderProducts = (id) => {
     });
 }
 
-module.exports.deleteOneProduct = (id) => {
+module.exports.deleteOneProduct = (id, customerId) => {
     getAllOrderProducts(id)
-    .then(products => {
-        console.log("this is passed into IF", products);
+    .then(function(products) {
         if(products.length < 1) {
             return new Promise( function(resolve, reject) {
-                db.run(`DELETE * FROM product WHERE product_id = ${id}`, (err, product) => {
+                db.run(`
+                DELETE FROM product WHERE product.product_id = ${id} AND product.customer_id = ${customerId}
+                `, function(err, product) {
                     if (err) return reject(err);
                     resolve({id: this.lastID});
+                });
+                console.log("The product was successfully deleted!");
+                module.exports.getCustomerProducts(getActiveCustomer().id.choice)
+                .then( (productData) => {
+                    listCustPro.listAllCustomerProducts(productData);
                 });
             });
         } else {

@@ -2,6 +2,7 @@
 
 const prompt = require("prompt");
 const { getAllProducts, postOnProduct, deleteOneProduct, getOneProduct } = require("../models/Product.js");
+const { getActiveCustomer} = require('../activeCustomer');
 const {red, magenta, blue} = require("chalk");
 const colors = require("colors/safe");
 
@@ -26,7 +27,7 @@ module.exports.listAllCustomerProducts = (productData) => {
       message: "The product you selected is either attached to an existing order and can't be deleted, or does not exist. Please try again!"
     }], function(err, results) {
       if (err) return reject(err);
-      deleteOneProduct(results.choice)
+      deleteOneProduct(results.choice, getActiveCustomer().id.choice)
     });
     });
   }

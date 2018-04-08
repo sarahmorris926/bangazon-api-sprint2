@@ -12,7 +12,7 @@ module.exports.listAllCustomerProducts = (productData) => {
     return new Promise( (resolve, reject) => {
       console.log(`
       ${headerDivider}
-      ${magenta('** Choose the Product you want to Delete **')}
+      ${magenta("** To Delete a product enter the Product's ID number **")}
       ${headerDivider}
 
     ${magenta('0.')} Return to Main Menu`
@@ -27,7 +27,7 @@ module.exports.listAllCustomerProducts = (productData) => {
       name: 'choice',
       description: 'Please make a selection',
       type: 'integer',
-      message: "The product you selected is either attached to an existing order and can't be deleted, or does not exist. Please try again!"
+      message: "You did not enter a valid option. Please try again!"
     }], function(err, results) {
       if (err) return reject(err);
         deleteOneProduct(results.choice, getActiveCustomer().id.choice)

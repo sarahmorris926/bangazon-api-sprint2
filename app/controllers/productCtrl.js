@@ -5,6 +5,7 @@ const { getAllProducts, postOnProduct, deleteOneProduct, getOneProduct } = requi
 const { getActiveCustomer} = require('../activeCustomer');
 const {red, magenta, blue, green} = require("chalk");
 const colors = require("colors/safe");
+const { displayWelcome } = require('../ui');
 
 module.exports.listAllCustomerProducts = (productData) => {
     let headerDivider = `${magenta('*********************************************************')}`
@@ -12,11 +13,13 @@ module.exports.listAllCustomerProducts = (productData) => {
       console.log(`
       ${headerDivider}
       ${magenta('** Choose the Product you want to Delete **')}
-      ${headerDivider}`
+      ${headerDivider}
+
+    ${magenta('0.')} Return to Main Menu`
     )
     productData.forEach(product => {
       console.log(`
-        Product ID: ${product.product_id} - ${product.product_name}
+    Product ID: ${product.product_id} - ${product.product_name}
       `);
     });
 
@@ -27,8 +30,8 @@ module.exports.listAllCustomerProducts = (productData) => {
       message: "The product you selected is either attached to an existing order and can't be deleted, or does not exist. Please try again!"
     }], function(err, results) {
       if (err) return reject(err);
-      deleteOneProduct(results.choice, getActiveCustomer().id.choice)
-    });
+        deleteOneProduct(results.choice, getActiveCustomer().id.choice)
+      });
     });
   }
 

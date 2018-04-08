@@ -6,6 +6,7 @@ const prompt = require('prompt');
 const colors = require("colors/safe");
 const listCustPro = require('../controllers/productCtrl'); 
 const { getActiveCustomer} = require('../activeCustomer');
+const ui = require('../ui');
 
 module.exports.postOneProduct = ({product_name, product_type, price, description, customer_id, listing_date, quantity}) => {
     return new Promise((resolve, reject) => {
@@ -56,18 +57,20 @@ let getAllOrderProducts = (id) => {
 module.exports.deleteOneProduct = (id, customerId) => {
     getAllOrderProducts(id)
     .then(function(products) {
-        if(products.length < 1) {
+        if(id == 0) {
+            ui.displayWelcome();
+        } else if(products.length < 1) {
             return new Promise( function(resolve, reject) {
                 db.run(`
                 DELETE FROM product WHERE product.product_id = ${id} AND product.customer_id = ${customerId}
                 `, function(err, product) {
                     if (this.changes == 0) {
                         console.log(`
-        ${red("The product you selected was not listed by the active customer and cannot be deleted.")}`)
+    ${red("The product you selected was not listed by the active customer and cannot be deleted.")}`)
                         // return reject(console.log(err.message));
                     } else {
                         console.log(`
-        ${green('The product was successfully deleted!')}`);
+    ${green('The product was successfully deleted!')}`);
                         resolve(this.changes);
                     }
                 });
@@ -78,7 +81,7 @@ module.exports.deleteOneProduct = (id, customerId) => {
             })
         } else {
             console.log(`
-        ${red("The product you selected is either attached to an existing order and can't be deleted, or does not exist. Please try again.")}`);
+    ${red("The product you selected is either attached to an existing order and can't be deleted, or does not exist. Please try again.")}`);
             module.exports.getCustomerProducts(getActiveCustomer().id.choice)
             .then( (productData) => {
                 listCustPro.listAllCustomerProducts(productData);

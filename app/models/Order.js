@@ -30,3 +30,14 @@ module.exports.postOneOrder = ({customer_id, payment_type, order_creation_date})
         });
     });
 };
+
+module.exports.getActiveOrder = (id) => {
+    return new Promise((resolve, reject) => {
+        db.get(`SELECT * FROM orders 
+                WHERE orders.customer_id = ${id}
+                AND orders.payment_type IS NULL`, function(err, order) {
+                    if (err) return reject(err);
+                    resolve(order);
+                })
+    })
+}

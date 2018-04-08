@@ -25,9 +25,12 @@ module.exports.getOneOrderProduct = (id) => {
 
 module.exports.postOneOrderProduct = ({quantity, order_id, product_id, price}) => {
     return new Promise((resolve, reject) => {
-        db.run(`INSERT into order_product VALUES(null, ${quantity}, ${order_id}, ${product_id}, ${price})`, function(err, order) {
-            if (err) return reject(err);
-            resolve({line_id: this.lastID});
+        module.exports.getLastOrderProduct().then(lineID => {
+            let id = lineID + 1;
+            db.run(`INSERT into order_product VALUES(${id}, ${quantity}, ${order_id}, ${product_id}, ${price})`, function(err, order) {
+                if (err) return reject(err);
+                resolve({line_id: this.lastID});
+            })
         })
     })
 }
@@ -37,9 +40,7 @@ module.exports.getLastOrderProduct = () => {
         module.exports.getAllOrderProducts().then(ordProds => {
             let arrayLength = ordProds.length - 1;
             let lastObj = ordProds[arrayLength];
-            return postOneOrderProduct(lastObj.line_id).then(postedOP => {
-                resolve(lastObj.line_id);
+            resolve(lastObj.line_id);
             });
         });
-    });
-};
+   };

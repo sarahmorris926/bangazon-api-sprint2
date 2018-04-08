@@ -57,26 +57,25 @@ describe("post one order proudct", () => {
     it("should be a function", () => {
         isFunction(postOneOrderProduct);
     })
-    // it("should return the Line ID of the object posted", () => {
-    //     postOneOrderProduct(newOP).then(op => {
-    //         equal(141, op.line_id);
-    //     })
-    // })
-    // it("should return the object posted when called by the Line ID", () =>{
-    //     let expected = {
-    //         line_id: 142,
-    //         order_id: 5,
-    //         product_id: 6,
-    //         price: 5
-    //     }
-    //     return postOneOrderProduct(newOP).then(op => {
-    //         console.log(op.line_id);
-    //        return getOneOrderProduct(142).then(postedObj => {
-    //             console.log(postedObj);
-    //             deepEqual(postedObj, expected);
-    //         })
-    //     })
-    // })
+    it("should return the Line ID of the object posted", () => {
+        postOneOrderProduct(newOP).then(op => {
+            equal(141, op.line_id);
+        })
+    })
+    it("should return the object posted when called by the Line ID", () =>{
+        let expected = {
+            line_id: 141,
+            order_id: 5,
+            product_id: 6,
+            price: 5,
+            quantity: 10
+        }
+        return postOneOrderProduct(newOP).then(op => {
+           return getOneOrderProduct(141).then(postedObj => {
+                deepEqual(postedObj, expected);
+            })
+        })
+    })
 })
 
 // Order Product CTRL Functions
@@ -87,7 +86,6 @@ describe("Get last Line ID on Order Product Table", () => {
     }) 
     it("should return an integer", () => {
         getLastOrderProduct().then(op => {
-            console.log(op);
             isNumber(op);
         })
     })

@@ -32,3 +32,14 @@ module.exports.postOneOrderProduct = ({quantity, order_id, product_id, price}) =
     })
 }
 
+module.exports.getLastOrderProduct = () => {
+    return new Promise((resolve, reject) => {
+        module.exports.getAllOrderProducts().then(ordProds => {
+            let arrayLength = ordProds.length - 1;
+            let lastObj = ordProds[arrayLength];
+            return postOneOrderProduct(lastObj.line_id).then(postedOP => {
+                resolve(lastObj.line_id);
+            });
+        });
+    });
+};

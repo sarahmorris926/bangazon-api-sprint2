@@ -3,7 +3,7 @@
 const prompt = require("prompt");
 const { getAllOrderProducts, postOneOrderProduct } = require("../models/Order_Product")
 
-module.exports.postOrderProductWithId = () => {
+module.exports.getLastOrderProduct = () => {
     return new Promise((resolve, reject) => {
         getAllOrderProducts().then(ordProds => {
             let arrayLength = ordProds.length - 1;

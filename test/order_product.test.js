@@ -1,7 +1,6 @@
 
 const { assert: { equal, deepEqual, isFunction, isObject, isArray, isNumber } } = require("chai");
-const { getAllOrderProducts, postOneOrderProduct, getOneOrderProduct } = require("../app/models/Order_Product")
-const { postOrderProductWithId } = require("../app/controllers/order_productCtrl")
+const { getAllOrderProducts, postOneOrderProduct, getOneOrderProduct, getLastOrderProduct } = require("../app/models/Order_Product")
 const createOrderProductTable = require("../db/order_product_table");
 
 
@@ -84,10 +83,10 @@ describe("post one order proudct", () => {
 // GET All to POST One
 describe("Get last Line ID on Order Product Table", () => {
     it("should be a function", () => {
-        isFunction(postOrderProductWithId)
+        isFunction(getLastOrderProduct)
     }) 
     it("should return an integer", () => {
-        postOrderProductWithId().then(op => {
+        getLastOrderProduct().then(op => {
             console.log(op);
             isNumber(op);
         })

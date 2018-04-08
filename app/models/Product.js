@@ -61,10 +61,13 @@ module.exports.deleteOneProduct = (id, customerId) => {
                 db.run(`
                 DELETE FROM product WHERE product.product_id = ${id} AND product.customer_id = ${customerId}
                 `, function(err, product) {
-                    if (err) return reject(err);
+                    if (err) {
+                        console.log("The product you selected is either attached to an existing order and can't be deleted, or does not exist. Please try again!");
+                        return reject(err);
+                    }
+                    console.log("The product was successfully deleted!");
                     resolve({id: this.lastID});
                 });
-                console.log("The product was successfully deleted!");
                 module.exports.getCustomerProducts(getActiveCustomer().id.choice)
                 .then( (productData) => {
                     listCustPro.listAllCustomerProducts(productData);

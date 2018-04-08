@@ -1,7 +1,7 @@
 'use strict';
 const sqlite3 = require("sqlite3").verbose();
 const db = new sqlite3.Database("./bangazon.sqlite");
-const {red, magenta, blue} = require("chalk");
+const {red, magenta, blue, green} = require("chalk");
 const prompt = require('prompt');
 const colors = require("colors/safe");
 const listCustPro = require('../controllers/productCtrl'); 
@@ -61,20 +61,24 @@ module.exports.deleteOneProduct = (id, customerId) => {
                 db.run(`
                 DELETE FROM product WHERE product.product_id = ${id} AND product.customer_id = ${customerId}
                 `, function(err, product) {
-                    if (err) {
-                        console.log("The product you selected is either attached to an existing order and can't be deleted, or does not exist. Please try again!");
-                        return reject(err);
+                    if (this.changes == 0) {
+                        console.log(`
+        ${red("The product you selected was not listed by the active customer and cannot be deleted.")}`)
+                        // return reject(console.log(err.message));
+                    } else {
+                        console.log(`
+        ${green('The product was successfully deleted!')}`);
+                        resolve(this.changes);
                     }
-                    console.log("The product was successfully deleted!");
-                    resolve({id: this.lastID});
                 });
                 module.exports.getCustomerProducts(getActiveCustomer().id.choice)
                 .then( (productData) => {
                     listCustPro.listAllCustomerProducts(productData);
                 });
-            });
+            })
         } else {
-            console.log("The product you selected is either attached to an existing order and can't be deleted, or does not exist. Please try again!");
+            console.log(`
+        ${red("The product you selected is either attached to an existing order and can't be deleted, or does not exist. Please try again.")}`);
             module.exports.getCustomerProducts(getActiveCustomer().id.choice)
             .then( (productData) => {
                 listCustPro.listAllCustomerProducts(productData);

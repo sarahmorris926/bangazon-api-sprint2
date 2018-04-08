@@ -3,7 +3,7 @@
 const prompt = require("prompt");
 const { getAllProducts, postOnProduct, deleteOneProduct, getOneProduct } = require("../models/Product.js");
 const { getActiveCustomer} = require('../activeCustomer');
-const {red, magenta, blue} = require("chalk");
+const {red, magenta, blue, green} = require("chalk");
 const colors = require("colors/safe");
 
 module.exports.listAllCustomerProducts = (productData) => {

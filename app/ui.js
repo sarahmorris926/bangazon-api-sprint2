@@ -35,13 +35,13 @@ let mainMenuHandler = (err, userInput) => {
       listAllCustomers(custData);
     })
   } else if (userInput.choice == '7' && getActiveCustomer().id != null) {
-    console.log("what is getActiveCustomer", getActiveCustomer().id.choice);
     getCustomerProducts(getActiveCustomer().id.choice)
     .then( (productData) => {
       listAllCustomerProducts(productData);
     })
   } else if (userInput.choice == '7') {
-    console.log('You cannot delete a product until you select an active customer. Please choose an active customer to continue!');
+    console.log(`
+    ${red('You cannot delete a product until you select an active customer. Please choose an active customer to continue.')}`);
     module.exports.displayWelcome();
   }
 };

@@ -7,7 +7,6 @@ const {
   getCustomerPaymentTypeDuplicates
 } = require("../app/models/PaymentType");
 const createPaymentTypeTable = require("../db/payment_type_table");
-const { getActiveCustomer } = require("../app/activeCustomer");
 
 // post one function
 describe("POST one payment type", () => {

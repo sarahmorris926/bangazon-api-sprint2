@@ -1,7 +1,7 @@
 "use strict";
 
 // 3rd party libs
-const { red, magenta, blue } = require("chalk");
+const { red, magenta, blue, green } = require("chalk");
 const prompt = require("prompt");
 const colors = require("colors/safe");
 const path = require("path");
@@ -61,7 +61,8 @@ let mainMenuHandler = (err, userInput) => {
   // This could get messy quickly. Maybe a better way to parse the input?
   if (userInput.choice == "1") {
     promptNewCustomer().then(custData => {
-      console.log("customer data to save", custData);
+      // console.log(`
+      // // ${green('Customer has been added!')}`);
       //save customer to db
     });
   } else if (userInput.choice == "2") {

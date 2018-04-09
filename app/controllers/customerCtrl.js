@@ -2,6 +2,7 @@
 
 const prompt = require("prompt");
 const { getAllCustomers, postOneCustomer } = require("../models/Customer.js");
+const ui = require('../ui');
 
 module.exports.promptNewCustomer = () => {
   return new Promise((resolve, reject) => {
@@ -53,19 +54,11 @@ module.exports.promptNewCustomer = () => {
       function(err, results) {
         if (err) return reject(err);
         postOneCustomer(results);
+        ui.displayWelcome();
         resolve(results);
       }
     );
   });
 };
 
-// module.exports.getAllCustomers = (req, res) => {
-//   getAllCustomers().then(cust => {
-//     console.log("Customer get all", cust);
-    
-//     return new Promise((resolve, reject) => {
-//       resolve(cust);
-//     });
-//   });
-// };
 

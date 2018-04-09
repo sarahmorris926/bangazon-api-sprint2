@@ -8,12 +8,13 @@ const listCustPro = require('../controllers/productCtrl');
 const { getActiveCustomer, setActiveCustomer } = require('../activeCustomer');
 const ui = require('../ui');
 
-module.exports.postOneProduct = ({product_name, product_type, price, description, customer_id, listing_date, quantity}) => {
+module.exports.postOneProduct = ({product_name, price, customer_id, description, quantity}) => {
     return new Promise((resolve, reject) => {
-        db.run(`INSERT INTO product VALUES(${null}, "${product_name}", "${product_type}", "${price}", "${description}", "${customer_id}", "${listing_date}", "${quantity}")`, function(err, prod) {
-            if (err) return reject(err);
-            resolve({product_id: this.lastID});
-        });
+            db.run(`INSERT INTO product VALUES(${null}, "${product_name}", "1", ${price}, "${description}", "${customer_id}", CURRENT_DATE, ${quantity})`, function(err, prod) {
+                if (err) return reject(err);
+                resolve({product_id: this.lastID});
+            });
+
     });
 };
 

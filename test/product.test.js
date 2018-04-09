@@ -2,17 +2,19 @@
 const { assert: { isFunction, isObject, deepEqual, equal, isArray, lengthOf } } = require("chai");
 const { postOneProduct, getOneProduct, getAllProducts, deleteOneProduct, getCustomerProducts, getAllOrderProducts, updateProductQuantity } = require("../app/models/Product.js");
 const { getActiveCustomer, setActiveCustomer } = require('../app/activeCustomer');
+const { promptNewProduct } = require('../app/controllers/productCtrl');
 const createProductTable = require('../db/product_table.js');
+
 
 // MODEL
 // Post One
 describe("POST One Product", () => {
-    after(done => {
+    before(done => {
         createProductTable().then(() => {
             done();
         })
             .catch((err) => {
-                console.log('error error error', err);
+                console.log('error in product test 1', err);
             })
     });
     describe("add a product", () => {
@@ -28,9 +30,13 @@ describe("POST One Product", () => {
         it("should be a function", () => {
             isFunction(postOneProduct);
         });
-        it("should return an object", () => {
-            postOneProduct(expected).then(data => {
-                isObject(data);
+        it("should return an object, and should return the new product ID for newly added product", () => {
+            return postOneProduct(expected).then(data => {
+                getOneProduct(data.product_id)
+                    .then(newData => {
+                        isObject(newData);
+                        equal(151, newData.product_id);
+                    })
             })
                 .catch((err) => {
                     console.log('error 1', err);
@@ -38,52 +44,37 @@ describe("POST One Product", () => {
         });
         it("should return a new product id for the newly added product", () => {
             postOneProduct(expected).then(data => {
-                equal(152, data.product_id);
+                equal(151, data.product_id);
             })
                 .catch((err) => {
                     console.log('error 2', err);
                 })
         })
-    });
 
-    // Update Product
-    describe("Update One Product", () => {
-        it("should be a function", () => {
-            isFunction(updateProductQuantity);
-        });
-        it("should be updated in the product object", () => {
-            updateProductQuantity(1, 56).then(product => {
-                getOneProduct(1).then(updatedProd => {
-                    equal(updatedProd.quantity, 56);
-                });
-            });
-        });
     });
+});
 
-    // // CONTROLLER
-    // GET One
-    describe("GET One Product", () => {
-        describe("get a product", () => {
-            it("should return an object", () => {
-                getOneProduct(1).then(data => {
-                    isObject(data);
+// GET One
+describe("GET One Product", () => {
+    describe("get a product", () => {
+        it("should return an object", () => {
+            return getOneProduct(1).then(data => {
+                isObject(data);
+            })
+                .catch((err) => {
+                    console.log('error 1', err);
+                })
+        });
+        it("should return the correct Product object", () => {
+            return getOneProduct(1).then(data => {
+                let expected = {
+                    product_id: 1
+                };
+                equal(1, data.product_id);
+            })
+                .catch((err) => {
+                    console.log('correct object error', err);
                 });
-            });
-            it("should return the correct Product object", () => {
-                return getOneProduct(1).then(data => {
-                    let expected = {
-                        product_id: 1,
-                        product_name: "Fantastic Cotton Fish",
-                        product_type: 3,
-                        price: "800",
-                        description: "I'll generate the optical IB bus, that should firewall the XML panel!",
-                        customer_id: 19,
-                        listing_date: "2017-04-02",
-                        quantity: 46
-                    };
-                    equal(1, data.product_id);
-                });
-            });
         });
     });
 
@@ -91,20 +82,28 @@ describe("POST One Product", () => {
     describe("GET All Products", () => {
         describe("get all products", () => {
             it("should be an array", () => {
-                getAllProducts().then(data => {
+                return getAllProducts().then(data => {
                     isArray(data);
                 });
             });
             it("should be an array of objects", () => {
-                getAllProducts().then(data => {
+                return getAllProducts().then(data => {
                     isObject(data[1]);
                 });
             });
             it("should return the length of array of total products", () => {
-                getAllProducts().then(data => {
-                    lengthOf(data, 152);
+                return getAllProducts().then(data => {
+                    lengthOf(data, 151);
                 });
             });
+        });
+    });
+
+    // CONTROLLER
+
+    describe("Add Product Prompt", () => {
+        it("should be a function", () => {
+            isFunction(promptNewProduct);
         });
     });
 
@@ -115,20 +114,19 @@ describe("POST One Product", () => {
                 getCustomerProducts(1).then(data => {
                     isArray(data);
                 });
-            });
-            it("should be an array of objects", () => {
-                getCustomerProducts(1).then(data => {
-                    isObject(data[1]);
+                it("should be an array of objects", () => {
+                    getCustomerProducts(1).then(data => {
+                        isObject(data[1]);
+                    });
                 });
-            });
-            it("should contain products with the correct customer id", () => {
-                getCustomerProducts(2).then(data => {
-                    equal(2, data[1].customer_id);
+                it("should contain products with the correct customer id", () => {
+                    getCustomerProducts(2).then(data => {
+                        equal(2, data[1].customer_id);
+                    });
                 });
             });
         });
     });
-
 
     // DELETE ONE PRODUCT
     describe("REMOVE One Product", () => {

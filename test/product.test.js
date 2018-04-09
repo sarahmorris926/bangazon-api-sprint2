@@ -1,5 +1,5 @@
 const { assert: { isFunction, isObject, deepEqual, equal, isArray, lengthOf, isNumber } } = require("chai");
-const { postOneProduct, getOneProduct, getAllProducts, getOrder, getSumOfProducts, getPaymentMethods, updatePaymentMethod } = require("../app/models/Product.js");
+const { postOneProduct, getOneProduct, getAllProducts, getActiveOrder, getSumOfProducts, getOrder, getPaymentMethods, updatePaymentMethod } = require("../app/models/Product.js");
 const createProductTable = require('../db/product_table.js');
 
 // MODEL
@@ -96,7 +96,7 @@ describe.skip("GET All Products", () => {
 // CONTROLLER
 
 
-describe("Get order", () =>{
+describe.skip("Get order", () =>{
     it ("Should be an object",()=>{
         getOrder(12).then(data => {
             isObject(data[0]);
@@ -106,7 +106,7 @@ describe("Get order", () =>{
     })
 })
 
-describe("Get sum", () =>{
+describe.skip("Get sum", () =>{
 
     it ("Should be an integer",()=>{
         getSumOfProducts(43).then(data =>{
@@ -120,7 +120,7 @@ describe("Get sum", () =>{
 
 //passing in customerID of 11 
 
-describe("get payment methods", () =>{
+describe.skip("get payment methods", () =>{
     it("Should be an array",() =>{
         getPaymentMethods(11).then(data => {
             isArray(data);
@@ -132,7 +132,6 @@ describe("get payment methods", () =>{
     it("Should contain an object", () =>{
         getPaymentMethods(11).then(data => {
             isObject(data[0])
-            console.log(data);
         })
         .catch((err) => {
             console.log(err, "array does not contain object")
@@ -142,10 +141,15 @@ describe("get payment methods", () =>{
 
 
 describe("update payment methods", () =>{
-    it("should post the updated payment", ()=>{
-        let payment = {
-            orderId = 11,
-            payment_type = Gold
-        }
+    it("should update the updated payment", ()=>{
+        updatePaymentMethod (20, 11).then(data => {
+            console.log("payment posted");
+            getOrder(11).then(data =>{
+                console.log("data payment", data);
+            })
+        })
+        .catch((err) =>{
+            console.log(err, "post data method error")
+        })
     })
 })

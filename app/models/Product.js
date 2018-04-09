@@ -35,7 +35,7 @@ module.exports.getAllProducts = () => {
 
 //CB add a get order call to select active order for active customer i.e where payment_type is null 
 
-module.exports.getOrder = (customerId) => {
+module.exports.getActiveOrder = (customerId) => {
     return new Promise((resolve, reject) => {
         db.all(`SELECT order_id FROM orders where customer_id = ${customerId} and payment_type is NULL`, (err, orderId) => {
             if (err) return reject(err);
@@ -44,6 +44,14 @@ module.exports.getOrder = (customerId) => {
     });
 };
 
+module.exports.getOrder = (orderId) => {
+    return new Promise((resolve, reject) => {
+        db.all(`SELECT * FROM orders where order_id = ${orderId}`, (err, orderId) => {
+            if (err) return reject(err);
+            resolve(orderId);
+        });
+    }); 
+}
 //cb add call to sum the products from order_products using the orderId from the active customer
 
 module.exports.getSumOfProducts = (orderId) =>{
@@ -66,9 +74,9 @@ module.exports.getPaymentMethods = (customerId) => {
 
 module.exports.updatePaymentMethod = (payment,orderId) => {
     return new Promise ((resolve,reject) => {
-        db.all(`UPDATE orders set payment_type =  ${payment} where order_id = ${orderId}`, (err,sum) =>{
+        db.all(`UPDATE orders set payment_type =  ${payment} where order_id = ${orderId}`, (err,result) =>{
             if (err) return reject(err);
-            resolve(sum)
+            resolve(this.lastID)
         })
     })
 };

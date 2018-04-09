@@ -1,7 +1,8 @@
 const {
   getSumOfProducts,
   getOrder,
-  getPaymentMethods
+  getPaymentMethods,
+  updatePaymentMethod
 } = require("../models/Product.js")
 const prompt = require('prompt');
 const colors = require("colors/safe");
@@ -44,6 +45,12 @@ module.exports.completeAPayment = (customerId) => {
                       message:'enter name of payment you would like to select'
                     }],function (err,results){
                       if (err) return reject(err);
+                      updatePaymentMethod(20, 11).then((data) =>{
+                        console.log("payment completed");
+                      })
+                      .catch((err) => {
+                        console.log((err), "error in updating payment method");
+                      })
                     })
                 
                 })
@@ -51,6 +58,8 @@ module.exports.completeAPayment = (customerId) => {
               .catch((err) =>{
                 console.log(err,"error in getPaymentMethods")
               })
+            } else {
+              console.log("You chose to not complete your order!")
             }
           });
         });

@@ -1,8 +1,8 @@
 
 const { assert: { isFunction, isObject, deepEqual, equal, isArray, lengthOf } } = require("chai");
-const { postOneProduct, getOneProduct, getAllProducts } = require("../app/models/Product.js");
+const { postOneProduct, getOneProduct, getAllProducts, deleteOneProduct, getCustomerProducts, getAllOrderProducts } = require("../app/models/Product.js");
+const { getActiveCustomer, setActiveCustomer } = require('../app/activeCustomer');
 const { promptNewProduct } = require('../app/controllers/productCtrl');
-const { setActiveCustomer, getActiveCustomer } = require('../app/activeCustomer');
 const createProductTable = require('../db/product_table.js');
 
 
@@ -42,6 +42,15 @@ describe("POST One Product", () => {
             console.log('error 1', err);
           })
       });
+      it("should return a new product id for the newly added product", () => {
+          postOneProduct(expected).then(data => {
+              equal(152, data.product_id);
+          })
+          .catch((err) => {
+            console.log('error 2', err);
+          })
+      })
+
     });
 });
 
@@ -82,7 +91,7 @@ describe("GET All Products", () => {
         });
         it("should return the length of array of total products", () => {
             return getAllProducts().then(data => {
-                lengthOf(data, 151);
+                lengthOf(data, 152);
             });
         });
     });
@@ -95,3 +104,44 @@ describe("Add Product Prompt", () => {
       isFunction(promptNewProduct);
     });
   });
+
+// GET ALL CUSTOMERS PRODUCTS
+describe("GET All Customers Products", () => {
+    describe("get customers products", () => {
+        it("should be an array", () => {
+            getCustomerProducts(1).then(data => {
+                isArray(data);
+            });
+        });
+        it("should be an array of objects", () => {
+            getCustomerProducts(1).then(data => {
+                isObject(data[1]);
+            });
+        });
+        it("should contain products with the correct customer id", () => {
+            getCustomerProducts(2).then(data => {
+                equal(2, data[1].customer_id);
+            });
+        });
+    });
+});
+
+
+// DELETE ONE PRODUCT
+describe("REMOVE One Product", () => {
+    describe("delete one product", () => {
+        it("should be a function", () => {
+            isFunction(deleteOneProduct);
+        });
+        it("should delete a product", () => {
+            deleteOneProduct(151, 1)
+            .then( () => {
+                return getOneProduct(151)
+                .then( product151 => {
+                    equal(0, product151.length);
+                });          
+            });
+        });
+    }); 
+});
+

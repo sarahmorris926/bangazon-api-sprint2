@@ -1,4 +1,3 @@
-
 'use strict';
 
 // 3rd party libs
@@ -12,7 +11,9 @@ prompt.message = colors.blue("Bangazon Corp");
 
 // app modules
 const { promptNewCustomer, getAllCustomers } = require('./controllers/customerCtrl');
+const { listAllCustomerProducts } = require('./controllers/productCtrl');
 const { getAll, listAllCustomers } = require('./models/Customer');
+const { getAllProducts, getCustomerProducts } = require('./models/Product');
 const { getActiveCustomer } = require('./activeCustomer');
 
 const db = new Database(path.join(__dirname, '..', 'db', 'bangazon.sqlite'));
@@ -33,6 +34,15 @@ let mainMenuHandler = (err, userInput) => {
     .then( (custData) => {
       listAllCustomers(custData);
     })
+  } else if (userInput.choice == '7' && getActiveCustomer().id != null) {
+    getCustomerProducts(getActiveCustomer().id.choice)
+    .then( (productData) => {
+      listAllCustomerProducts(productData);
+    })
+  } else if (userInput.choice == '7') {
+    console.log(`
+    ${red('You cannot delete a product until you select an active customer. Please choose an active customer to continue.')}`);
+    module.exports.displayWelcome();
   }
 };
 
@@ -51,7 +61,8 @@ module.exports.displayWelcome = () => {
   ${magenta('4.')} Add product to shopping cart
   ${magenta('5.')} Complete an order
   ${magenta('6.')} See product popularity
-  ${magenta('7.')} Leave Bangazon!`); 
+  ${magenta('7.')} Remove customer product
+  ${magenta('8.')} Leave Bangazon!`); 
     prompt.get([{
       name: 'choice',
       description: 'Please make a selection'

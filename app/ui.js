@@ -62,6 +62,7 @@ let mainMenuHandler = (err, userInput) => {
   } else if (userInput.choice == '4') {
       if (getActiveCustomer().id === null) {
           console.log("Please select an active customer first!");
+          module.exports.displayWelcome();
       } else {
           promptNewProduct();
       }

@@ -21,7 +21,8 @@ module.exports.promptNewProduct = () => {
                     name: "price",
                     description: "Enter the price",
                     type: "integer",
-                    required: true
+                    required: true,
+                    message: "You did not enter a valid price. Please enter a number."
                 },
                 {
                     name: "description",
@@ -33,7 +34,8 @@ module.exports.promptNewProduct = () => {
                     name: "quantity",
                     description: "Quantity",
                     type: "integer",
-                    required: true
+                    required: true,
+                    message: "You did not enter a valid quantity. Please enter a number."
                 }
             ],
             function(err, results) {

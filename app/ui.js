@@ -20,6 +20,31 @@ const db = new Database(path.join(__dirname, '..', 'db', 'bangazon.sqlite'));
 
 prompt.start();
 
+module.exports.displayWelcome = () => {
+    let headerDivider = `${magenta('*********************************************************')}`
+    return new Promise( (resolve, reject) => {
+      console.log(`
+    ${headerDivider}
+    ${magenta('**  Welcome to Bangazon! Command Line Ordering System  **')}
+    ${headerDivider}`);
+    getActiveCustomer().id ? console.log(`The Current Active User is: ${getActiveCustomer().id.choice}`) : console.log(`No active customer selected`);
+    console.log(`
+    ${magenta('1.')} Create a customer account
+    ${magenta('2.')} Choose active customer
+    ${magenta('3.')} Create a payment option
+    ${magenta('4.')} Add product to sell
+    ${magenta('5.')} Add product to shopping cart
+    ${magenta('6.')} Complete an order
+    ${magenta('7.')} See product popularity
+    ${magenta('8.')} Leave Bangazon!`); 
+      prompt.get([{
+        name: 'choice',
+        description: 'Please make a selection'
+      }], mainMenuHandler );
+    });
+  };
+
+
 let mainMenuHandler = (err, userInput) => {
   console.log("user input", userInput);
   // This could get messy quickly. Maybe a better way to parse the input?
@@ -35,30 +60,12 @@ let mainMenuHandler = (err, userInput) => {
       listAllCustomers(custData);
     })
   } else if (userInput.choice == '4') {
-      promptNewProduct();
+      if (getActiveCustomer().id === null) {
+          console.log("Please select an active customer first!");
+      } else {
+          promptNewProduct();
+      }
   }
 };
 
-module.exports.displayWelcome = () => {
-  let headerDivider = `${magenta('*********************************************************')}`
-  return new Promise( (resolve, reject) => {
-    console.log(`
-  ${headerDivider}
-  ${magenta('**  Welcome to Bangazon! Command Line Ordering System  **')}
-  ${headerDivider}`);
-  getActiveCustomer().id ? console.log(`The Current Active User is: ${getActiveCustomer().id.choice}`) : console.log(`No active customer selected`);
-  console.log(`
-  ${magenta('1.')} Create a customer account
-  ${magenta('2.')} Choose active customer
-  ${magenta('3.')} Create a payment option
-  ${magenta('4.')} Add product to sell
-  ${magenta('5.')} Add product to shopping cart
-  ${magenta('6.')} Complete an order
-  ${magenta('7.')} See product popularity
-  ${magenta('8.')} Leave Bangazon!`); 
-    prompt.get([{
-      name: 'choice',
-      description: 'Please make a selection'
-    }], mainMenuHandler );
-  });
-};
+

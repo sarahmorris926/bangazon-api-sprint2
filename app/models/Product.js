@@ -63,3 +63,13 @@ module.exports.getPaymentMethods = (customerId) => {
         })
     })
 };
+
+module.exports.updatePaymentMethod = (payment,orderId) => {
+    return new Promise ((resolve,reject) => {
+        db.all(`UPDATE orders set payment_type =  ${payment} where order_id = ${orderId}`, (err,sum) =>{
+            if (err) return reject(err);
+            resolve(sum)
+        })
+    })
+};
+

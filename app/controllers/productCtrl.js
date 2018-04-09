@@ -31,7 +31,22 @@ module.exports.completeAPayment = (customerId) => {
             if (err) return reject(err);
             if (results.choice === "Y"){
               getPaymentMethods(customerId).then((payment)=>{
-                console.log("payment methods",payment);
+                return new Promise((resolve, reject)=>{
+                  console.log(`${headerDivider}${(`Choose a payment option`)}${headerDivider}`)
+
+                  for (i = 0; i < payment.length; i++){
+                    console.log(`${i+1} . ${payment[i].payment_option}`);
+                  }
+                    prompt.get([{
+                      name:"Choice",
+                      description: `enter name of payment you would like to select`,
+                      type: 'string',
+                      message:'enter name of payment you would like to select'
+                    }],function (err,results){
+                      if (err) return reject(err);
+                    })
+                
+                })
               })
               .catch((err) =>{
                 console.log(err,"error in getPaymentMethods")

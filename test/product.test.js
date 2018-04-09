@@ -1,5 +1,5 @@
 const { assert: { isFunction, isObject, deepEqual, equal, isArray, lengthOf, isNumber } } = require("chai");
-const { postOneProduct, getOneProduct, getAllProducts, getOrder, getSumOfProducts, getPaymentMethods } = require("../app/models/Product.js");
+const { postOneProduct, getOneProduct, getAllProducts, getOrder, getSumOfProducts, getPaymentMethods, updatePaymentMethod } = require("../app/models/Product.js");
 const createProductTable = require('../db/product_table.js');
 
 // MODEL
@@ -137,5 +137,15 @@ describe("get payment methods", () =>{
         .catch((err) => {
             console.log(err, "array does not contain object")
         })
+    })
+})
+
+
+describe("update payment methods", () =>{
+    it("should post the updated payment", ()=>{
+        let payment = {
+            orderId = 11,
+            payment_type = Gold
+        }
     })
 })

@@ -9,7 +9,9 @@ const { Database } = require("sqlite3").verbose();
 prompt.message = colors.blue("Bangazon Corp");
 
 // app modules
+
 const { promptNewCustomer } = require("./controllers/customerCtrl");
+const { promptNewPaymentType } = require("./controllers/paymentTypeCtrl");
 const { listAllCustomerProducts } = require("./controllers/productCtrl");
 const { getAllCustomers, listAllCustomers } = require("./models/Customer");
 const { getAllProducts, getCustomerProducts } = require("./models/Product");
@@ -67,6 +69,13 @@ let mainMenuHandler = (err, userInput) => {
     getAllCustomers().then(custData => {
       listAllCustomers(custData);
     });
+  } else if (userInput.choice == "3") {
+    getActiveCustomer().id
+      ? promptNewPaymentType().then(payTypeData => {
+          module.exports.displayWelcome();
+        })
+      : console.log("PLEASE SELECT AN ACTIVE USER!") ||
+        module.exports.displayWelcome();
   } else if (userInput.choice == "4") {
     if (getActiveCustomer().id === null) {
       console.log("Please select an active customer first!");
@@ -77,7 +86,7 @@ let mainMenuHandler = (err, userInput) => {
   } else if (userInput.choice == "7" && getActiveCustomer().id != null) {
     getCustomerProducts(getActiveCustomer().id.choice).then(productData => {
       listAllCustomerProducts(productData);
-    })
+    });
   } else if (userInput.choice == "7") {
     console.log(`
       ${red(
@@ -86,4 +95,3 @@ let mainMenuHandler = (err, userInput) => {
     module.exports.displayWelcome();
   }
 };
-

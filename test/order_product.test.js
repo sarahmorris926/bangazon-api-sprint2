@@ -90,14 +90,14 @@ const createOrderProductTable = require("../db/order_product_table");
 // });
 
 //Order Product Ctrl
-describe("Final Order Product Function", () => {
-    it("should return an object", () => {
-        addProductToOrder(1, 1, 1).then(product => {
-            console.log("hello", product);
-            isObject(product);
-        })
-    })
-})
+// describe("Final Order Product Function", () => {
+//     it("should return an object", () => {
+//         addProductToOrder(1, 1, 1).then(product => {
+//             console.log("hello", product);
+//             isObject(product);
+//         })
+//     })
+// })
 
 
 

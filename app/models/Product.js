@@ -29,3 +29,14 @@ module.exports.getAllProducts = () => {
         });
     });
 };
+
+module.exports.updateProductQuantity = (id, quantity) => {
+    return new Promise((resolve, reject) => {
+        db.run(`UPDATE product
+                SET quantity = ${quantity}
+                WHERE product_id = ${id}`, (err, product) => {
+                    if (err) return reject(err);
+                    resolve(product);
+                });
+    });
+};

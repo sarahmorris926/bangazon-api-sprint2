@@ -56,7 +56,6 @@ module.exports.displayWelcome = () => {
 };
 
 let mainMenuHandler = (err, userInput) => {
-  console.log("user input", userInput);
   // This could get messy quickly. Maybe a better way to parse the input?
   if (userInput.choice == "1") {
     promptNewCustomer().then(custData => {

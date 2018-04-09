@@ -9,14 +9,12 @@ module.exports.addProductToOrder = (id, prodId, quantity) => {
     return new Promise((resolve, reject) => {
         return getOneProduct(prodId).then(product => {
             if (product.quantity > quantity) {
-                let newOrderPrice = product.price * quantity;
                 getActiveOrder(id).then(order => {
                     if (order !== undefined) {
                         let ordProdObj = {
                             order_quantity: quantity,
                             order_id: order.order_id,
-                            product_id: prodId,
-                            price: newOrderPrice
+                            product_id: prodId
                         }
                         postOneOrderProduct(ordProdObj);
                         console.log("Your Order has been updated with your product(s)")
@@ -30,8 +28,7 @@ module.exports.addProductToOrder = (id, prodId, quantity) => {
                                 let ordProdObj = {
                                     order_quantity: quantity,
                                     order_id: actOrder.order_id,
-                                    product_id: prodId,
-                                    price: newOrderPrice
+                                    product_id: prodId
                                 }
                                 postOneOrderProduct(ordProdObj);
                                 console.log("Your Order has been created!");
@@ -40,9 +37,9 @@ module.exports.addProductToOrder = (id, prodId, quantity) => {
 
                     }
                 });
-            } else { 
+            } else {
                 console.log(`I'm sorry but there are only ${product.quantity} items available to be added to your cart, please enter another quantity.`)
-            } 
+            }
         });
     });
 };

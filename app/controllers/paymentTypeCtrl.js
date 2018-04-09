@@ -16,7 +16,6 @@ const ui = require("../ui");
 module.exports.promptNewPaymentType = () => {
   return new Promise((resolve, reject) => {
     let customerId = getActiveCustomer().id.choice;
-    console.log("customerId", customerId);
     prompt.get(
       [
         {
@@ -34,19 +33,18 @@ module.exports.promptNewPaymentType = () => {
       ],
       function(err, results) {
         if (err) return reject(err);
-        // postOnePaymentType(results);
-        // resolve(results);
-        console.log("results", results);
         getCustomerPaymentTypeDuplicates(
           customerId,
           results.account_number
         ).then(duplicate => {
-          duplicate.account_number
-            ? console.log("This account number already exist for this costumer") || ui.displayWelcome()
-            : postOnePaymentType(results) || resolve(results);
-        })
-        .catch(err => {
-          console.log('err',err);
+          if (duplicate.length > 0) {
+            console.log("This account number already exist for this costumer");
+            ui.displayWelcome();
+          } else {
+            console.log(`You're payment type was successfully added!`)
+            postOnePaymentType(results);
+            resolve(results);
+          }
         });
       }
     );

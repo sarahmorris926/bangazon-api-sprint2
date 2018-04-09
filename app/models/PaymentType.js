@@ -54,7 +54,7 @@ module.exports.getCustomerPaymentTypeDuplicates = (
   accountNumber
 ) => {
   return new Promise((resolve, reject) => {
-    db.get(
+    db.all(
       `SELECT * FROM payment_type
       WHERE payment_type.customer_id = ${customerId}
       AND payment_type.account_number = ${accountNumber}`,

@@ -35,11 +35,7 @@ let mainMenuHandler = (err, userInput) => {
       listAllCustomers(custData);
     })
   } else if (userInput.choice == '4') {
-      promptNewProduct()
-      .then( (prodData) => {
-          console.log('product to save', prodData);
-      })
-
+      promptNewProduct();
   }
 };
 

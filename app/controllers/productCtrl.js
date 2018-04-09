@@ -5,6 +5,7 @@
 const prompt = require('prompt');
 const { postOneProduct } = require('../models/Product.js');
 const { getActiveCustomer } = require('../activeCustomer.js');
+const ui = require('../ui');
 
 module.exports.promptNewProduct = () => {
     return new Promise((resolve, reject) => {
@@ -19,7 +20,7 @@ module.exports.promptNewProduct = () => {
                 {
                     name: "price",
                     description: "Enter the price",
-                    type: "string",
+                    type: "integer",
                     required: true
                 },
                 {
@@ -31,7 +32,7 @@ module.exports.promptNewProduct = () => {
                 {
                     name: "quantity",
                     description: "Quantity",
-                    type: "string",
+                    type: "integer",
                     required: true
                 }
             ],
@@ -39,7 +40,9 @@ module.exports.promptNewProduct = () => {
                 if (err) return reject(err);
                 results.customer_id = getActiveCustomer().id.choice;
                 postOneProduct(results);
-                resolve(results);
+                console.log(`Product has been added: ${results.product_name}`)
+                // resolve(results);
+                ui.displayWelcome();
             }
         );
     });

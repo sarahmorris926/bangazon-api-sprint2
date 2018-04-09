@@ -67,10 +67,10 @@ module.exports.deleteOneProduct = (id, customerId) => {
                     `, function(err, product) {
                         if (this.changes == 0) {
                             console.log(`
-                                    ${red("The product you selected was not listed by the active customer and cannot be deleted.")}`)
+    ${red("The product you selected was not listed by the active customer and cannot be deleted.")}`)
                         } else {
                             console.log(`
-                                ${green('The product was successfully deleted!')}`);
+    ${green('The product was successfully deleted!')}`);
                             resolve(this.changes);
                         }
                     });
@@ -81,7 +81,7 @@ module.exports.deleteOneProduct = (id, customerId) => {
                 })
             } else {
                 console.log(`
-                    ${red("The product you selected is either attached to an existing order and can't be deleted, or does not exist. Please try again.")}`);
+    ${red("The product you selected is either attached to an existing order and can't be deleted, or does not exist. Please try again.")}`);
                 module.exports.getCustomerProducts(customerId)
                 .then( (productData) => {
                     listCustPro.listAllCustomerProducts(productData);

@@ -9,10 +9,17 @@ module.exports.addProductToOrder = (id, prodId, quantity) => {
     return new Promise((resolve, reject) => {
         return getOneProduct(prodId).then(product => {
             if(product.quantity > quantity) {
+                console.log("price", product);
                  let newOrderPrice = product.price * quantity;
                   getActiveOrder(id).then(order => {
                       if(order !== undefined) {
-                          resolve(order);
+                          let ordProdObj = {
+                              order_quantity: quantity,
+                              order_id: order.order_id,
+                              product_id: prodId,
+                              price: newOrderPrice
+                          }
+                          postOneOrderProduct(ordProdObj);
                       } else {
                           let newOrder = {
                               customer_id: id,

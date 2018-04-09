@@ -1,5 +1,5 @@
 const { assert: { isFunction, isObject, deepEqual, equal, isArray, lengthOf, isNumber } } = require("chai");
-const { postOneProduct, getOneProduct, getAllProducts, getOrder, getSumOfProducts } = require("../app/models/Product.js");
+const { postOneProduct, getOneProduct, getAllProducts, getOrder, getSumOfProducts, getPaymentMethods } = require("../app/models/Product.js");
 const createProductTable = require('../db/product_table.js');
 
 // MODEL
@@ -114,6 +114,28 @@ describe("Get sum", () =>{
         })
         .catch((err)=>{
             console.log(err, "sum test error");
+        })
+    })
+})
+
+//passing in customerID of 11 
+
+describe("get payment methods", () =>{
+    it("Should be an array",() =>{
+        getPaymentMethods(11).then(data => {
+            isArray(data);
+        })
+        .catch((err) =>{
+            console.log(err,"array test error");
+        })
+    })
+    it("Should contain an object", () =>{
+        getPaymentMethods(11).then(data => {
+            isObject(data[0])
+            console.log(data);
+        })
+        .catch((err) => {
+            console.log(err, "array does not contain object")
         })
     })
 })

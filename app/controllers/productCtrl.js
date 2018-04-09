@@ -1,6 +1,7 @@
 const {
   getSumOfProducts,
-  getOrder
+  getOrder,
+  getPaymentMethods
 } = require("../models/Product.js")
 const prompt = require('prompt');
 const colors = require("colors/safe");
@@ -28,7 +29,14 @@ module.exports.completeAPayment = (customerId) => {
             message: "please select Y or N"
           }], function (err, results) {
             if (err) return reject(err);
-            //TODO: select payment types 
+            if (results.choice === "Y"){
+              getPaymentMethods(customerId).then((payment)=>{
+                console.log("payment methods",payment);
+              })
+              .catch((err) =>{
+                console.log(err,"error in getPaymentMethods")
+              })
+            }
           });
         });
       })

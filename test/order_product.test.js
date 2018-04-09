@@ -1,7 +1,8 @@
 
-// const { assert: { equal, deepEqual, isFunction, isObject, isArray, isNumber } } = require("chai");
-// const { getAllOrderProducts, postOneOrderProduct, getOneOrderProduct, getLastOrderProduct } = require("../app/models/Order_Product")
-// const createOrderProductTable = require("../db/order_product_table");
+const { assert: { equal, deepEqual, isFunction, isObject, isArray, isNumber } } = require("chai");
+const { getAllOrderProducts, postOneOrderProduct, getOneOrderProduct, getLastOrderProduct } = require("../app/models/Order_Product");
+const { addProductToOrder } = require("../app/controllers/order_productCtrl"); 
+const createOrderProductTable = require("../db/order_product_table");
 
 
 // // Order_Product Model
@@ -87,6 +88,17 @@
 //         });
 //     });
 // });
+
+//Order Product Ctrl
+describe("Final Order Product Function", () => {
+    it("should return an object", () => {
+        addProductToOrder(1, 1, 1).then(product => {
+            console.log("hello", product);
+            isObject(product);
+        })
+    })
+})
+
 
 
 

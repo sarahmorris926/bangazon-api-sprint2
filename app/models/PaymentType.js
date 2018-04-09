@@ -14,12 +14,10 @@ module.exports.postOnePaymentType = ({
 }) => {
   return new Promise((resolve, reject) => {
     db.run(
-      `INSERT INTO payment_type VALUES(null, "${
-        getActiveCustomer().id.choice
-      }", "${payment_option}", "${account_number}")`,
+      `INSERT INTO payment_type VALUES(null, "${customer_id}", "${payment_option}", "${account_number}")`,
       function(err, payType) {
         if (err) return reject(err);
-        resolve({ customer_id: getActiveCustomer().id.choice });
+        resolve({ payment_id: this.lastID });
       }
     );
   });
@@ -49,6 +47,7 @@ module.exports.getCustomerPaymentTypes = id => {
   });
 };
 
+//GET ACTIVE CUSTOMERS DUPLICATE PAYMENT TYPES
 module.exports.getCustomerPaymentTypeDuplicates = (
   customerId,
   accountNumber

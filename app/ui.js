@@ -14,7 +14,7 @@ const {
   getAllCustomers
 } = require("./controllers/customerCtrl");
 const { promptNewPaymentType } = require("./controllers/paymentTypeCtrl");
-const { getAllPaymentTypes, getCustomerPaymentTypes } = require('./models/PaymentType');
+const { getCustomerPaymentTypes } = require('./models/PaymentType');
 const { getAll, listAllCustomers } = require("./models/Customer");
 const { getActiveCustomer } = require("./activeCustomer");
 
@@ -35,9 +35,6 @@ let mainMenuHandler = (err, userInput) => {
       listAllCustomers(custData);
     });
   } else if (userInput.choice == "3") {
-      // getCustomerPaymentTypes(3).then(payTypeData => {
-      //   console.log('payTypeData',payTypeData);
-      // })
     getActiveCustomer().id 
       ? promptNewPaymentType().then(payTypeData => {
           console.log("payTypeData", payTypeData);

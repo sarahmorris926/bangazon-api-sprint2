@@ -3,45 +3,54 @@ const {
 } = require("chai");
 const { postOnePaymentType } = require("../app/models/PaymentType");
 const createPaymentTypeTable = require("../db/payment_type_table");
-const { getActiveCustomer } = require('../app/activeCustomer');
+const { getActiveCustomer } = require("../app/activeCustomer");
 
 // post one function
-describe("add payment type", () => {
-  it("should be a function", () => {
-    isFunction(postOnePaymentType);
+describe("POST one payment type", () => {
+  after(done => {
+    createPaymentTypeTable()
+      .then(() => {
+        done();
+      })
+      .catch(err => {
+        console.log("err 1", err);
+      });
   });
-  before(done => {
-    createPaymentTypeTable().then(() => {
-      done();
-    });
-  });
-
-  it("should return an object", () => {
-    let expected = {};
-    return postOnePaymentType(expected).then(data => {
-      isObject(data);
-    });
-  });
-
-  it("should return customer id of active customer for new payment type added to data", () => {
-    let newPaymentType = {
-      customer_id: "",
+  describe("add payment type", () => {
+    let expected = {
+      customer_id: 1,
       payment_option: "Free Cheeseburger Coupon",
       account_number: "Voucher"
     };
-    return postOnePaymentType(paymentType).then(data => {
-      equal(23, data.customer_id).then(paymentType => {
-        let expected = {
-          customer_id: 23,
-          payment_option: "Free Cheeseburger Coupon",
-          account_number: "Voucher"
-        };
-        deepEqual(paymentType, expected);
+
+    it("should be a function", () => {
+      isFunction(postOnePaymentType);
+    });
+
+    it("should return an object", () => {
+      let expected = {};
+      return postOnePaymentType(expected)
+        .then(data => {
+          isObject(data);
+        })
+        .catch(err => {
+          console.log("err 2", err);
+        });
+    });
+
+    it("should return new payment type id for the payment type added to table", () => {
+      postOnePaymentType(expected).then(data => {
+        equal(31, data.payment_id);
+      })
+      .catch(err => {
+        console.log("err 3", err);
       });
     });
   });
 });
 
-// Get All Payment Types
-
 // Get Customer's Payment Types
+
+// Get customer's duplicate payment types
+
+

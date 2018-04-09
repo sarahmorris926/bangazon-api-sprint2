@@ -9,10 +9,6 @@ const {
 const { setActiveCustomer, getActiveCustomer } = require("../activeCustomer");
 const ui = require("../ui");
 
-// TODO: must make sure an active customer was selected - ternary - DONE
-// TODO: no duplicate account numbers - get all payment types, and do if statement for the payment type doesn't equal other account numbers
-// TODO: make sure a valid payment type (have list of options?)
-// TODO: make sure account number is only 16 digits - probs not important
 module.exports.promptNewPaymentType = () => {
   return new Promise((resolve, reject) => {
     let customerId = getActiveCustomer().id.choice;
@@ -42,6 +38,8 @@ module.exports.promptNewPaymentType = () => {
             ui.displayWelcome();
           } else {
             console.log(`You're payment type was successfully added!`)
+            results.customer_id = customerId;
+            console.log('results',results);
             postOnePaymentType(results);
             resolve(results);
           }

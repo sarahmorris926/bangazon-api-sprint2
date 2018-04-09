@@ -73,3 +73,50 @@ npm test
 - [x] I have added tests that prove my fix is effective or that my feature works
 - [x] New and existing unit tests pass locally with my changes
 
+### DELETING A PRODUCT
+
+# Description
+
+Users are able to delete a customer's product only if it is not a part of an existing customer order.
+
+## Type of change
+
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [x] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] This change requires a documentation update
+
+# Functionality
+To begin run the following command
+```
+node db/build_table.js
+npm start
+```
+**Active Customer Must Be Selected**
+Users should not be able to delete a product if an active customer has not been selected. To test this select #7 from the main menu before choosing an active customer. You should see the following error message: 
+```
+You cannot delete a product until you select an active customer. Please choose an active customer to continue.
+```
+
+**Delete Product Not assigned to an order**
+Users should be able to delete a product if it is not linked to an order. Choose an active customer, then choose 7 from the main menu. Products with a `product_id` higher than 20 should not be assigned to an order and the user should be able to delete them. Once deleted the user should receive the following message:
+```
+The product was successfully deleted!
+```
+
+If a user attempts to delete a product that is assigned to an order the user will see the following message:
+```
+The product you selected is either attached to an existing order and can't be deleted, or does not exist. Please try again.
+```
+
+
+
+
+# How Has This Been Tested?
+
+In order to run the test follow these steps
+```
+node db/build_table.js
+npm test
+```
+

@@ -1,7 +1,7 @@
 "use strict";
 
 const prompt = require("prompt");
-const { getAll, postOne } = require("../models/Customer.js");
+const { getAllCustomers, postOneCustomer } = require("../models/Customer.js");
 
 module.exports.promptNewCustomer = () => {
   return new Promise((resolve, reject) => {
@@ -52,19 +52,20 @@ module.exports.promptNewCustomer = () => {
       ],
       function(err, results) {
         if (err) return reject(err);
-        postOne(results);
+        postOneCustomer(results);
         resolve(results);
       }
     );
   });
 };
 
-module.exports.getAllCustomers = (req, res) => {
-  getAll().then(cust => {
-    console.log("Customer get all", cust);
+// module.exports.getAllCustomers = (req, res) => {
+//   getAllCustomers().then(cust => {
+//     console.log("Customer get all", cust);
     
-    return new Promise((resolve, reject) => {
-      resolve(cust);
-    });
-  });
-};
+//     return new Promise((resolve, reject) => {
+//       resolve(cust);
+//     });
+//   });
+// };
+

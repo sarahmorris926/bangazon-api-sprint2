@@ -18,7 +18,7 @@ prompt.message = colors.blue("Bangazon Corp");
 //   console.log(customer)
 // });
 
-module.exports.postOne = ({ first_name,last_name,street,city,state,zip,phone}) => {
+module.exports.postOneCustomer = ({ first_name,last_name,street,city,state,zip,phone}) => {
   return new Promise((resolve, reject) => {
     db.run(
       `INSERT INTO customer VALUES(${null}, "${first_name}", "${last_name}", "${street}", "${city}", "${state}", "${zip}", "${phone}")`,
@@ -32,7 +32,7 @@ module.exports.postOne = ({ first_name,last_name,street,city,state,zip,phone}) =
 
 
 // GET functions
-module.exports.getAll = () => {
+module.exports.getAllCustomers = () => {
   return new Promise((resolve, reject) => {
     db.all(`SELECT * FROM customer`, (err, cust) => {
       if (err) return reject(err);
@@ -69,7 +69,7 @@ module.exports.listAllCustomers = (customerData) => {
 }
 
 
-module.exports.getOne = (id) => {
+module.exports.getOneCustomer = (id) => {
   return new Promise( (resolve, reject) => {
     db.get(`SELECT * FROM customer
             WHERE customer.customer_id = ${id}`, 

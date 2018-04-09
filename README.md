@@ -32,9 +32,9 @@ npm start
 ```
 
 
-## SET ACTIVE CUSTOMERS
+# SET ACTIVE CUSTOMERS
 
-# Description
+### Description
 
 Users are able to choose an active customer from the command line (Main Menu option #2).
 
@@ -44,7 +44,7 @@ Users are able to choose an active customer from the command line (Main Menu opt
 - After selecting a customer you should be directed back to the initial Welcome prompt. There will be a message within the prompt that indicates which customer is now listed as your active customer.
 
 
-**RUNNING TESTS**
+### RUNNING TESTS
 
 To initiate the testing run the following command:
 ```
@@ -53,19 +53,21 @@ npm test
 - There should be 8 test that pass.
 
 
-### DELETING A PRODUCT
+# DELETING A PRODUCT
 
-# Description
+### Description
 
 Users are able to delete a customer's product only if it is not linked to an existing customer order.
 
-**Active Customer Must Be Selected**
+### Active Customer Must Be Selected
+
 Users should not be able to delete a product if an active customer has not been selected. If a user attempts to delete a product prior to selecting an active customer they will see the following message:
 ```
 You cannot delete a product until you select an active customer. Please choose an active customer to continue.
 ```
 
-**Delete Product not linked to an order**
+### Delete Product not linked to an order
+
 Users should be able to delete a product if it is not linked to an order. To delete a product, first select an active customer then choose number 7 from the Main Menu prompt. If the product was successfully delete the user will get the following message:
 ```
 The product was successfully deleted!

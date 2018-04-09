@@ -4,6 +4,7 @@
 const prompt = require('prompt');
 const { getAllProducts, postOneProduct, deleteOneProduct, getOneProduct } = require('../models/Product.js');
 const { getActiveCustomer } = require('../activeCustomer.js');
+const { addProductToOrder } = require('./order_productCtrl');
 const { red, magenta, blue, green } = require("chalk");
 const colors = require("colors/safe");
 const ui = require('../ui');
@@ -104,4 +105,29 @@ module.exports.listAllProducts = (productData) => {
             addQuantityPrompt(results.choice, getActiveCustomer().id.choice)
         });
     });
+}
+
+const addQuantityPrompt = (prodID, custID) => {
+    let headerDivider = `${magenta('*********************************************************')}`
+    return new Promise((resolve, reject) => {
+        console.log(`
+      ${headerDivider}
+      ${magenta("** Enter the Quantity you wish to add to the cart **")}
+      ${headerDivider}
+      ${magenta('0.')} Return to Main Menu`
+        )
+        console.log(`
+    Quantity: 
+    `
+        )
+        prompt.get([{
+            name: 'quantity',
+            description: 'Please enter the quantity',
+            type: 'integer',
+            message: "You did not enter a valid option. Please try again!"
+        }], function (err, results) {
+            if (err) return reject(err);
+            addProductToOrder(custID, prodID, results.quantity)
+        });
+    })
 }

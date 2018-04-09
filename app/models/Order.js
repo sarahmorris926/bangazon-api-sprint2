@@ -22,9 +22,9 @@ module.exports.getOneOrder = (id) => {
     });
 };
 
-module.exports.postOneOrder = ({customer_id, payment_type, order_creation_date}) => {
+module.exports.postOneOrder = ({customer_id, payment_type}) => {
     return new Promise((resolve, reject) => {
-        db.run(`INSERT INTO orders VALUES(null, ${customer_id}, ${payment_type}, "${order_creation_date}")`, function(err, order) {
+        db.run(`INSERT INTO orders VALUES(null, ${customer_id}, ${payment_type}, CURRENT_DATE)`, function(err, order) {
             if (err) return reject(err);
             resolve({order_id: this.lastID});
         });

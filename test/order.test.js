@@ -72,8 +72,7 @@
 //     it("should return an object equal to the order posted", () => {
 //         let newOrder = {
 //             customer_id: 21,
-//             payment_type: null,
-//             order_creation_date: "2018-03-15"
+//             payment_type: null
 //         }
 //         return postOneOrder(newOrder).then(postedOrder => {
 //             console.log(newOrder)
@@ -81,7 +80,7 @@
 //                 order_id: 46,
 //                 customer_id: 21,
 //                 payment_type: null,
-//                 order_creation_date: "2018-03-15"
+//                 order_creation_date: "2018-04-09"
 //             };
 //             return getOneOrder(46).then(order => {
 //                 deepEqual(order, expected);

@@ -2,7 +2,7 @@
 
 const prompt = require("prompt");
 const { getAllOrderProducts, postOneOrderProduct } = require("../models/Order_Product")
-const { getActiveOrder } = require("../models/Order")
+const { getActiveOrder, postOneOrder } = require("../models/Order")
 const { getOneProduct } = require("../models/Product")
 
 module.exports.addProductToOrder = (id, prodId, quantity) => {
@@ -14,7 +14,14 @@ module.exports.addProductToOrder = (id, prodId, quantity) => {
                       if(order !== undefined) {
                           resolve(order);
                       } else {
-                          resolve(product);
+                          let newOrder = {
+                              customer_id: id,
+                              payment_type: null
+                          }
+                          postOneOrder(newOrder).then(postedOrder => {
+                              resolve(postedOrder);
+                          })
+
                       }
                   });
             };

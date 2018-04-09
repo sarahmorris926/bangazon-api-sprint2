@@ -96,6 +96,9 @@ describe("Final Order Product Function", () => {
             console.log("hello", product);
             isObject(product);
         })
+            .catch((err) => {
+            console.log('error 2', err);
+            });
     })
 })
 

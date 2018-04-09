@@ -2,7 +2,7 @@
 
 ## The Command Line Ordering System
 
-In this group project, you will be allowing a user to interact with a basic product ordering database via a command line interface.
+In this group project, users are able to interact with a basic product ordering database via a command line interface.
 
 ## Ordering System Interface
 
@@ -20,11 +20,15 @@ In this group project, you will be allowing a user to interact with a basic prod
 6. Complete an order
 7. Remove customer product
 8. Update product information
-9. Show stale products
-10. Show customer revenue report
-11. Show overall product popularity
-12. Leave Bangazon!
+9. Leave Bangazon!
 >
+```
+
+In order to run this project run the following commands from within the appropriate directory.
+
+```
+npm install
+npm start
 ```
 
 
@@ -32,22 +36,8 @@ In this group project, you will be allowing a user to interact with a basic prod
 
 # Description
 
-This pull request completes all requirements for issue #2. Users are now able to choose an active customer from the command line. We also introduced a test for the getAll customers function.
+Users are able to choose an active customer from the command line (Main Menu option #2).
 
-
-## Type of change
-
-- [x] Bug fix (non-breaking change which fixes an issue)
-- [x] New feature (non-breaking change which adds functionality)
-- [x] Breaking change (fix or feature that would cause existing functionality to not work as expected)
-- [x] This change requires a documentation update
-
-# How Has This Been Tested?
-
-To test the command line run the following commands:
-```
-npm start
-```
 - Select number 2 from the command line.
 - You should see a list of all customers.
 - Enter a customer ID number and hit enter.
@@ -63,13 +53,28 @@ npm test
 - There should be 8 test that pass.
 
 
-# Checklist:
+### DELETING A PRODUCT
 
-- [x] My code follows the style guidelines of this project
-- [x] I have performed a self-review of my own code
-- [x] I have commented my code, particularly in hard-to-understand areas
-- [x] I have made corresponding changes to the documentation
-- [x] My changes generate no new warnings
-- [x] I have added tests that prove my fix is effective or that my feature works
-- [x] New and existing unit tests pass locally with my changes
+# Description
+
+Users are able to delete a customer's product only if it is not linked to an existing customer order.
+
+**Active Customer Must Be Selected**
+Users should not be able to delete a product if an active customer has not been selected. If a user attempts to delete a product prior to selecting an active customer they will see the following message:
+```
+You cannot delete a product until you select an active customer. Please choose an active customer to continue.
+```
+
+**Delete Product not linked to an order**
+Users should be able to delete a product if it is not linked to an order. To delete a product, first select an active customer then choose number 7 from the Main Menu prompt. If the product was successfully delete the user will get the following message:
+```
+The product was successfully deleted!
+```
+
+If a user attempts to delete a product that is assigned to an order the user will see the following message:
+```
+The product you selected is either attached to an existing order and can't be deleted, or does not exist. Please try again.
+```
+
+
 

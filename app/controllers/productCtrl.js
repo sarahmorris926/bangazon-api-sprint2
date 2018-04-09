@@ -4,7 +4,7 @@
 const prompt = require('prompt');
 const { getAllProducts, postOneProduct, deleteOneProduct, getOneProduct } = require('../models/Product.js');
 const { getActiveCustomer } = require('../activeCustomer.js');
-const {red, magenta, blue, green} = require("chalk");
+const { red, magenta, blue, green } = require("chalk");
 const colors = require("colors/safe");
 const ui = require('../ui');
 
@@ -39,7 +39,7 @@ module.exports.promptNewProduct = () => {
                     message: "You did not enter a valid quantity. Please enter a number."
                 }
             ],
-            function(err, results) {
+            function (err, results) {
                 if (err) return reject(err);
                 results.customer_id = getActiveCustomer().id.choice;
                 postOneProduct(results);
@@ -53,29 +53,55 @@ module.exports.promptNewProduct = () => {
 
 module.exports.listAllCustomerProducts = (productData) => {
     let headerDivider = `${magenta('*********************************************************')}`
-    return new Promise( (resolve, reject) => {
-      console.log(`
+    return new Promise((resolve, reject) => {
+        console.log(`
       ${headerDivider}
       ${magenta("** To Delete a product enter the Product's ID number **")}
       ${headerDivider}
 
     ${magenta('0.')} Return to Main Menu`
-    )
-    productData.forEach(product => {
-      console.log(`
+        )
+        productData.forEach(product => {
+            console.log(`
     Product ID: ${product.product_id} - ${product.product_name}
       `);
-    });
+        });
 
-    prompt.get([{
-      name: 'choice',
-      description: 'Please make a selection',
-      type: 'integer',
-      message: "You did not enter a valid option. Please try again!"
-    }], function(err, results) {
-      if (err) return reject(err);
-        deleteOneProduct(results.choice, getActiveCustomer().id.choice)
-      });
+        prompt.get([{
+            name: 'choice',
+            description: 'Please make a selection',
+            type: 'integer',
+            message: "You did not enter a valid option. Please try again!"
+        }], function (err, results) {
+            if (err) return reject(err);
+            deleteOneProduct(results.choice, getActiveCustomer().id.choice)
+        });
     });
-  }
+}
 
+module.exports.listAllProducts = (productData) => {
+    let headerDivider = `${magenta('*********************************************************')}`
+    return new Promise((resolve, reject) => {
+        console.log(`
+      ${headerDivider}
+      ${magenta("** Enter the ID of the Product you wish to add to the Active Customer's Cart **")}
+      ${headerDivider}
+
+      ${magenta('0.')} Return to Main Menu`
+        )
+        productData.forEach(product => {
+            console.log(`
+    Product ID: ${product.product_id} - ${product.product_name}
+      `);
+        });
+        prompt.get([{
+            name: 'choice',
+            description: 'Please make a selection',
+            type: 'integer',
+            message: "You did not enter a valid option. Please try again!"
+        }], function (err, results) {
+            if (err) return reject(err);
+            addQuantityPrompt(results.choice, getActiveCustomer().id.choice)
+        });
+    });
+}

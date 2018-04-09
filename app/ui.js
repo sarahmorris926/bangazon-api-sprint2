@@ -10,7 +10,7 @@ prompt.message = colors.blue("Bangazon Corp");
 
 // app modules
 const { promptNewCustomer } = require("./controllers/customerCtrl");
-const { listAllCustomerProducts } = require("./controllers/productCtrl");
+const { listAllCustomerProducts, listAllProducts } = require("./controllers/productCtrl");
 const { getAllCustomers, listAllCustomers } = require("./models/Customer");
 const { getAllProducts, getCustomerProducts } = require("./models/Product");
 const { getActiveCustomer } = require("./activeCustomer");
@@ -73,6 +73,12 @@ let mainMenuHandler = (err, userInput) => {
     } else {
       promptNewProduct();
     }
+  } else if (userInput.choice == "5" && getActiveCustomer().id != null) {
+    getAllProducts().then(prodData => {
+      listAllProducts(prodData);
+    })
+      
+    
   } else if (userInput.choice == "7" && getActiveCustomer().id != null) {
     getCustomerProducts(getActiveCustomer().id.choice).then(productData => {
       listAllCustomerProducts(productData);

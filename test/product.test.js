@@ -1,5 +1,5 @@
 const { assert: { isFunction, isObject, deepEqual, equal, isArray, lengthOf, isNumber } } = require("chai");
-const { postOneProduct, getOneProduct, getAllProducts, getActiveOrder, getSumOfProducts, getOrder, getPaymentMethods, updatePaymentMethod } = require("../app/models/Product.js");
+const { postOneProduct, getOneProduct, getAllProducts, getActiveOrder, getSumOfProducts, getOrder, getPaymentMethods, updatePaymentMethod, getProductsList, getPriceAndQuantity } = require("../app/models/Product.js");
 const createProductTable = require('../db/product_table.js');
 
 // MODEL
@@ -153,3 +153,5 @@ describe("update payment methods", () =>{
         })
     })
 })
+
+describe("")

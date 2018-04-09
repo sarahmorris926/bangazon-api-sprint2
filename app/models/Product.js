@@ -51,7 +51,26 @@ module.exports.getOrder = (orderId) => {
             resolve(orderId);
         });
     }); 
+};
+
+module.exports.getProductsList = (orderId) =>{
+    return new Promise ((resolve, reject) => {
+        db.all(`SELECT product_id from order_product where order_id = 11`,(err, prodsList) =>{
+            if (err) return reject(err);
+            resolve(prods);
+        });
+    });
+};
+
+module.exports.getPriceAndQuantity = (prodId) =>{
+    return new Promise ((resolve, reject) => {
+        db.all(`SELECT price, quantity from product where product_id = ${prodId}`, (err, priceAndQuantity) =>{
+            if (err) return reject (err);
+            resolve(priceAndQuantity);
+        })
+    })
 }
+
 //cb add call to sum the products from order_products using the orderId from the active customer
 
 module.exports.getSumOfProducts = (orderId) =>{

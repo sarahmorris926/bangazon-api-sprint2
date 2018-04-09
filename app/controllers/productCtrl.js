@@ -17,7 +17,7 @@ module.exports.completeAPayment = (customerId) => {
     getSumOfProducts(orderId[0].order_id).then((sum) => {
 
       if (sum[0]['sum (price)'] === 0) {
-        console.log("Please add products to your order")
+        console.log("Please add products to your order, Press any key to return to main menu.")
       } else {
 
         let headerDivider = `${magenta('*********************************************************')}`

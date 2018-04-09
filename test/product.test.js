@@ -44,7 +44,7 @@ describe("POST One Product", () => {
       });
       it("should return a new product id for the newly added product", () => {
           postOneProduct(expected).then(data => {
-              equal(152, data.product_id);
+              equal(151, data.product_id);
           })
           .catch((err) => {
             console.log('error 2', err);
@@ -91,7 +91,7 @@ describe("GET All Products", () => {
         });
         it("should return the length of array of total products", () => {
             return getAllProducts().then(data => {
-                lengthOf(data, 152);
+                lengthOf(data, 151);
             });
         });
     });

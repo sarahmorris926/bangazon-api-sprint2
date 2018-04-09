@@ -9,12 +9,9 @@ const { Database } = require("sqlite3").verbose();
 prompt.message = colors.blue("Bangazon Corp");
 
 // app modules
-const {
-  promptNewCustomer,
-  getAllCustomers
-} = require("./controllers/customerCtrl");
+const { promptNewCustomer } = require("./controllers/customerCtrl");
 const { listAllCustomerProducts } = require("./controllers/productCtrl");
-const { getAll, listAllCustomers } = require("./models/Customer");
+const { getAllCustomers, listAllCustomers } = require("./models/Customer");
 const { getAllProducts, getCustomerProducts } = require("./models/Product");
 const { getActiveCustomer } = require("./activeCustomer");
 const { promptNewProduct } = require("./controllers/productCtrl");
@@ -44,7 +41,7 @@ module.exports.displayWelcome = () => {
     ${magenta("4.")} Add product to sell
     ${magenta("5.")} Add product to shopping cart
     ${magenta("6.")} Complete an order
-    ${magenta("7.")} See product popularity
+    ${magenta("7.")} Remove customer product
     ${magenta("8.")} Leave Bangazon!`);
     prompt.get(
       [
@@ -80,7 +77,7 @@ let mainMenuHandler = (err, userInput) => {
   } else if (userInput.choice == "7" && getActiveCustomer().id != null) {
     getCustomerProducts(getActiveCustomer().id.choice).then(productData => {
       listAllCustomerProducts(productData);
-    });
+    })
   } else if (userInput.choice == "7") {
     console.log(`
       ${red(

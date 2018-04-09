@@ -1,5 +1,6 @@
 const { assert: { isFunction, isObject, deepEqual, equal, isArray, lengthOf } } = require("chai");
-const { postOneProduct, getOneProduct, getAllProducts, deleteOneProduct, getCustomerProducts } = require("../app/models/Product.js");
+const { postOneProduct, getOneProduct, getAllProducts, deleteOneProduct, getCustomerProducts, getAllOrderProducts } = require("../app/models/Product.js");
+const { getActiveCustomer, setActiveCustomer } = require('../app/activeCustomer');
 const createProductTable = require('../db/product_table.js');
 
 // MODEL
@@ -121,16 +122,15 @@ describe("REMOVE One Product", () => {
         it("should be a function", () => {
             isFunction(deleteOneProduct);
         });
-    });
-});
-
-// GET ALL FROM ORDER_PRODUCT TABLE
-describe("GET ALL products in orders", () => {
-    describe("get all products linked to any order", () => {
-        it('should be an array', () => {
-            getAllOrderProducts(2).then(data => {
-                isArray(data);
+        it("should delete a product", () => {
+            deleteOneProduct(151, 1)
+            .then( () => {
+                return getOneProduct(151)
+                .then( product151 => {
+                    equal(0, product151.length);
+                });          
             });
         });
-    });
+    }); 
 });
+

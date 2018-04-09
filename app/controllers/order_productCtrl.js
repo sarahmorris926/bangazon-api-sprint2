@@ -40,7 +40,9 @@ module.exports.addProductToOrder = (id, prodId, quantity) => {
 
                     }
                 });
-            };
+            } else { 
+                console.log(`I'm sorry but there are only ${product.quantity} items available to be added to your cart, please enter another quantity.`)
+            } 
         });
     });
 };

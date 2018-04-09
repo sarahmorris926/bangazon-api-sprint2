@@ -37,7 +37,6 @@ let mainMenuHandler = (err, userInput) => {
   } else if (userInput.choice == "3") {
     getActiveCustomer().id 
       ? promptNewPaymentType().then(payTypeData => {
-          console.log("payTypeData", payTypeData);
           module.exports.displayWelcome();
         })
       : console.log("PLEASE SELECT AN ACTIVE USER, YOU DINGUS!") || module.exports.displayWelcome();

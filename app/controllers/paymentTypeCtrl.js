@@ -39,7 +39,6 @@ module.exports.promptNewPaymentType = () => {
           } else {
             console.log(`You're payment type was successfully added!`)
             results.customer_id = customerId;
-            console.log('results',results);
             postOnePaymentType(results);
             resolve(results);
           }

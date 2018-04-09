@@ -65,7 +65,7 @@ module.exports.getSumOfProducts = (orderId) =>{
 
 module.exports.getPaymentMethods = (customerId) => {
     return new Promise ((resolve,reject) => {
-        db.all(`SELECT payment_option from payment_type where customer_id = ${customerId}`, (err,sum) =>{
+        db.all(`SELECT payment_option, payment_id from payment_type where customer_id = ${customerId}`, (err,sum) =>{
             if (err) return reject(err);
             resolve(sum)
         })

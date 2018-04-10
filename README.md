@@ -149,10 +149,15 @@ Once a product has been added to an order, the User will be returned to the Welc
 
 # RUNNING TESTS
 
-To initiate the testing run the following commands:
+To initiate the testing run the following commands in this exact order:
 ```
 node db/build_table.js
-npm test
+npm test test/order.test.js
+npm test test/paymentType.test.js
+npm test test/product.test.js
+npm test test/order_product.test.js
+npm test test/customer.test.js
+
 ```
 
 

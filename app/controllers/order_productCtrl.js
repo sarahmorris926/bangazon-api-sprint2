@@ -3,6 +3,7 @@
 const prompt = require("prompt");
 const { getAllOrderProducts, postOneOrderProduct } = require("../models/Order_Product")
 const { getActiveOrder, postOneOrder } = require("../models/Order")
+const { getAllProducts } = require("../models/Product")
 const { getOneProduct } = require("../models/Product")
 const ui = require("../ui")
 const productCtrl = require("./productCtrl")
@@ -11,8 +12,13 @@ const productCtrl = require("./productCtrl")
 module.exports.addProductToOrder = (id, prodId, quantity) => {
     return new Promise((resolve, reject) => {
         return getOneProduct(prodId).then(product => {
-//Checks product quantity VS number entered by user
-            if (product.quantity >= quantity) {
+            if (product === undefined){
+                getAllProducts().then(prodData => {
+                    productCtrl.promptListAllProducts(prodData);
+                    console.log("Please select an Product ID that actually exists");
+                })
+//Checks product quantity VS number entered by user        
+            } else if (product.quantity >= quantity) {
                 getActiveOrder(id).then(order => {
 //Checks to see if an active order exists, adds product
                     if (order !== undefined) {

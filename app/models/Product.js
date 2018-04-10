@@ -55,9 +55,9 @@ module.exports.getOrder = (orderId) => {
 
 module.exports.getProductsList = (orderId) =>{
     return new Promise ((resolve, reject) => {
-        db.all(`SELECT product_id from order_product where order_id = 11`,(err, prodsList) =>{
+        db.all(`SELECT product_id from order_product where order_id = ${orderId}`,(err, prodsList) =>{
             if (err) return reject(err);
-            resolve(prods);
+            resolve(prodsList);
         });
     });
 };
@@ -70,7 +70,15 @@ module.exports.getPriceAndQuantity = (prodId) =>{
         })
     })
 }
-
+//cb add call to get sum using price from the products table and not from the join table 
+module.exports.getSumOfProdsSQL = (orderId) =>{
+    return new Promise ((resolve, reject) => {
+        db.all(`SELECT sum(product.price* product.quantity) from product JOIN order_product ON  product.product_id = order_product.product_id where order_product.order_id = ${orderId}`,(err,sum) =>{
+            if (err) return reject (err);
+            resolve(sum)
+        })
+    })
+};
 //cb add call to sum the products from order_products using the orderId from the active customer
 
 module.exports.getSumOfProducts = (orderId) =>{

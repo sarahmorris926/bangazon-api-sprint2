@@ -1,5 +1,5 @@
 const { assert: { isFunction, isObject, deepEqual, equal, isArray, lengthOf, isNumber } } = require("chai");
-const { postOneProduct, getOneProduct, getAllProducts, getActiveOrder, getSumOfProducts, getOrder, getPaymentMethods, updatePaymentMethod, getProductsList, getPriceAndQuantity } = require("../app/models/Product.js");
+const { postOneProduct, getOneProduct, getAllProducts, getActiveOrder, getSumOfProducts, getOrder, getPaymentMethods, updatePaymentMethod, getProductsList, getPriceAndQuantity, getSumOfProdsSQL } = require("../app/models/Product.js");
 const createProductTable = require('../db/product_table.js');
 
 // MODEL
@@ -96,7 +96,7 @@ describe.skip("GET All Products", () => {
 // CONTROLLER
 
 
-describe.skip("Get order", () =>{
+describe("Get order", () =>{
     it ("Should be an object",()=>{
         getOrder(12).then(data => {
             isObject(data[0]);
@@ -106,7 +106,7 @@ describe.skip("Get order", () =>{
     })
 })
 
-describe.skip("Get sum", () =>{
+describe("Get sum", () =>{
 
     it ("Should be an integer",()=>{
         getSumOfProducts(43).then(data =>{
@@ -118,9 +118,21 @@ describe.skip("Get sum", () =>{
     })
 })
 
+describe("Get sum SQL", () =>{
+
+    it ("Should be an integer",()=>{
+        getSumOfProdsSQL(11).then(data =>{
+            isNumber(data[0]['sum(product.price* product.quantity)']);
+        })
+        .catch((err)=>{
+            console.log(err, "sum test error");
+        })
+    })
+})
+
 //passing in customerID of 11 
 
-describe.skip("get payment methods", () =>{
+describe("get payment methods", () =>{
     it("Should be an array",() =>{
         getPaymentMethods(11).then(data => {
             isArray(data);
@@ -143,9 +155,8 @@ describe.skip("get payment methods", () =>{
 describe("update payment methods", () =>{
     it("should update the updated payment", ()=>{
         updatePaymentMethod (20, 11).then(data => {
-            console.log("payment posted");
             getOrder(11).then(data =>{
-                console.log("data payment", data);
+                equal(data[0].payment_type, 20)
             })
         })
         .catch((err) =>{
@@ -154,4 +165,33 @@ describe("update payment methods", () =>{
     })
 })
 
-describe("")
+//no longer need if the refactored sum query works
+describe.skip("get Products List", () =>{
+    it("should return a list of the products in the order", () =>{
+        getProductsList(11).then(data =>{
+            isArray(data)
+        })
+        .catch((err) =>{
+            console.log(err, "get products list error")
+        })
+    })
+    it("Should contain an object", () =>{
+        getProductsList().then(data =>{
+            isObject(data[0])
+        })
+        .catch((err) =>{
+            console.log(err, "get products list error")
+        })
+    })
+})
+
+describe("Get products and quantity", ()=>{
+    it("Should return the price and quantities associated",()=>{
+        getPriceAndQuantity(24).then(data =>{
+            isArray(data)
+        })
+        .catch((err)=>{
+            console.log(err, "get price and quantities error")
+        })
+    })
+})

@@ -1,13 +1,119 @@
+const {
+  getSumOfProducts,
+  getOrder,
+  getPaymentMethods,
+  updatePaymentMethod,
+  getSumOfProdsSQL,
+  getAllProducts, 
+  postOneProduct, 
+  deleteOneProduct, 
+  getOneProduct ,
+  getActiveOrder
+} = require("../models/Product.js")
+const colors = require("colors/safe");
+const {
+  red,
+  magenta,
+  blue
+} = require("chalk");
 
-'use strict';
-
+const { displayWelcome } = require('../ui.js');
 const prompt = require('prompt');
-const { getAllProducts, postOneProduct, deleteOneProduct, getOneProduct } = require('../models/Product.js');
 const { getActiveCustomer } = require('../activeCustomer.js');
 const { addProductToOrder } = require('./order_productCtrl');
-const { red, magenta, blue, green } = require("chalk");
-const colors = require("colors/safe");
+
+
 const ui = require('../ui');
+
+module.exports.completeAPayment = (customerId) => {
+  getActiveOrder(customerId).then((orderId) => {
+    getSumOfProdsSQL(orderId[0].order_id).then((sum) => {
+
+      if (sum[0]['sum(product.price * order_product.order_quantity)'] === 0) {
+        console.log("Please add products to your order");
+        ui.displayWelcome();
+
+      } else {
+
+        let headerDivider = `${magenta('*********************************************************')}`
+        return new Promise((resolve, reject) => {
+          console.log(`
+      ${headerDivider}
+      ${magenta(`** Your Current Order Total is ${sum[0]['sum(product.price * order_product.order_quantity)']}, ready to purhase?**`)}
+      ${headerDivider}`)
+          prompt.get([{
+            name: 'choice',
+            description: '(Y/N)',
+            type: 'string',
+            message: "please select Y or N"
+          }], function (err, results) {
+            if (err) return reject(err);
+            if (results.choice === "Y") {
+              getPaymentMethods(customerId).then((payment) => {
+                if (payment.length === 0) {
+                  console.log("please add payments to your account");
+                  ui.displayWelcome();
+                } else {
+                  return new Promise((resolve, reject) => {
+                    console.log(`${headerDivider}${(`Choose a payment option`)}${headerDivider}`);
+                    for (i = 0; i < payment.length; i++) {
+                      console.log(`${i+1} . ${payment[i].payment_option}`);
+                    };
+                    prompt.get([{
+                      name: "Choice",
+                      description: `enter number of the payment you would like to select`,
+                      type: 'integer',
+                      message: 'enter number of payment you would like to select'
+                    }], function (err, results) {
+                      if (err) return reject(err);
+                      if (results.Choice === 1) {
+                        updatePaymentMethod(payment[0].payment_id, orderId[0].order_id)
+                          .then((data) => {
+                            console.log("payment completed");
+                            ui.displayWelcome();
+                          })
+                      } else if (results.Choice === 2) {
+                        updatePaymentMethod(payment[1].payment_id, orderId[0].order_id)
+                          .then((data) => {
+                            console.log("payment completed");
+                            ui.displayWelcome();
+                          })
+                      } else if (results.Choice === 3){
+                        updatePaymentMethod(payment[2].payment_id, orderId[0].order_id)
+                          .then((data) => {
+                            console.log("payment completed");
+                            ui.displayWelcome();
+                          })
+                      } else if (results.Choice === 4){
+                        updatePaymentMethod(payment[3].payment_id, orderId[0].order_id)
+                          .then((data) => {
+                            console.log("payment completed");
+                            ui.displayWelcome();
+                          })
+                      } else {
+                        updatePaymentMethod(payment[4].payment_id, orderId[0].order_id)
+                          .then((data) => {
+                            console.log("payment completed");
+                            ui.displayWelcome();
+                          })
+                      }
+                    })
+
+                  })
+
+                }
+              })
+            } else {
+              console.log("You chose to not complete your order!");
+              ui.displayWelcome();
+            }
+          });
+        });
+      }
+    })
+  })
+}
+
 
 module.exports.promptNewProduct = () => {
     return new Promise((resolve, reject) => {

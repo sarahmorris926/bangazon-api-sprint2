@@ -7,6 +7,7 @@ const colors = require("colors/safe");
 const path = require("path");
 const { Database } = require("sqlite3").verbose();
 prompt.message = colors.blue("Bangazon Corp");
+const {completeAPayment} = require("./controllers/productCtrl")
 
 //controllers
 const { promptNewCustomer } = require("./controllers/customerCtrl");
@@ -68,20 +69,27 @@ let mainMenuHandler = (err, userInput) => {
   } else if (userInput.choice == "2") {
     getAllCustomers().then(custData => {
       listAllCustomers(custData);
-    });
-  } else if (userInput.choice == "3") {
-    getActiveCustomer().id
-      ? promptNewPaymentType().then(payTypeData => {
+    })
+    }  else if (userInput.choice == "3") {
+      getActiveCustomer().id
+        ? promptNewPaymentType().then(payTypeData => {
+            module.exports.displayWelcome();
+          })
+        : console.log("PLEASE SELECT AN ACTIVE USER!") ||
           module.exports.displayWelcome();
-        })
-      : console.log("PLEASE SELECT AN ACTIVE USER!") ||
+    } else if (userInput.choice == "4") {
+      if (getActiveCustomer().id === null) {
+        console.log("Please select an active customer first!");
         module.exports.displayWelcome();
-  } else if (userInput.choice == "4") {
-    if (getActiveCustomer().id === null) {
-      console.log("Please select an active customer first!");
-      module.exports.displayWelcome();
+      } else {
+        promptNewProduct();
+      }
+  } else if (userInput.choice == '6'){
+    if ( getActiveCustomer().id != null ){
+    completeAPayment(getActiveCustomer().id.choice);
     } else {
-      promptNewProduct();
+      console.log("please first choose an active customer");
+      module.exports.displayWelcome();
     }
   } else if (userInput.choice == "5" && getActiveCustomer().id != null) {
     getAllProducts().then(prodData => {
@@ -102,6 +110,9 @@ let mainMenuHandler = (err, userInput) => {
       ${red(
         "You cannot delete a product until you select an active customer. Please choose an active customer to continue."
       )}`);
-    module.exports.displayWelcome();
-  }
+      module.exports.displayWelcome();
+    }
 };
+
+
+

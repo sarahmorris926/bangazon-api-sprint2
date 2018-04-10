@@ -1,6 +1,6 @@
 
-const { assert: { isFunction, isObject, deepEqual, equal, isArray, lengthOf } } = require("chai");
-const { postOneProduct, getOneProduct, getAllProducts, deleteOneProduct, getCustomerProducts, getAllOrderProducts, updateProductQuantity } = require("../app/models/Product.js");
+const { assert: { isFunction, isObject, deepEqual, equal, isArray, lengthOf, isNumber } } = require("chai");
+const { postOneProduct, getOneProduct, getAllProducts, deleteOneProduct, getCustomerProducts, getAllOrderProducts, updateProductQuantity, getActiveOrder, getSumOfProducts, getOrder, getPaymentMethods, updatePaymentMethod, getProductsList, getPriceAndQuantity, getSumOfProdsSQL } = require("../app/models/Product.js");
 const { getActiveCustomer, setActiveCustomer } = require('../app/activeCustomer');
 const { promptNewProduct } = require('../app/controllers/productCtrl');
 const createProductTable = require('../db/product_table.js');
@@ -93,6 +93,77 @@ describe("GET All Products", () => {
 
 // CONTROLLER
 
+
+describe("Get order", () =>{
+    it ("Should be an object",()=>{
+        getOrder(12).then(data => {
+            isObject(data[0]);
+        })
+        .catch((err) => 
+        console.log(err,"error"));
+    })
+})
+
+
+
+describe("Get sum SQL", () =>{
+
+    it ("Should be an integer",()=>{
+        getSumOfProdsSQL(11).then(data =>{
+            isNumber(data[0]['sum(product.price* product.quantity)']);
+        })
+        .catch((err)=>{
+            console.log(err, "sum test error");
+        })
+    })
+})
+
+//passing in customerID of 11 
+
+describe("get payment methods", () =>{
+    it("Should be an array",() =>{
+        getPaymentMethods(11).then(data => {
+            isArray(data);
+        })
+        .catch((err) =>{
+            console.log(err,"array test error");
+        })
+    })
+    it("Should contain an object", () =>{
+        getPaymentMethods(11).then(data => {
+            isObject(data[0])
+        })
+        .catch((err) => {
+            console.log(err, "array does not contain object")
+        })
+    })
+})
+
+
+describe("update payment methods", () =>{
+    it("should update the updated payment", ()=>{
+        updatePaymentMethod (20, 11).then(data => {
+            getOrder(11).then(data =>{
+                equal(data[0].payment_type, 20)
+            })
+        })
+        .catch((err) =>{
+            console.log(err, "post data method error")
+        })
+    })
+})
+
+
+describe("Get products and quantity", ()=>{
+    it("Should return the price and quantities associated",()=>{
+        getPriceAndQuantity(24).then(data =>{
+            isArray(data)
+        })
+        .catch((err)=>{
+            console.log(err, "get price and quantities error")
+        })
+    })
+})
 describe("Add Product Prompt", () => {
     it("should be a function", () => {
         isFunction(promptNewProduct);

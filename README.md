@@ -19,8 +19,7 @@ In this group project, users are able to interact with a basic product ordering 
 5. Add product to shopping cart
 6. Complete an order
 7. Remove customer product
-8. Update product information
-9. Leave Bangazon!
+8. Leave Bangazon!
 >
 ```
 
@@ -145,8 +144,13 @@ Your Order has been updated with your product(s)
 Once a product has been added to an order, the User will be returned to the Welcome Menu. 
 
 
-
-
+**Complete a payment**
+    1. select active customer 
+    2. enter 6 on the command line to complete an order
+    3. CLI will prompt with current order total, enter Y or N
+        1. if N CLI will exit with console log (‘You chose to not complete your order!’)
+    4.  If Y CLI will prompt to chose a payment option, enter the number of the payment option that is chosen
+    5. Console will log payment completed, run npm test or refresh the database to view successful update 
 # RUNNING TESTS
 
 To initiate the testing run the following commands in this exact order:

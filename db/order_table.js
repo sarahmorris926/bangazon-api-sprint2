@@ -18,9 +18,9 @@ module.exports = () => {
             customer_id INTEGER,
             payment_type INTEGER,
             order_creation_date TEXT,
-            FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
-            FOREIGN KEY (payment_type) REFERENCES payment_type(payment_id) 
+            FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
         )`,
+        // FOREIGN KEY (payment_type) REFERENCES payment_type(payment_id) 
                 () => {
                     for (let i = 1; i <= 15; i++) {
                         db.run(`INSERT INTO orders VALUES (

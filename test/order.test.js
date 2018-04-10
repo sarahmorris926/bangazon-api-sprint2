@@ -5,21 +5,21 @@ const { getAllOrders, postOneOrder, getOneOrder, getActiveOrder } = require("../
 const createOrderTable = require("../db/order_table.js");
 
 const currentDate = () => {
-var today = new Date();
-var dd = today.getDate();
-var mm = today.getMonth() + 1; //January is 0!
-var yyyy = today.getFullYear();
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
 
-if (dd < 10) {
-    dd = '0' + dd
-}
+    if (dd < 10) {
+        dd = '0' + dd
+    }
 
-if (mm < 10) {
-    mm = '0' + mm
-}
+    if (mm < 10) {
+        mm = '0' + mm
+    }
 
-today = yyyy + '-' + mm + '-' + dd;
-return today;
+    today = yyyy + '-' + mm + '-' + dd;
+    return today;
 };
 
 // Order Model
@@ -72,34 +72,34 @@ describe("Order GETs", () => {
         it("should be a function", () => {
             isFunction(getActiveOrder);
         });
-        it ("should return an object", () => {
-            getActiveOrder(2).then(order =>{
+        it("should return an object", () => {
+            getActiveOrder(2).then(order => {
                 isObject(order);
             });
         });
     });
-});
-// POST Orders
-describe("Post One order", () => {
-    it("should be a function", () => {
-        isFunction(postOneOrder);
-    });
-    it("should return an object equal to the order posted", () => {
-        let newOrder = {
-            customer_id: 21,
-            payment_type: null
-        }
-        return postOneOrder(newOrder).then(postedOrder => {
-            let expected = {
-                order_id: 46,
+
+    // POST Orders
+    describe("Post One order", () => {
+        it("should be a function", () => {
+            isFunction(postOneOrder);
+        });
+        it("should return an object equal to the order posted", () => {
+            let newOrder = {
                 customer_id: 21,
-                payment_type: null,
-                order_creation_date: currentDate()
-            };
-            return getOneOrder(46).then(order => {
-                console.log(order);
-                deepEqual(order, expected);
-            })
+                payment_type: null
+            }
+            return postOneOrder(newOrder).then(postedOrder => {
+                let expected = {
+                    order_id: 46,
+                    customer_id: 21,
+                    payment_type: null,
+                    order_creation_date: currentDate()
+                };
+                return getOneOrder(46).then(order => {
+                    deepEqual(order, expected);
+                })
+            });
         });
     });
 });

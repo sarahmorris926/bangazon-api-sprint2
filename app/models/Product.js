@@ -77,7 +77,7 @@ module.exports.getPriceAndQuantity = (prodId) =>{
 //cb add call to get sum using price from the products table and not from the join table 
 module.exports.getSumOfProdsSQL = (orderId) =>{
     return new Promise ((resolve, reject) => {
-        db.all(`SELECT sum(product.price* product.quantity) from product JOIN order_product ON  product.product_id = order_product.product_id where order_product.order_id = ${orderId}`,(err,sum) =>{
+        db.all(`SELECT sum(product.price * order_product.order_quantity) from product JOIN order_product ON  product.product_id = order_product.product_id where order_product.order_id = ${orderId}`,(err,sum) =>{
             if (err) return reject (err);
             resolve(sum)
         })

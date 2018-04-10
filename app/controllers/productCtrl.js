@@ -79,7 +79,7 @@ module.exports.listAllCustomerProducts = (productData) => {
         });
     });
 }
-
+// Prompt to list all products when 5 is selected
 module.exports.listAllProducts = (productData) => {
     let headerDivider = `${magenta('*********************************************************')}`
     return new Promise((resolve, reject) => {
@@ -102,11 +102,13 @@ module.exports.listAllProducts = (productData) => {
             message: "You did not enter a valid option. Please try again!"
         }], function (err, results) {
             if (err) return reject(err);
+// Call back runs the next prompt, which allows users to enter quantity          
             module.exports.addQuantityPrompt(results.choice, getActiveCustomer().id.choice)
         });
     });
 }
 
+//Prompt to add the quantity of the product being added to the cart
 module.exports.addQuantityPrompt = (prodID, custID) => {
     let headerDivider = `${magenta('*********************************************************')}`
     return new Promise((resolve, reject) => {
@@ -127,6 +129,7 @@ module.exports.addQuantityPrompt = (prodID, custID) => {
             message: "You did not enter a valid option. Please try again!"
         }], function (err, results) {
             if (err) return reject(err);
+//runs the function from the OP Ctrl to add the Object to the OP table
             addProductToOrder(custID, prodID, results.quantity)
         });
     })

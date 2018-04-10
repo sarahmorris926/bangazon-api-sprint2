@@ -7,7 +7,8 @@ const {
   getAllProducts, 
   postOneProduct, 
   deleteOneProduct, 
-  getOneProduct 
+  getOneProduct ,
+  getActiveOrder
 } = require("../models/Product.js")
 const colors = require("colors/safe");
 const {
@@ -25,7 +26,7 @@ const { addProductToOrder } = require('./order_productCtrl');
 const ui = require('../ui');
 
 module.exports.completeAPayment = (customerId) => {
-  getOrder(customerId).then((orderId) => {
+  getActiveOrder(customerId).then((orderId) => {
     getSumOfProdsSQL(orderId[0].order_id).then((sum) => {
 
       if (sum[0]['sum(product.price* product.quantity)'] === 0) {

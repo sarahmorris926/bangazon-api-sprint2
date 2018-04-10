@@ -51,7 +51,8 @@ module.exports.completeAPayment = (customerId) => {
             if (results.choice === "Y") {
               getPaymentMethods(customerId).then((payment) => {
                 if (payment.length === 0) {
-                  console.log("please add payments to your account")
+                  console.log("please add payments to your account");
+                  ui.displayWelcome();
                 } else {
                   return new Promise((resolve, reject) => {
                     console.log(`${headerDivider}${(`Choose a payment option`)}${headerDivider}`);

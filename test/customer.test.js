@@ -11,7 +11,7 @@ const createCustomerTable = require("../db/customer_table.js");
 
 // MODEL
 // POST One
-describe.skip("add customer", () => {
+describe("add customer", () => {
   it("should be a function", () => {
     isFunction(postOneCustomer);
   });
@@ -67,7 +67,7 @@ describe.skip("add customer", () => {
 });
 
 // GET One
-describe.skip("Get one Customer", () => {
+describe("Get one Customer", () => {
   describe("get one function", () => {
     it("should return an object", () => {
       return getOneCustomer(50)
@@ -108,8 +108,9 @@ describe("Get all customers", () => {
 
 // CONTROLLER
 // POST One
-describe.skip("Add Customer Prompt", () => {
+describe("Add Customer Prompt", () => {
   it("should be a function", () => {
     isFunction(promptNewCustomer);
   });
 });
+

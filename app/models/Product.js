@@ -111,6 +111,18 @@ module.exports.updatePaymentMethod = (payment,orderId) => {
         })
     })
 };
+
+module.exports.updateProductQuantity = (id, quantity) => {
+    return new Promise((resolve, reject) => {
+        db.run(`UPDATE product
+                SET quantity = ${quantity}
+                WHERE product_id = ${id}`, (err, product) => {
+                    if (err) return reject(err);
+                    resolve(product);
+                });
+    });
+};
+
 module.exports.getCustomerProducts = (id) => {
     return new Promise( (resolve, reject) => {
         db.all(`SELECT * FROM product WHERE customer_id = ${id}`, (err, customerProducts) => {
@@ -151,7 +163,7 @@ module.exports.deleteOneProduct = (id, customerId) => {
                     });
                     module.exports.getCustomerProducts(customerId)
                     .then( (productData) => {
-                        listCustPro.listAllCustomerProducts(productData);
+                        listCustPro.promptListAllCustomerProducts(productData);
                     });
                 })
             } else {
@@ -159,7 +171,7 @@ module.exports.deleteOneProduct = (id, customerId) => {
     ${red("The product you selected is either attached to an existing order and can't be deleted, or does not exist. Please try again.")}`);
                 module.exports.getCustomerProducts(customerId)
                 .then( (productData) => {
-                    listCustPro.listAllCustomerProducts(productData);
+                    listCustPro.promptListAllCustomerProducts(productData);
                 });
             }
         });

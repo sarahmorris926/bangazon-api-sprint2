@@ -1,6 +1,6 @@
 
 const { assert: { isFunction, isObject, deepEqual, equal, isArray, lengthOf, isNumber } } = require("chai");
-const { postOneProduct, getOneProduct, getAllProducts, deleteOneProduct, getCustomerProducts, getAllOrderProducts, getActiveOrder, getSumOfProducts, getOrder, getPaymentMethods, updatePaymentMethod, getProductsList, getPriceAndQuantity, getSumOfProdsSQL   } = require("../app/models/Product.js");
+const { postOneProduct, getOneProduct, getAllProducts, deleteOneProduct, getCustomerProducts, getAllOrderProducts, updateProductQuantity, getActiveOrder, getSumOfProducts, getOrder, getPaymentMethods, updatePaymentMethod, getProductsList, getPriceAndQuantity, getSumOfProdsSQL } = require("../app/models/Product.js");
 const { getActiveCustomer, setActiveCustomer } = require('../app/activeCustomer');
 const { promptNewProduct } = require('../app/controllers/productCtrl');
 const createProductTable = require('../db/product_table.js');
@@ -10,12 +10,12 @@ const createProductTable = require('../db/product_table.js');
 // Post One
 describe("POST One Product", () => {
     before(done => {
-      createProductTable().then(() => {
-          done();
-      })
-      .catch((err) => {
-        console.log('error in product test 1', err);
-      })
+        createProductTable().then(() => {
+            done();
+        })
+            .catch((err) => {
+                console.log('error in product test 1', err);
+            })
     });
     describe("add a product", () => {
         let expected = {
@@ -26,41 +26,35 @@ describe("POST One Product", () => {
             customer_id: 1,
             listing_date: "2018-01-01",
             quantity: 100
-          }
-      it("should be a function", () => {
-        isFunction(postOneProduct);
-      });
-      it("should return an object, and should return the new product ID for newly added product", () => {
-          return postOneProduct(expected).then(data => {
-              getOneProduct(data.product_id)
-              .then(newData => {
-                  isObject(newData);
-                  equal(151, newData.product_id);
-              })
-          })
-          .catch((err) => {
-            console.log('error 1', err);
-          })
-      });
-      it("should return a new product id for the newly added product", () => {
-          postOneProduct(expected).then(data => {
-              equal(151, data.product_id);
-          })
-          .catch((err) => {
-            console.log('error 2', err);
-          })
-      })
-
+        }
+        it("should be a function", () => {
+            isFunction(postOneProduct);
+        });
+        it("should return an object, and should return the new product ID for newly added product", () => {
+            return postOneProduct(expected).then(data => {
+                getOneProduct(data.product_id)
+                    .then(newData => {
+                        isObject(newData);
+                        equal(151, newData.product_id);
+                    })
+            })
+                .catch((err) => {
+                    console.log('error 1', err);
+                })
+        });
     });
 });
 
 // GET One
-describe.skip("GET One Product", () => {
+describe("GET One Product", () => {
     describe("get a product", () => {
         it("should return an object", () => {
             return getOneProduct(1).then(data => {
                 isObject(data);
-            });
+            })
+                .catch((err) => {
+                    console.log('error 1', err);
+                })
         });
         it("should return the correct Product object", () => {
             return getOneProduct(1).then(data => {
@@ -69,15 +63,15 @@ describe.skip("GET One Product", () => {
                 };
                 equal(1, data.product_id);
             })
-            .catch((err) => {
-                console.log('correct object error', err);
-              });
+                .catch((err) => {
+                    console.log('correct object error', err);
+                });
         });
     });
 });
 
 // GET All
-describe.skip("GET All Products", () => {
+describe("GET All Products", () => {
     describe("get all products", () => {
         it("should be an array", () => {
             return getAllProducts().then(data => {
@@ -110,17 +104,7 @@ describe("Get order", () =>{
     })
 })
 
-describe.skip("Get sum", () =>{
 
-    it ("Should be an integer",()=>{
-        getSumOfProducts(43).then(data =>{
-            isNumber(data[0]['sum (price)']);
-        })
-        .catch((err)=>{
-            console.log(err, "sum test error");
-        })
-    })
-})
 
 describe("Get sum SQL", () =>{
 
@@ -169,25 +153,6 @@ describe("update payment methods", () =>{
     })
 })
 
-//no longer need if the refactored sum query works
-describe.skip("get Products List", () =>{
-    it("should return a list of the products in the order", () =>{
-        getProductsList(11).then(data =>{
-            isArray(data)
-        })
-        .catch((err) =>{
-            console.log(err, "get products list error")
-        })
-    })
-    it("Should contain an object", () =>{
-        getProductsList().then(data =>{
-            isObject(data[0])
-        })
-        .catch((err) =>{
-            console.log(err, "get products list error")
-        })
-    })
-})
 
 describe("Get products and quantity", ()=>{
     it("Should return the price and quantities associated",()=>{
@@ -199,3 +164,50 @@ describe("Get products and quantity", ()=>{
         })
     })
 })
+describe("Add Product Prompt", () => {
+    it("should be a function", () => {
+        isFunction(promptNewProduct);
+    });
+});
+
+// GET ALL CUSTOMERS PRODUCTS
+describe("GET All Customers Products", () => {
+    describe("get customers products", () => {
+        it("should be an array", () => {
+            getCustomerProducts(1).then(data => {
+                isArray(data);
+            });
+            it("should be an array of objects", () => {
+                getCustomerProducts(1).then(data => {
+                    isObject(data[1]);
+                });
+            });
+            it("should contain products with the correct customer id", () => {
+                getCustomerProducts(2).then(data => {
+                    equal(2, data[1].customer_id);
+                });
+            });
+        });
+    });
+});
+
+// DELETE ONE PRODUCT
+describe("REMOVE One Product", () => {
+    describe("delete one product", () => {
+        it("should be a function", () => {
+            isFunction(deleteOneProduct);
+        });
+        it("should delete a product", () => {
+            deleteOneProduct(151, 1)
+                .then(() => {
+                    return getOneProduct(151)
+                        .then(product151 => {
+                            equal(0, product151.length);
+                        });
+                });
+        });
+    });
+});
+
+
+

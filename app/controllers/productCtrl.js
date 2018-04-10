@@ -29,7 +29,7 @@ module.exports.completeAPayment = (customerId) => {
   getActiveOrder(customerId).then((orderId) => {
     getSumOfProdsSQL(orderId[0].order_id).then((sum) => {
 
-      if (sum[0]['sum(product.price* product.quantity)'] === 0) {
+      if (sum[0]['sum(product.price * order_product.order_quantity)'] === 0) {
         console.log("Please add products to your order");
         ui.displayWelcome();
 
@@ -39,7 +39,7 @@ module.exports.completeAPayment = (customerId) => {
         return new Promise((resolve, reject) => {
           console.log(`
       ${headerDivider}
-      ${magenta(`** Your Current Order Total is ${sum[0]['sum(product.price* product.quantity)']}, ready to purhase?**`)}
+      ${magenta(`** Your Current Order Total is ${sum[0]['sum(product.price * order_product.order_quantity)']}, ready to purhase?**`)}
       ${headerDivider}`)
           prompt.get([{
             name: 'choice',

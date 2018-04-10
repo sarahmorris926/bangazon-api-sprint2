@@ -109,6 +109,43 @@ Enter Payment Type
 Enter Account number
 ```
 
+### Adding a Product to a Customer's Cart
+
+Users are able to add a product(s) to the Active Customer's Cart using the prompt, after the Active Customer has been selected.
+
+**Active Customer Must Be Selected**
+Users will not be able to add a Product to the Customers Cart if an active customer has not been selected. If you select #5 from the main menu before choosing an active customer, you will see the following error message: 
+
+```
+You cannot add products to the cart until you select an active customer. Please choose an active customer to continue.
+```
+**Select the product to be added to the cart**
+After an active customer has been selected, proceed to the product list by selecting option # 5 on the Welcome Menu. Once selected, the user will be presented with a list of ALL products. The user must then input a number that corresponds to the product they wish to add. If they do not select a number that corresponds to a product, they will receive the following error message: 
+
+```
+You did not enter a valid option. Please try again!
+```
+
+***Select the quantity of the Product to be added to the Order***
+Once a product has been selected, the User will be presented with a prompt to enter a total Quantity. The user will enter a number for the quantity they wish to add to their cart. If the quantity entered is not available, the User will be presented with a message notifying them how many of the product is available. Ex:
+
+```
+I'm sorry but there are only X items available to be added to your cart, please enter another quantity.
+```
+Once the user has entered an available quantity, the will receive a message notifying them of such. If no active order exists for the customer, an order will be created with the product added, and the customer will receive the following message: 
+
+```
+Your Order has been created!
+```
+If an active order already exists for the customer, the product will be added to the order, and the customer will receive the following message: 
+
+```
+Your Order has been updated with your product(s)
+```
+Once a product has been added to an order, the User will be returned to the Welcome Menu. 
+
+
+
 
 # RUNNING TESTS
 

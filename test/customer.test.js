@@ -113,3 +113,4 @@ describe("Add Customer Prompt", () => {
     isFunction(promptNewCustomer);
   });
 });
+

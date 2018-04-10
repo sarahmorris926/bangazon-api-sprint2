@@ -18,7 +18,7 @@ module.exports = () => {
             db.run(
                 `CREATE TABLE IF NOT EXISTS order_product (
         line_id INTEGER,
-        quantity INTERGER,
+        order_quantity INTERGER,
         order_id INTEGER,
         product_id INTEGER
     )`,

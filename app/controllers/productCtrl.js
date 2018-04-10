@@ -52,7 +52,7 @@ module.exports.promptNewProduct = () => {
     });
 };
 
-module.exports.listAllCustomerProducts = (productData) => {
+module.exports.promptListAllCustomerProducts = (productData) => {
     let headerDivider = `${magenta('*********************************************************')}`
     return new Promise((resolve, reject) => {
         console.log(`
@@ -80,7 +80,7 @@ module.exports.listAllCustomerProducts = (productData) => {
     });
 }
 // Prompt to list all products when 5 is selected
-module.exports.listAllProducts = (productData) => {
+module.exports.promptListAllProducts = (productData) => {
     let headerDivider = `${magenta('*********************************************************')}`
     return new Promise((resolve, reject) => {
         console.log(`

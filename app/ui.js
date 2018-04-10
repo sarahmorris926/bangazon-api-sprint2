@@ -1,26 +1,26 @@
 "use strict";
 
 // 3rd party libs
-const { red, magenta, blue } = require("chalk");
+const { red, magenta, blue, green } = require("chalk");
 const prompt = require("prompt");
 const colors = require("colors/safe");
 const path = require("path");
 const { Database } = require("sqlite3").verbose();
 prompt.message = colors.blue("Bangazon Corp");
 
-// app modules
+//controllers
 const { promptNewCustomer } = require("./controllers/customerCtrl");
-const { listAllCustomerProducts, listAllProducts } = require("./controllers/productCtrl");
+const { promptListAllCustomerProducts, promptListAllProducts, promptNewProduct } = require("./controllers/productCtrl");
+const { promptNewPaymentType } = require("./controllers/paymentTypeCtrl");
+
+//models
 const { getAllCustomers, listAllCustomers, getOneCustomer } = require("./models/Customer");
 const { getAllProducts, getCustomerProducts } = require("./models/Product");
 const { getActiveCustomer } = require("./activeCustomer");
-const { promptNewProduct } = require("./controllers/productCtrl");
 
 const db = new Database(path.join(__dirname, "..", "db", "bangazon.sqlite"));
 
 prompt.start();
-
-
 
 module.exports.displayWelcome = () => {
   let headerDivider = `${magenta(
@@ -59,16 +59,23 @@ module.exports.displayWelcome = () => {
 };
 
 let mainMenuHandler = (err, userInput) => {
-  // This could get messy quickly. Maybe a better way to parse the input?
   if (userInput.choice == "1") {
     promptNewCustomer().then(custData => {
-      console.log("customer data to save", custData);
+      // console.log(`
+      // // ${green('Customer has been added!')}`);
       //save customer to db
     });
   } else if (userInput.choice == "2") {
     getAllCustomers().then(custData => {
       listAllCustomers(custData);
     });
+  } else if (userInput.choice == "3") {
+    getActiveCustomer().id
+      ? promptNewPaymentType().then(payTypeData => {
+          module.exports.displayWelcome();
+        })
+      : console.log("PLEASE SELECT AN ACTIVE USER!") ||
+        module.exports.displayWelcome();
   } else if (userInput.choice == "4") {
     if (getActiveCustomer().id === null) {
       console.log("Please select an active customer first!");
@@ -78,14 +85,18 @@ let mainMenuHandler = (err, userInput) => {
     }
   } else if (userInput.choice == "5" && getActiveCustomer().id != null) {
     getAllProducts().then(prodData => {
-      listAllProducts(prodData);
+      promptListAllProducts(prodData);
     })
-      
-    
+  } else if (userInput.choice == "5"){
+    console.log(`
+      ${red(
+        "You cannot add products to the cart until you select an active customer. Please choose an active customer to continue."
+      )}`);
+    module.exports.displayWelcome();
   } else if (userInput.choice == "7" && getActiveCustomer().id != null) {
     getCustomerProducts(getActiveCustomer().id.choice).then(productData => {
-      listAllCustomerProducts(productData);
-    })
+      promptListAllCustomerProducts(productData);
+    });
   } else if (userInput.choice == "7") {
     console.log(`
       ${red(
@@ -94,4 +105,3 @@ let mainMenuHandler = (err, userInput) => {
     module.exports.displayWelcome();
   }
 };
-

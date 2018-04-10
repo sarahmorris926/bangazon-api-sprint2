@@ -11,7 +11,7 @@ prompt.message = colors.blue("Bangazon Corp");
 // app modules
 const { promptNewCustomer } = require("./controllers/customerCtrl");
 const { listAllCustomerProducts, listAllProducts } = require("./controllers/productCtrl");
-const { getAllCustomers, listAllCustomers } = require("./models/Customer");
+const { getAllCustomers, listAllCustomers, getOneCustomer } = require("./models/Customer");
 const { getAllProducts, getCustomerProducts } = require("./models/Product");
 const { getActiveCustomer } = require("./activeCustomer");
 const { promptNewProduct } = require("./controllers/productCtrl");
@@ -19,6 +19,8 @@ const { promptNewProduct } = require("./controllers/productCtrl");
 const db = new Database(path.join(__dirname, "..", "db", "bangazon.sqlite"));
 
 prompt.start();
+
+
 
 module.exports.displayWelcome = () => {
   let headerDivider = `${magenta(
@@ -30,7 +32,8 @@ module.exports.displayWelcome = () => {
     ${magenta("**  Welcome to Bangazon! Command Line Ordering System  **")}
     ${headerDivider}`);
     getActiveCustomer().id
-      ? console.log(
+      ? 
+      console.log(
           `The Current Active User is: ${getActiveCustomer().id.choice}`
         )
       : console.log(`No active customer selected`);

@@ -102,12 +102,12 @@ module.exports.listAllProducts = (productData) => {
             message: "You did not enter a valid option. Please try again!"
         }], function (err, results) {
             if (err) return reject(err);
-            addQuantityPrompt(results.choice, getActiveCustomer().id.choice)
+            module.exports.addQuantityPrompt(results.choice, getActiveCustomer().id.choice)
         });
     });
 }
 
-const addQuantityPrompt = (prodID, custID) => {
+module.exports.addQuantityPrompt = (prodID, custID) => {
     let headerDivider = `${magenta('*********************************************************')}`
     return new Promise((resolve, reject) => {
         console.log(`

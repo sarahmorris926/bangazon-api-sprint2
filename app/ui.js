@@ -24,7 +24,6 @@ const db = new Database(path.join(__dirname, '..', 'db', 'bangazon.sqlite'));
 prompt.start();
 
 let mainMenuHandler = (err, userInput) => {
-  console.log("user input", userInput);
   // This could get messy quickly. Maybe a better way to parse the input?
   if(userInput.choice == '1') {
     promptNewCustomer()
@@ -38,7 +37,11 @@ let mainMenuHandler = (err, userInput) => {
       listAllCustomers(custData);
     })
   } else if (userInput.choice == '5'){
+    if ( getActiveCustomer().id != null ){
     completeAPayment(getActiveCustomer().id.choice);
+    } else {
+      console.log("please first choose an active customer");
+    }
   }
 };
 

@@ -99,6 +99,8 @@ module.exports.promptListAllProducts = (productData) => {
             name: 'choice',
             description: 'Please make a selection',
             type: 'integer',
+            minimum: 1,
+            maximum: productData.length,
             message: "You did not enter a valid option. Please try again!"
         }], function (err, results) {
             if (err) return reject(err);

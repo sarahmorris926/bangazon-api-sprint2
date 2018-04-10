@@ -12,13 +12,8 @@ const productCtrl = require("./productCtrl")
 module.exports.addProductToOrder = (id, prodId, quantity) => {
     return new Promise((resolve, reject) => {
         return getOneProduct(prodId).then(product => {
-            if (product === undefined){
-                getAllProducts().then(prodData => {
-                    productCtrl.promptListAllProducts(prodData);
-                    console.log("Please select an Product ID that actually exists");
-                })
+            if (product.quantity >= quantity) {
 //Checks product quantity VS number entered by user        
-            } else if (product.quantity >= quantity) {
                 getActiveOrder(id).then(order => {
 //Checks to see if an active order exists, adds product
                     if (order !== undefined) {

@@ -2,7 +2,7 @@
 
 ## The Command Line Ordering System
 
-In this group project, you will be allowing a user to interact with a basic product ordering database via a command line interface.
+In this group project, users are able to interact with a basic product ordering database via a command line interface.
 
 ## Ordering System Interface
 
@@ -20,56 +20,106 @@ In this group project, you will be allowing a user to interact with a basic prod
 6. Complete an order
 7. Remove customer product
 8. Update product information
-9. Show stale products
-10. Show customer revenue report
-11. Show overall product popularity
-12. Leave Bangazon!
+9. Leave Bangazon!
 >
 ```
 
+In order to run this project run the following commands from within the appropriate directory.
 
-## SET ACTIVE CUSTOMERS
-
-# Description
-
-This pull request completes all requirements for issue #2. Users are now able to choose an active customer from the command line. We also introduced a test for the getAll customers function.
-
-
-## Type of change
-
-- [x] Bug fix (non-breaking change which fixes an issue)
-- [x] New feature (non-breaking change which adds functionality)
-- [x] Breaking change (fix or feature that would cause existing functionality to not work as expected)
-- [x] This change requires a documentation update
-
-# How Has This Been Tested?
-
-To test the command line run the following commands:
 ```
+npm install
 npm start
 ```
+
+# Creating New Customer
+
+### Description
+
+ Users are able to create new customer accounts by selection option #1 from the Main Menu then filling out the following prompts:
+
+```
+Enter a customer name (First Name):
+Enter a customer name (Last Name):
+Enter a street address:
+Enter City: 
+Enter State: 
+Enter Postal Code: 
+Enter Phone: 
+```
+Once the customer has been added the user will see an alert that indicates the user has been successfully added.
+
+# SET ACTIVE CUSTOMERS
+
+### Description
+
+Users are able to choose an active customer from the command line (Main Menu option #2).
+
 - Select number 2 from the command line.
 - You should see a list of all customers.
 - Enter a customer ID number and hit enter.
 - After selecting a customer you should be directed back to the initial Welcome prompt. There will be a message within the prompt that indicates which customer is now listed as your active customer.
 
 
-**RUNNING TESTS**
+# DELETING A PRODUCT
 
-To initiate the testing run the following command:
+### Description
+
+Users are able to delete a customer's product only if it is not linked to an existing customer order.
+
+### Active Customer Must Be Selected
+
+Users should not be able to delete a product if an active customer has not been selected. If a user attempts to delete a product prior to selecting an active customer they will see the following message:
+`
+You cannot delete a product until you select an active customer. Please choose an active customer to continue.
+`
+
+### Delete Product not linked to an order
+
+Users should be able to delete a product if it is not linked to an order. To delete a product, first select an active customer then choose number 7 from the Main Menu prompt. If the product was successfully delete the user will get the following message:
+`
+The product was successfully deleted!
+`
+
+If a user attempts to delete a product that is assigned to an order the user will see the following message:
+`
+The product you selected is either attached to an existing order and can't be deleted, or does not exist. Please try again.
+`
+
+# Add a Product
+
+### Description
+
+Users are able to add a product to sell once they have selected the correct active customer.
+
+If the user tries to add a product (Main Menu option #4) before selecting a customer, it will throw an error and put the user back into the main menu.
+Once the user selects an active customer, he or she will choose option 4 and start inputting the data needed for a new product. If the user tries to put a word in for the quantity or price, it will throw an error and tell the user to put in a number.
+After the user completes the process of adding a product, they are alerted that their product has been succssefully added.
+
+# Adding a Payment Type
+
+### Description
+
+When an active customer is selected, the user is is able to then add a payment option for that customer.
+
+In order to add a payment type follow these steps:
+- Select option 3 from the Main Menue to add payment type for the active customer
+- Follow the prompts to enter the required information:
 ```
+Enter Payment Type
+Enter Account number
+```
+
+
+# RUNNING TESTS
+
+To initiate the testing run the following commands:
+```
+node db/build_table.js
 npm test
 ```
-- There should be 8 test that pass.
 
 
-# Checklist:
 
-- [x] My code follows the style guidelines of this project
-- [x] I have performed a self-review of my own code
-- [x] I have commented my code, particularly in hard-to-understand areas
-- [x] I have made corresponding changes to the documentation
-- [x] My changes generate no new warnings
-- [x] I have added tests that prove my fix is effective or that my feature works
-- [x] New and existing unit tests pass locally with my changes
+
+
 

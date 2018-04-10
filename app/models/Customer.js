@@ -7,23 +7,19 @@ const { setActiveCustomer, getActiveCustomer } = require("../activeCustomer");
 const { displayWelcome } = require('../ui');
 const path = require("path");
 
-const {red, magenta, blue} = require("chalk");
+const { red, magenta, blue, green } = require("chalk");
 const prompt = require('prompt');
 const colors = require("colors/safe");
 prompt.message = colors.blue("Bangazon Corp");
 
-// const db = new Database(path.join(__dirname, '..', 'db', 'bangazon.sqlite'));
-
-// db.get(`SELECT * FROM customers`, (customer) => {
-//   console.log(customer)
-// });
-
-module.exports.postOne = ({ first_name,last_name,street,city,state,zip,phone}) => {
+module.exports.postOneCustomer = ({ first_name,last_name,street,city,state,zip,phone}) => {
   return new Promise((resolve, reject) => {
     db.run(
       `INSERT INTO customer VALUES(${null}, "${first_name}", "${last_name}", "${street}", "${city}", "${state}", "${zip}", "${phone}")`,
       function (err, cust) {
         if (err) return reject(err);
+        console.log(`
+  ${green('Customer has been added!')}`)
         resolve({customer_id: this.lastID});
       }
     );
@@ -32,7 +28,7 @@ module.exports.postOne = ({ first_name,last_name,street,city,state,zip,phone}) =
 
 
 // GET functions
-module.exports.getAll = () => {
+module.exports.getAllCustomers = () => {
   return new Promise((resolve, reject) => {
     db.all(`SELECT * FROM customer`, (err, cust) => {
       if (err) return reject(err);
@@ -68,8 +64,7 @@ module.exports.listAllCustomers = (customerData) => {
   });
 }
 
-
-module.exports.getOne = (id) => {
+module.exports.getOneCustomer = (id) => {
   return new Promise( (resolve, reject) => {
     db.get(`SELECT * FROM customer
             WHERE customer.customer_id = ${id}`, 

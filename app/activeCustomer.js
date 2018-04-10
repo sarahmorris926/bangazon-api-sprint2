@@ -1,7 +1,7 @@
 'use strict';
 
 const ui = require('./ui');
-const cust = require('./models/Customer');
+
 
 let activeCustomer = {
   id: null

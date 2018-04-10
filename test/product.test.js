@@ -77,74 +77,75 @@ describe("GET One Product", () => {
                 });
         });
     });
+});
 
-    // GET All
-    describe("GET All Products", () => {
-        describe("get all products", () => {
-            it("should be an array", () => {
-                return getAllProducts().then(data => {
-                    isArray(data);
-                });
-            });
-            it("should be an array of objects", () => {
-                return getAllProducts().then(data => {
-                    isObject(data[1]);
-                });
-            });
-            it("should return the length of array of total products", () => {
-                return getAllProducts().then(data => {
-                    lengthOf(data, 151);
-                });
+// GET All
+describe("GET All Products", () => {
+    describe("get all products", () => {
+        it("should be an array", () => {
+            return getAllProducts().then(data => {
+                isArray(data);
             });
         });
-    });
-
-    // CONTROLLER
-
-    describe("Add Product Prompt", () => {
-        it("should be a function", () => {
-            isFunction(promptNewProduct);
-        });
-    });
-
-    // GET ALL CUSTOMERS PRODUCTS
-    describe("GET All Customers Products", () => {
-        describe("get customers products", () => {
-            it("should be an array", () => {
-                getCustomerProducts(1).then(data => {
-                    isArray(data);
-                });
-                it("should be an array of objects", () => {
-                    getCustomerProducts(1).then(data => {
-                        isObject(data[1]);
-                    });
-                });
-                it("should contain products with the correct customer id", () => {
-                    getCustomerProducts(2).then(data => {
-                        equal(2, data[1].customer_id);
-                    });
-                });
+        it("should be an array of objects", () => {
+            return getAllProducts().then(data => {
+                isObject(data[1]);
             });
         });
-    });
-
-    // DELETE ONE PRODUCT
-    describe("REMOVE One Product", () => {
-        describe("delete one product", () => {
-            it("should be a function", () => {
-                isFunction(deleteOneProduct);
-            });
-            it("should delete a product", () => {
-                deleteOneProduct(151, 1)
-                    .then(() => {
-                        return getOneProduct(151)
-                            .then(product151 => {
-                                equal(0, product151.length);
-                            });
-                    });
+        it("should return the length of array of total products", () => {
+            return getAllProducts().then(data => {
+                lengthOf(data, 152);
             });
         });
     });
 });
+
+// CONTROLLER
+
+describe("Add Product Prompt", () => {
+    it("should be a function", () => {
+        isFunction(promptNewProduct);
+    });
+});
+
+// GET ALL CUSTOMERS PRODUCTS
+describe("GET All Customers Products", () => {
+    describe("get customers products", () => {
+        it("should be an array", () => {
+            getCustomerProducts(1).then(data => {
+                isArray(data);
+            });
+            it("should be an array of objects", () => {
+                getCustomerProducts(1).then(data => {
+                    isObject(data[1]);
+                });
+            });
+            it("should contain products with the correct customer id", () => {
+                getCustomerProducts(2).then(data => {
+                    equal(2, data[1].customer_id);
+                });
+            });
+        });
+    });
+});
+
+// DELETE ONE PRODUCT
+describe("REMOVE One Product", () => {
+    describe("delete one product", () => {
+        it("should be a function", () => {
+            isFunction(deleteOneProduct);
+        });
+        it("should delete a product", () => {
+            deleteOneProduct(151, 1)
+                .then(() => {
+                    return getOneProduct(151)
+                        .then(product151 => {
+                            equal(0, product151.length);
+                        });
+                });
+        });
+    });
+});
+
 
 

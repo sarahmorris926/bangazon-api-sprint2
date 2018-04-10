@@ -110,7 +110,7 @@ describe("Get sum SQL", () =>{
 
     it ("Should be an integer",()=>{
         getSumOfProdsSQL(11).then(data =>{
-            isNumber(data[0]['sum(product.price* product.quantity)']);
+            isNumber(data[0]['sum(product.price * order_product.order_quantity)']);
         })
         .catch((err)=>{
             console.log(err, "sum test error");

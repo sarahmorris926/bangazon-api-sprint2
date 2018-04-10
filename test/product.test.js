@@ -106,7 +106,7 @@ describe("Get order", () =>{
     })
 })
 
-describe("Get sum", () =>{
+describe.skip("Get sum", () =>{
 
     it ("Should be an integer",()=>{
         getSumOfProducts(43).then(data =>{

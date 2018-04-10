@@ -2,7 +2,8 @@ const {
   getSumOfProducts,
   getOrder,
   getPaymentMethods,
-  updatePaymentMethod
+  updatePaymentMethod,
+  getSumOfProdsSQL
 } = require("../models/Product.js")
 const prompt = require('prompt');
 const colors = require("colors/safe");
@@ -14,9 +15,9 @@ const {
 
 module.exports.completeAPayment = (customerId) => {
   getOrder(customerId).then((orderId) => {
-    getSumOfProducts(orderId[0].order_id).then((sum) => {
+    getSumOfProdsSQL(orderId[0].order_id).then((sum) => {
 
-      if (sum[0]['sum (price)'] === 0) {
+      if (sum[0]['sum(product.price* product.quantity)'] === 0) {
         console.log("Please add products to your order, Press any key to return to main menu.")
       } else {
 
@@ -24,7 +25,7 @@ module.exports.completeAPayment = (customerId) => {
         return new Promise((resolve, reject) => {
           console.log(`
       ${headerDivider}
-      ${magenta(`** Your Current Order Total is ${sum[0]['sum (price)']}, ready to purhase?**`)}
+      ${magenta(`** Your Current Order Total is ${sum[0]['sum(product.price* product.quantity)']}, ready to purhase?**`)}
       ${headerDivider}`)
           prompt.get([{
             name: 'choice',

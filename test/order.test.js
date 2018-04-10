@@ -4,7 +4,23 @@ const { assert: { equal, deepEqual, isFunction, isObject, isArray } } = require(
 const { getAllOrders, postOneOrder, getOneOrder, getActiveOrder } = require("../app/models/Order")
 const createOrderTable = require("../db/order_table.js");
 
+const currentDate = () => {
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth() + 1; //January is 0!
+var yyyy = today.getFullYear();
 
+if (dd < 10) {
+    dd = '0' + dd
+}
+
+if (mm < 10) {
+    mm = '0' + mm
+}
+
+today = yyyy + '-' + mm + '-' + dd;
+return today;
+};
 
 // Order Model
 // GET Orders
@@ -78,9 +94,10 @@ describe("Post One order", () => {
                 order_id: 46,
                 customer_id: 21,
                 payment_type: null,
-                order_creation_date: "2018-04-09"
+                order_creation_date: currentDate()
             };
             return getOneOrder(46).then(order => {
+                console.log(order);
                 deepEqual(order, expected);
             })
         });

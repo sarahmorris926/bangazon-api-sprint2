@@ -91,13 +91,8 @@ describe.skip("Get one Customer", () => {
 });
 
 // GET All Customers
-<<<<<<< HEAD
-describe.skip("Get all customers", () => {
-  describe('get all function', () => {
-=======
 describe("Get all customers", () => {
   describe("get all function", () => {
->>>>>>> master
     it("should be an array", () => {
       return getAllCustomers().then(data => {
         isArray(data);

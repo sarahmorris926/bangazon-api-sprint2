@@ -75,16 +75,17 @@ describe("post one order proudct", () => {
         });
     });
     let newOP = {
-        quantity: 10,
+        order_quantity: 10,
         order_id: 5,
-        product_id: 6,
-        price: 5
+        product_id: 6
+        
     }
     it("should be a function", () => {
         isFunction(postOneOrderProduct);
     });
     it("should return the Line ID of the object posted", () => {
         postOneOrderProduct(newOP).then(op => {
+            console.log("t", op);
             equal(141, op.line_id);
         })
         .catch((err) => {
@@ -96,8 +97,7 @@ describe("post one order proudct", () => {
             line_id: 141,
             order_id: 5,
             product_id: 6,
-            price: 5,
-            quantity: 10
+            order_quantity: 10
         }
         return postOneOrderProduct(newOP).then(op => {
             return getOneOrderProduct(141).then(postedObj => {

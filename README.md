@@ -19,8 +19,7 @@ In this group project, users are able to interact with a basic product ordering 
 5. Add product to shopping cart
 6. Complete an order
 7. Remove customer product
-8. Update product information
-9. Leave Bangazon!
+8. Leave Bangazon!
 >
 ```
 

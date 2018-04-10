@@ -89,7 +89,7 @@ module.exports.deleteOneProduct = (id, customerId) => {
                     });
                     module.exports.getCustomerProducts(customerId)
                     .then( (productData) => {
-                        listCustPro.listAllCustomerProducts(productData);
+                        listCustPro.promptListAllCustomerProducts(productData);
                     });
                 })
             } else {
@@ -97,7 +97,7 @@ module.exports.deleteOneProduct = (id, customerId) => {
     ${red("The product you selected is either attached to an existing order and can't be deleted, or does not exist. Please try again.")}`);
                 module.exports.getCustomerProducts(customerId)
                 .then( (productData) => {
-                    listCustPro.listAllCustomerProducts(productData);
+                    listCustPro.promptListAllCustomerProducts(productData);
                 });
             }
         });

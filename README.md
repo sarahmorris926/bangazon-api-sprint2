@@ -1,5 +1,7 @@
 # Bangazon
 
+NOTE: This was a group project between five group members (myself included). 
+
 ## The Command Line Ordering System
 
 In this group project, users are able to interact with a basic product ordering database via a command line interface.
